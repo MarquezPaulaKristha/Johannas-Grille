@@ -33,8 +33,8 @@ const Dashboard = () => {
       {/* right side/content of the page */}
       <div className="content-wrapper">
         <Header />
-        <AreaTop />
-        <AreaCards />
+        {/* <AreaTop />
+        <AreaCards /> */}
         <AreaCharts />
         <OrderTable orders={orders} />
       </div>
