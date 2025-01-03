@@ -41,8 +41,8 @@ else:
 df = df.dropna(subset=["ds", "y"])
 
 # Log the dataframe shape and head after cleaning to stderr
-sys.stderr.write(f"Dataframe shape after cleaning: {df.shape}\n")
-sys.stderr.write(f"Dataframe head after cleaning:\n{df.head()}\n")
+# sys.stderr.write(f"Dataframe shape after cleaning: {df.shape}\n")
+# sys.stderr.write(f"Dataframe head after cleaning:\n{df.head()}\n")
 
 # Check if there are enough rows
 if df.shape[0] < 2:

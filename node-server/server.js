@@ -1202,9 +1202,9 @@ app.get("/api/predict", async (req, res) => {
     }));
 
     // Filter by year and month if provided
-    if (year) {
-      orderData = orderData.filter((row) => row.year === year);
-    }
+    // if (year) {
+    //   orderData = orderData.filter((row) => row.year === year);
+    // }
 
     if (month) {
       orderData = orderData.filter((row) => row.month === month);
