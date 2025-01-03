@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const AreaProgressChart = ({ month }) => {
+const AreaProgressChart = ({ month, year }) => {
   const [topMenu, setTopMenu] = useState([]);
   const [error, setError] = useState(null); // State to store errors
 
   const fetchTopMenu = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/api/top-items?month=${month}`);
+      const response = await axios.get(`http://localhost:3000/api/top-items?month=${month}&year=${year}`);
       if (response.status === 200) {
         setTopMenu(response.data);
         setError(null); // Clear any previous errors
@@ -20,7 +20,7 @@ const AreaProgressChart = ({ month }) => {
 
   useEffect(() => {
     fetchTopMenu();
-  }, [month]);
+  }, [month, year]);
 
   return (
     <div className="progress-bar">

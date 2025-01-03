@@ -1125,7 +1125,7 @@ app.get('/analytics', async (req, res) => {
 app.get('/api/top-items', async (req, res) => {
   try {
       const month = parseInt(req.query.month, 10);
-      const year = new Date().getFullYear();
+      const year = req.query.year ? parseInt(req.query.year) : null;
       const limit = 5;
 
       if (!month || !year) {

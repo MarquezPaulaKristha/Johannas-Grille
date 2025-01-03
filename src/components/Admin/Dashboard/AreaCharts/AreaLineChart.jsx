@@ -22,8 +22,7 @@ ChartJS.register(
   Legend
 );
 
-const AreaLineChart = ({ month, setMonth }) => {
-  const [year, setYear] = useState(new Date().getFullYear()); // State for the year
+const AreaLineChart = ({ month, setMonth, year, setYear }) => {
   const [chartData, setChartData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
