@@ -1,0 +1,29 @@
+/* CustomerProfile.css */
+.customer-profile-dropdown {
+    position: absolute; /* Ensure it floats relative to the parent */
+    right: 50px;
+    top: 70px; /* Make it drop below the header */
+     transform: translateY(10px); /* Adds some space to make it look like it is floating */
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Add shadow for a more floating effect */
+    border-radius: 8px; /* Rounded corners for a smoother look */
+    z-index: 1000;
+}
+
+.customer-profile-dropdown h4{
+    margin: 0 0 10px 0;
+
+}
+
+.customer-profile-dropdown a {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+    text-decoration: none;
+}
+
+.customer-profile-dropdown a:hover {
+    text-decoration: underline;
+}

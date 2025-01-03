@@ -1,0 +1,85 @@
+.inv-edit-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .inv-edit-popup-inner {
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    width: 25%;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .inv-edit-popup-inner h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .inv-edit-popup-left {
+    width: 40%;
+    text-align: center;
+  }
+  
+  .inv-edit-popup-right label {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+  }
+  
+  .inv-edit-popup-right input,
+  .inv-edit-popup-right select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+  }
+  
+  .inv-edit-popup-buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .inv-save-button {
+    background-color: #28a745;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .inv-save-button:hover {
+    background-color: #218838;
+  }
+  
+  .inv-cancel-button {
+    background-color: #dc3545;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .inv-cancel-button:hover {
+    background-color: #c82333;
+  }
+  

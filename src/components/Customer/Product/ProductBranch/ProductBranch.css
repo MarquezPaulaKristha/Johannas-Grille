@@ -1,0 +1,18 @@
+.branch-dropdown {
+    background-color: #f9f9f9;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .branch-dropdown p {
+    margin: 5px 0;
+    cursor: pointer;
+  }
+
+  .branch-dropdown p:hover {
+    background-color: #eee;
+    border-radius: 4px;
+    padding: 5px;
+  }

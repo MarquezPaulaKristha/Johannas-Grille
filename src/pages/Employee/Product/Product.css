@@ -1,0 +1,80 @@
+
+/* Content wrapper */
+.product-content-wrapper {
+    background-color: #fafafa;
+    min-height: 100vh;
+    padding: 20px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 83%;
+}
+
+
+@media (prefers-reduced-motion: no-preference) {
+    a:nth-of-type(2) .logo {
+        animation: logo-spin infinite 20s linear;
+    }
+}
+
+.card {
+    padding: 2em;
+}
+
+.read-the-docs {
+    color: #888;
+}
+
+.theme-toggle-btn {
+    background-color: var(--bg-color-inverted);
+    position: fixed;
+    right: 0;
+    top: 20px;
+    width: 48px;
+    height: 40px;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    outline: 0;
+    z-index: 999;
+    cursor: pointer;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+@media (max-width: 1400px) {
+    .content-wrapper {
+        padding: 32px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .content-wrapper {
+        margin-left: 56px;
+    }
+}
+
+@media (max-width: 768px) {
+    .content-wrapper {
+        margin-left: 0;
+        padding: 24px;
+    }
+}
+
+@media (max-width: 576px) {
+    .content-wrapper {
+        margin-left: 0;
+        padding: 16px;
+    }
+}
+
+/* Content area */
+.content-area>section {
+    margin-bottom: 16px;
+}
+
+.content-area>section:last-child {
+    margin-bottom: 0;
+}

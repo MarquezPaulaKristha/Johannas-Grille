@@ -1,0 +1,76 @@
+.emplo-popup-form {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    /* Dark background for modal effect */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    gap: 20px;
+}
+
+.emplo-image-preview {
+    margin-top: 10px;
+}
+
+.emplo-image-preview img {
+    width: 100px;
+    height: auto;
+    border-radius: 8px;
+}
+
+.emplo-add-container {
+    display: flex;
+    gap: 20px;
+}
+
+.form-group1,
+.form-group2 {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.emplo-popup-content {
+    background-color: white;
+    padding: 30px;
+}
+
+.emplo-popup-content form {
+    display: flex;
+    justify-content: space-between;
+}
+
+.form-left,
+.form-right {
+    display: flex;
+    flex-direction: column;
+    width: 48%;
+    /* Adjust width to split evenly */
+}
+
+.emplo-popup-input {
+    margin-bottom: 15px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.emplo-popup-button {
+    padding: 10px 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.emplo-popup-button.cancel {
+    background-color: #f44336;
+}

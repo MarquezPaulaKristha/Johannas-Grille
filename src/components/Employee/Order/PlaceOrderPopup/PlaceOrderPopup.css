@@ -1,0 +1,90 @@
+.place-order-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 10px; /* Added padding to prevent touching edges */
+}
+
+.place-order-popup-inner {
+    background: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 400px; /* Ensure the popup doesn't get too wide */
+    text-align: left;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Add shadow for better visibility */
+    overflow-y: auto;
+}
+
+.place-order-popup-inner h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.order-items-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    max-height: 200px; /* Limit the height if there are many items */
+    overflow-y: auto; /* Make the list scrollable */
+    margin-bottom: 20px;
+}
+
+.order-items-list li {
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.place-order-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.confirm-button, .cancel-button {
+    font-size: 16px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 45%;
+}
+
+.confirm-button {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.cancel-button {
+    background-color: #f44336;
+    color: white;
+}
+
+.confirm-button:hover {
+    background-color: #45a049;
+}
+
+.cancel-button:hover {
+    background-color: #e53935;
+}
+
+.place-order-buttons button:focus {
+    outline: none; /* Remove default focus outline for a cleaner look */
+}
+
+.place-order-popup-inner p {
+    font-size: 14px;
+    margin: 8px 0;
+}
+
+.place-order-popup-inner p strong {
+    font-weight: bold;
+}

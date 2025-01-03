@@ -1,0 +1,73 @@
+.carousel-container {
+  position: relative;
+  width: 600px; /* Set a fixed width */
+  overflow: hidden; /* Hide the overflowing images */
+  margin: auto;
+}
+
+.carousel-slide {
+  display: flex; /* Flexbox to align items in a row */
+  transition: transform 0.5s ease-in-out; /* Smooth transition */
+  width: 100%; /* Make sure the container width adapts */
+}
+
+.carousel-slide img {
+  width: 100%; /* Each image should take full width of the container */
+}
+
+.carousel-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  border: none;
+  color: white;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.branch-name h1 {
+  display: flex;
+  font-size: 25px;
+  justify-content: center;
+}
+
+.branch-name hr {
+  margin: 10px 0px;
+  height: 2px;
+  background-color: #e2e2e2;
+  border: none;
+}
+
+.carousel-button.prev {
+  left: 0;
+}
+
+.carousel-button.next {
+  right: 0;
+}
+
+.reserve-button-container {
+  text-align: center; /* Center the button */
+  margin-top: 20px; /* Add some space above the button */
+}
+
+.reserve-now-button {
+  padding: 10px 20px; /* Add some padding */
+  font-size: 16px; /* Font size */
+  background-color:#ffc107; /* Button color */
+  color: white; /* Text color */
+  border: none; /* Remove border */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s; /* Smooth transition */
+}
+
+.reserve-now-button:hover {
+  background-color: #0056b3; /* Darker color on hover */
+}
+
+
+
+

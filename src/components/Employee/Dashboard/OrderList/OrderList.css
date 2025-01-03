@@ -1,0 +1,83 @@
+.em-no-button .em-order-button {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  text-align: center;
+  margin: 20px 0px;
+  overflow-x: scroll;
+  overflow: hidden;
+  padding-left: 10px;
+}
+
+.em-order-list {
+  overflow-x: scroll;
+  margin-top: 20px;
+  overflow: hidden;
+}
+
+.em-order-box {
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  border: 1px solid #ddd;
+}
+
+.completed {
+  background-color: #e0f7e9;
+  color: green;
+  border: 1px solid green;
+}
+
+.canceled {
+  background-color: #ffe6e6;
+  color: red;
+  border: 1px solid red;
+}
+
+.pending {
+  background-color: #fff3cd;
+  color: orange;
+  border: 1px solid orange;
+}
+
+.queued {
+  background-color: #f0f0f0;
+  color: #777;
+  border: 1px solid #777;
+}
+
+.em-container {
+  padding: 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Full viewport height */
+}
+
+.em-orders {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow-y: auto; /* Scrollable content */
+}
+
+.em-columns {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* Align items to the top */
+  width: 100%;
+  flex-grow: 1; /* Grow to fill the container */
+}
+
+.em-column {
+  flex: 1;
+  margin: 0 10px;
+  overflow-y: auto; /* Add vertical scroll to each column */
+}
+
+.em-column h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}

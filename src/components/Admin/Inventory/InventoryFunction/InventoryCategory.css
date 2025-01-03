@@ -1,0 +1,164 @@
+/* Menu.css */
+
+/* The main menu container */
+.admin-inv-product-menu {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Heading styles */
+  .admin-inv-product-menu h1 {
+    color: #262626;
+    font-weight: 500;
+  }
+  
+  /* Description text style */
+  .admin-inv-product-menu-description {
+    max-width: 60%;
+    color: #808080;
+  }
+  
+  /* Add products button */
+  .admin-inv-add-product-button {
+    position: absolute; /* Change to absolute for positioning */
+    right: 20px; /* Distance from the right edge of the page */
+    padding: 10px 20px;
+    background-color: #740003; /* Dark background */
+    color: white; /* White text */
+    border: none; /* No border */
+    border-radius: 15px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    margin: 8px 40px 0 0;
+  }
+  
+  .admin-inv-add-product-button:hover {
+    background-color: #ffc107; /* Darker color on hover */
+  }
+  
+  /* The popup form */
+  /* Popup Overlay */
+  .admin-inv-popup-form {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  /* Popup Content */
+  .admin-inv-popup-content {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    width: 400px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* Soft shadow for depth */
+    text-align: center;
+  }
+  
+  /* Header */
+  .admin-inv-popup-content h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+    font-weight: 600;
+  }
+  
+  /* Input fields */
+  .admin-inv-popup-input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    transition: border-color 0.3s;
+  }
+  
+  .admin-inv-popup-input:focus {
+    border-color: #007BFF; /* Blue border on focus */
+  }
+  
+  /* Buttons */
+  .admin-inv-popup-button {
+    width: 45%;
+    padding: 12px;
+    margin: 10px 5px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .admin-inv-popup-button.submit {
+    background-color: green;
+    color: white;
+  }
+  
+  .admin-inv-popup-button.submit:hover {
+    background-color: rgba(0, 128, 0, 0.742);
+  }
+  
+  .admin-inv-popup-button.cancel {
+    background-color: #dc3545;
+    color: white;
+  }
+  
+  .admin-inv-popup-button.cancel:hover {
+    background-color: #c82333;
+  }
+  
+  
+  /* Styles for the product menu list */
+  .admin-inv-product-menu-list {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+    text-align: center;
+    margin: 20px 0;
+    overflow-x: scroll;
+  }
+  
+  .admin-inv-product-menu-list::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .admin-inv-product-menu-item img {
+    width: 7.5vw;
+    min-width: 80px;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: 0.2s;
+  }
+  
+  .admin-inv-product-menu-item p {
+    margin-top: 10px;
+    color: #000000;
+    font-size: max(1.4vw, 10px);
+    cursor: pointer;
+  }
+  
+  .admin-inv-product-menu hr {
+    margin: 10px 0;
+    height: 2px;
+    background-color: #e2e2e2;
+    border: none;
+  }
+  
+  .admin-inv-product-menu-item .active {
+    border: 4px solid tomato;
+    padding: 2px;
+  }
+  
+  @media (max-width: 1050px) {
+    .admin-inv-product-menu-description {
+      max-width: 100%;
+      font-size: 14px;
+    }
+  }

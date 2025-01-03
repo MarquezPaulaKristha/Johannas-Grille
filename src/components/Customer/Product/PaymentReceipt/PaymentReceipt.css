@@ -1,0 +1,112 @@
+.receipt-container {
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+.receipt-container-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    min-height: 450px;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: white;
+}
+
+.receipt-header {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    text-align: center;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 10px;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px;
+}
+
+.close-icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.receipt-header .close-icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.order-id {
+    font-size: 48px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.branch-info {
+    text-align: center;
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+.location-icon {
+    font-size: 20px;
+    color: red;
+    margin-right: 5px;
+}
+
+.order-details {
+    padding-top: 20px;
+}
+
+.order-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+ 
+}
+
+.quantity {
+    font-size: 15px;
+}
+
+.item-details {
+    flex: 1;
+    margin-left: 10px;
+}
+
+.item-name {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.item-size {
+    font-size: 14px;
+    color: #888;
+}
+
+.item-price {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.order-total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
+    font-weight: bold;
+    padding-top: 100px;
+    
+}

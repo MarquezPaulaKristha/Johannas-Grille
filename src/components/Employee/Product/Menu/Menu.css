@@ -1,0 +1,150 @@
+/* Menu.css */
+
+/* The main menu container */
+.em-product-menu {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Heading styles */
+.em-product-menu h1 {
+  color: #262626;
+  font-weight: 500;
+}
+
+/* Description text style */
+.em-product-menu-description {
+  max-width: 60%;
+  color: #808080;
+}
+
+/* Add products button */
+.em-add-product-button {
+  position: absolute; /* Change to absolute for positioning */
+  right: 20px; /* Distance from the right edge of the page */
+  padding: 10px 20px;
+  background-color: #740003; /* Dark background */
+  color: white; /* White text */
+  border: none; /* No border */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  margin-right: 50px;
+}
+
+.em-add-product-button:hover {
+  background-color: #ffc107; /* Darker color on hover */
+}
+
+/* The popup form */
+.em-popup-form {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6); /* Dark background for modal effect */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.em-popup-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.em-popup-content h2 {
+  margin-bottom: 20px;
+}
+
+/* Form styles */
+.em-popup-content form {
+  display: flex;
+  flex-direction: column;
+}
+
+.em-popup-content label {
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.em-popup-input {
+  margin-bottom: 15px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Button styles */
+.em-popup-button {
+  padding: 10px 15px;
+  background-color: #4CAF50; /* Green background */
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 10px; /* Space above buttons */
+}
+
+.em-popup-button.cancel {
+  background-color: #f44336; /* Red for cancel button */
+}
+
+.em-popup-button:hover {
+  opacity: 0.8;
+}
+
+/* Styles for the product menu list */
+.em-product-menu-list {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+  text-align: center;
+  margin: 20px 0;
+  overflow-x: scroll;
+}
+
+.em-product-menu-list::-webkit-scrollbar {
+  display: none;
+}
+
+.em-product-menu-item img {
+  width: 7.5vw;
+  min-width: 80px;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: 0.2s;
+}
+
+.em-product-menu-item p {
+  margin-top: 10px;
+  color: #000000;
+  font-size: max(1.4vw, 10px);
+  cursor: pointer;
+}
+
+.em-product-menu hr {
+  margin: 10px 0;
+  height: 2px;
+  background-color: #e2e2e2;
+  border: none;
+}
+
+.em-product-menu-item .active {
+  border: 4px solid tomato;
+  padding: 2px;
+}
+
+@media (max-width: 1050px) {
+  .em-product-menu-description {
+    max-width: 100%;
+    font-size: 14px;
+  }
+}

@@ -1,0 +1,139 @@
+.edit-emplo-popup-form {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.edit-emplo-container {
+    display: flex;
+    gap: 20px;
+}
+
+.edit-emplo-content {
+    background-color: white;
+    padding: 30px;
+    width: 80%; /* Adjust width based on your screen */
+    max-width: 730px; /* Limit the max-width for larger screens */
+    border-radius: 10px; /* Add rounded corners */
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1); /* Soft shadow for better focus */
+}
+
+.edit-emplo-content h2 {
+    margin-bottom: 20px;
+}
+
+.edit-emplo-content form {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 20px; /* Add space between left and right parts */
+}
+
+.edit-form-left-emp, 
+.edit-form-right-emp {
+    display: flex;
+    flex-direction: column;
+    width: 48%;
+}
+
+.edit-form-right {
+    display: block;
+}
+
+.edit-form-left-emp label, .edit-emplo-image-preview{
+    text-align: center;
+}
+
+.edit-form-left-emp {
+    align-items: center;
+}
+
+.edit-emplo-image-preview img {
+    width: 230px; /* Adjust image size */
+    height: 230px;
+    object-fit: cover;
+    border-radius: 13%; /* Rounded image */
+}
+
+.emplo-popup-input {
+    margin-top: 10px;
+}
+
+.edit-form-right-emp label {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.edit-form-right-emp input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.edit-emplo-info-input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box; /* Ensure padding doesn't affect the total width */
+}
+
+.edit-emplo-container input{
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.edit-emplo-popup-button {
+    padding: 10px 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 20px;
+    width: 100%;
+    max-width: 150px; /* Limit button width */
+}
+
+.edit-emplo-popup-button.cancel {
+    background-color: #f44336;
+}
+
+.edit-form-right button {
+    margin-right: 10px; /* Space between Save and Cancel buttons */
+}
+
+.edit-button-emp {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Responsive Design for Smaller Screens */
+@media (max-width: 768px) {
+    .edit-emplo-content form {
+        flex-direction: column;
+    }
+
+    .edit-form-left, 
+    .edit-form-right {
+        width: 100%;
+    }
+}

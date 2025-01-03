@@ -1,0 +1,183 @@
+.em-order-item {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 374px;
+  margin: 10px 0;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+}
+
+.em-order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.em-order-date {
+  font-size: 12px;
+  color: grey;
+}
+
+.em-user-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.em-order-item-detail {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  gap: 20px;
+}
+
+.em-order-name {
+  display: grid;
+  justify-items: start;
+}
+
+.em-order-name h3 {
+  display: grid;
+  margin: 0;
+  font-size: 18px;
+}
+.em-item-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  margin-right: 10px;
+}
+
+.em-item-info h4 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.em-item-info span {
+  font-size: 12px;
+  color: grey;
+}
+
+.em-price {
+  display: flex;
+  justify-content: space-between;
+}
+
+.em-qty {
+  margin-left: auto;
+  margin-top: 20px;
+
+}
+.em-order-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.edit-item-info {
+  display: flex;
+  flex-direction: column;
+}
+.em-item {
+  display: grid;
+}
+.em-order-summary {
+  font-size: 14px;
+  color: grey;
+}
+
+.em-order-total {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.em-action-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.em-reject-btn, .em-approve-btn {
+  background-color: white;
+  border: 0.5px solid;
+  border-radius: 25%;
+  width: 50px;
+  height: 50px;
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  gap: 10px;
+}
+
+.em-reject-btn {
+  color: red;
+  border-color: red;
+}
+
+.em-approve-btn {
+  color: green;
+  border-color: green;
+}
+
+.em-order-details hr {
+  margin: 10px 0px;
+  height: 2px;
+  background-color: #e2e2e2;
+  border: none;
+}
+
+.em-order-item {
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.em-order-header {
+  cursor: pointer;
+}
+
+.em-order-name h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.em-order-details {
+  margin-top: 10px;
+}
+
+.em-order-item-detail {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.em-item-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.em-qty {
+  font-size: 14px;
+  color: #555;
+}
+
+.em-order-footer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.em-order-summary {
+  font-weight: bold;
+}
+
+.em-order-total {
+  font-size: 16px;
+  font-weight: bold;
+  color: #000;
+}

@@ -1,0 +1,9 @@
+.employee-profile-content-wrapper {
+  background-color: #fafafa;
+  min-height: 100vh;
+  padding: 20px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 83%;
+}

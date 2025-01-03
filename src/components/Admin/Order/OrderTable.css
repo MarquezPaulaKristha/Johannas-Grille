@@ -1,0 +1,20 @@
+.or-data-table-diagram {
+    border-radius: 6px;
+    border: 1px solid #f2f4ff !important;
+    overflow-x: scroll;
+  }
+  
+  .or-data-table-diagram table {
+    min-width: 900px;
+    width: 100%;
+    border-collapse: collapse;
+    color: var(--text-color-inverted);
+  }
+  
+  .or-data-table-diagram table td,
+  .or-data-table-diagram table th {
+    padding: 14px 12px;
+  }
+  
+  /* Add the remaining table styles here */
+  

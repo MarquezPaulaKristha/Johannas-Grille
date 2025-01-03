@@ -1,0 +1,152 @@
+.employee-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.employee-popup-content {
+    max-width: 730px;
+    width: 80%;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    position: relative;
+}
+
+.employee-popup-details-content {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+
+.employee-profile-popup-left,
+.employee-profile-popup-right {
+    display: flex;
+    flex-direction: column;
+    width: 48%;
+}
+
+.employee-profile-popup-left {
+    flex-grow: 1;
+}
+
+.employee-edit-name-details {
+    display: flex;
+    gap: 20px;
+    flex-grow: 1;
+}
+
+.employee-popup-content h2 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.employee-form-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.employee-form-group label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.employee-form-group input[type="text"],
+.employee-form-group input[type="email"],
+.employee-form-group input[type="file"] {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease;
+}
+
+.employee-form-group input[type="text"]:focus,
+.employee-form-group input[type="email"]:focus {
+    border-color: #4a90e2;
+    outline: none;
+}
+
+.employee-image-and-input {
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+}
+
+.employee-image-preview {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #f0f0f0;
+}
+
+.employee-image-preview img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.employee-popup-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.employee-popup-update-btn,
+.employee-popup-close-btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex: 1;
+    /* Allow buttons to take equal space */
+    margin: 0 5px;
+    /* Space between buttons */
+}
+
+.employee-popup-update-btn {
+    background-color: #4caf50;
+    /* Green */
+    color: #fff;
+}
+
+.employee-popup-update-btn:hover {
+    background-color: #66bb6a;
+    /* Darker green */
+}
+
+.employee-popup-close-btn {
+    background-color: #f44336;
+    /* Red */
+    color: #fff;
+}
+
+.employee-popup-close-btn:hover {
+    background-color: #ef5350;
+    /* Darker red */
+}
+

@@ -1,0 +1,141 @@
+/* General styles */
+.order {
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+  
+  .order-container {
+    width: 450px;
+    position: fixed;
+    right: 0;
+    top: 0;
+    height: 100vh; /* Full height */
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 12px 0 0 12px; /* Rounded corner only on the left */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Space between items */
+    animation: slideIn 0.5s forwards;
+  }
+  
+  .order-header {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center the content */
+    padding-bottom: 10px;
+  }
+  
+  .order-header h2 {
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .order-branch {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+  }
+  .order-branch .down-icon {
+    display: flex;
+    margin-left: auto; 
+    color: black;
+  }
+  .order-branch i {
+    margin-right: 10px;
+    font-size: 20px;
+    color: #e63946;
+  }
+  
+  .order-branch span {
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .order-items {
+    margin: 20px 0;
+    flex-grow: 1; /* Allow items section to grow and take space */
+    overflow-y: auto; /* Add scrolling if necessary */
+  }
+
+  h6 {
+    padding-top: 6px;
+    font-size: medium;
+  }
+  
+  .fin-bott {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .order-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: white;
+    margin-bottom: 10px;
+    box-shadow: 0px 2px 4px rgba(202, 79, 79, 0.912);
+    width: fit-content;
+    margin: auto;
+    height: 65px;
+  }
+  
+  .count {
+    margin: 0 10px;
+    font-size: 16px;
+  }
+  
+  .order-summary {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+    font-weight: bold;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 2px 4px rgba(202, 79, 79, 0.912);
+    margin-bottom: 10px; /* Space between summary and button */
+  }
+  
+  .finalize-btn {
+    width: 100%;
+    background-color: #ffc107 !important;
+    border: none;
+    padding: 15px;
+    border-radius: 50px;
+    font-size: 18px;
+    font-weight: bold;
+    color: black !important;
+    cursor: pointer;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  
+  .finalize-btn:hover {
+    background-color: #ffb300;
+  }
+  
+  .order-header .back-arrow {
+    position: absolute;
+    top: 14px;
+    left: 8px;
+    cursor: pointer;
+  }
+  
+  @keyframes slideIn {
+    from {
+        right: -100%;
+    }
+    to {
+        right: 0;
+    }
+  }

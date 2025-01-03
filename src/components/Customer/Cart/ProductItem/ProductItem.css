@@ -1,0 +1,65 @@
+.addtocart-items {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.addtocart-item-image {
+  width: 86px;
+  height: 68px;
+  border-radius: 10px;
+  margin-right: 15px;
+  object-fit: cover;
+}
+
+.addtocart-item-details {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.addtocart-item-name {
+  font-size: 14px;
+  font-weight: bold;
+  margin: 0 0 5px;
+}
+
+.addtocart-item-price {
+  font-size: 13px;
+  color: #999;
+}
+
+.addtocart-item-quantity {
+  display: flex;
+  align-items: center;
+  margin-top: auto;
+}
+
+.quantity-btn {
+  width: 30px;
+  height: 30px;
+  border: none;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s;
+}
+
+.quantity-btn:hover {
+  background-color: #d0d0d0;
+}
+
+.quantity-btn:disabled {
+  background-color: #e0e0e0;
+  cursor: not-allowed;
+}
+
+.addtocart-quantity-value {
+  margin: 0 10px;
+  font-size: 14px;
+}

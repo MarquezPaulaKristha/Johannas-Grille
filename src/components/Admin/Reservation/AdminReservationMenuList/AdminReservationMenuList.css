@@ -1,0 +1,110 @@
+.admin-reser-item-food-card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ddd;
+    border-radius: 10px 10px 0px 0px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background: #fff;
+    max-width: 100%;
+    /* Ensure it doesn't exceed the container's width */
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.admin-reser-item-food-card-img-container {
+    width: 100%;
+    height: 200px;
+    /* Adjust height as needed */
+    overflow: hidden;
+}
+
+.admin-reser-item-food-card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.admin-reser-item-food-card-info {
+    padding: 16px 0 0 0;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.admin-reser-item-food-card-name-rating {
+    margin-bottom: 8px;
+}
+
+.admin-reser-item-food-card-description {
+    margin-bottom: 16px;
+    color: #666;
+}
+
+.edit-delete-container {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 5px 0 0;
+}
+
+.edit-btn {
+    display: flex;
+}
+
+/*.edit-btn .admin-reser-item-btn-cart {
+    background-color: #ffc107;
+    color: white;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    margin-top: 20px;
+    display: block; /* add this
+    margin: 20px auto;
+}*/
+
+.admin-reser-item-btn-cart:hover {
+    background-color: #d5d4a4;
+}
+
+.admin-reser-item-food-card-name-rating p {
+    font-size: 20px;
+    font-weight: 500;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.admin-reser-item-btn-cart {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    /* Adjust the size of the icon */
+    color: #000;
+    /* Icon color */
+    margin-right: 10px;
+}
+
+.admin-reser-item-btn-cart:hover {
+    color: #007bff;
+    /* Color when hovering over the icon */
+}
+
+.admin-reser-item-btn-cart {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    color: #000;
+    margin-right: 10px;
+}
+
+.admin-reser-item-btn-cart:hover {
+    color: #007bff;
+    /* Change color on hover */
+}
+
+.admin-reser-edit-btn {
+    display: flex;
+    align-items: center;
+}

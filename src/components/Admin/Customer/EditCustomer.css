@@ -1,0 +1,128 @@
+.edit-customer-popup-form {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    /* Dark background for modal effect */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    gap: 20px;
+}
+
+.edit-customer-image-preview {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.edit-customer-image-preview img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    /* Ensures the image covers the area while maintaining aspect ratio */
+    border-radius: 5px;
+    /* Optional: for a modern, rounded look */
+}
+
+.edit-customer-container {
+    display: flex;
+    gap: 20px;
+}
+
+.form-group1 {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.edit-customer-content {
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    width: 680px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-customer-content form {
+    display: flex;
+    justify-content: space-between;
+}
+
+.edit-customer-content h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.edit-form-left .edit-customer-image-preview {
+    width: 100%;
+    height: 200px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    background-color: #f2f2f2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.edit-form-left .edit-customer-image-preview img {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 8px;
+}
+
+.edit-form-left-cust,
+.edit-form-right-cust {
+    display: flex;
+    flex-direction: column;
+    width: 48%;
+}
+
+.edit-form-left label{
+    text-align: center;
+}
+
+.edit-form-right{
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.form-group1 {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.edit-customer-info-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.edit-customer-popup-button {
+    padding: 10px 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.edit-customer-popup-button.cancel {
+    background-color: #f44336;
+}

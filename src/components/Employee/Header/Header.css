@@ -1,0 +1,52 @@
+/* Header */
+.em-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    background: white;
+  }
+  
+  .em-earch-input {
+    width: 300px;
+    padding: 10px;
+  }
+  
+  .em-profile-icon {
+    display: flex;
+    gap: 10px;
+  }
+
+  .em-search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .em-search-box {
+    display: flex;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    padding: 10px 20px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    width: 300px;
+  }
+  
+  .em-search-icon {
+    font-size: 18px;
+    margin-right: 10px;
+  }
+  
+  .em-search-input {
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 16px;
+    width: 100%;
+  }
+  
+  .em-search-input::placeholder {
+    color: black;
+    opacity: 0.7;
+  }
+  

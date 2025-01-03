@@ -1,0 +1,96 @@
+.emp-profile-header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    justify-content: space-between;
+    color: black;
+    margin-right: 0.625rem;
+    max-width: 100%;
+  }
+  
+  .emp-profile-header h1 {
+    margin: auto 0;
+    font-size: 2.5rem;
+    font-weight: bold;
+  }
+
+  .employee-img {
+    object-fit: contain;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+  }
+  
+  .emp-profile-container {
+    display: flex;
+    gap: 0.5rem;
+    text-align: right;
+    align-items: center;
+  }
+  
+  .emp-profile-info {
+    display: flex;
+    flex-direction: column;
+    margin: auto 0;
+  }
+  
+  .emp-profile-info .emp-name {
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  
+  .emp-profile-info .emp-role {
+    align-self: flex-end;
+    font-size: 0.875rem;
+    margin-right: 0.125rem;
+  }
+  
+  .emp-profile-image {
+    object-fit: contain;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+  }
+  
+  .emp-dropdown {
+    position: relative;
+  }
+  
+  .emp-dropdown-content {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    width: 12rem;
+    z-index: 10;
+  }
+  
+  .emp-dropdown-content ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .emp-dropdown-content li {
+    padding: 0.2rem 0.5rem;
+    font-size: 15px;
+    cursor: pointer;
+    border-radius: 0.375rem;
+    transition: 0.5s;
+  }
+  
+  .emp-dropdown-content li:hover {
+    background-color: #e5e7eb;
+  }
+  
+  .emp-dropdown-content li.emp-logout {
+    color: red;
+  }
+  
+  .emp-dropdown-content li.emp-logout:hover {
+    background-color: #fee2e2;
+  }
+  

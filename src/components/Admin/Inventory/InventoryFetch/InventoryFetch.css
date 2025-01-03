@@ -1,0 +1,34 @@
+.inv-item-food-display {
+    margin: 30px;
+}
+
+.inv-item-food-display-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(224px, 1fr));
+    gap: 10px;
+}
+
+.inv-filter-button {
+    margin: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .inv-filter-button.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+  }
+  
+
+/* Optional: Add responsive adjustments for very small screens */
+@media (max-width: 600px) {
+    .inv-item-food-display-list {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 20px;
+    }
+}
+

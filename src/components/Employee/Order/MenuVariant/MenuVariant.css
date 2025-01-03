@@ -1,0 +1,106 @@
+.employee-menu-variant-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.employee-menu-variant-container {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  width: 320px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  position: relative;
+}
+
+.employee-menu-variant-popup-title {
+  font-size: 1.8em;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.employee-menu-variant-popup-options {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.employee-menu-variant-option-button {
+  background: linear-gradient(135deg, #6a9afb, #375fcb);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.employee-menu-variant-option-button:hover {
+  background: linear-gradient(135deg, #375fcb, #6a9afb);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.employee-menu-variant-option-button.selected {
+  background: linear-gradient(135deg, #4caf50, #087f23);
+  color: white;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.employee-menu-variant-popup-message {
+  font-size: 1em;
+  color: #666;
+  margin-top: 10px;
+}
+
+.employee-menu-variant-close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 1.5em;
+  cursor: pointer;
+  color: #888;
+  transition: color 0.3s;
+}
+
+.employee-menu-variant-close-button:hover {
+  color: #333;
+}
+
+.employee-menu-variant-select-button {
+  background: linear-gradient(135deg, #ff8c42, #ff6347);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.employee-menu-variant-select-button:disabled {
+  background: #ddd;
+  color: #aaa;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.employee-menu-variant-select-button:hover:not(:disabled) {
+  background: linear-gradient(135deg, #ff6347, #ff8c42);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}

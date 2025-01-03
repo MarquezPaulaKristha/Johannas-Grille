@@ -1,0 +1,27 @@
+.em-sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 260px;
+    height: 100%;
+    background-color: #fff;
+    padding: 20px 14px;
+    box-shadow: rgba(100, 100, 111, 0.1) 0px 7px 29px 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 999;
+    transition: all 300ms ease-in-out;
+    overflow-y: scroll;
+    background-color: white;
+    overflow: hidden;
+}
+
+.em-main-content {
+    background-color: #fafafa;
+    min-height: 100vh;
+    padding: 20px;
+    position: absolute;
+    right: 0;
+    width: 83%;
+}

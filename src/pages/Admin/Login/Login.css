@@ -1,0 +1,164 @@
+.admin-login-popup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/header_img.png');
+  /* Set your background image here */
+  background-size: cover;
+  background-position: center;
+}
+
+/* Style for the logo image */
+.admin-login-logo {
+  width: 300px;
+  /* Adjust the size as needed */
+  height: auto;
+  /* Keep the aspect ratio */
+  padding-bottom: 120px;
+  margin-right: 40px;
+}
+
+/* Center the content vertically */
+.admin-login-popup-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  /* Ensures the left section takes full height */
+  text-align: center;
+  /* Center-align text */
+}
+
+
+.admin-login-popup-content {
+  display: flex;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 800px;
+  height: 500px;
+}
+
+.admin-login-popup-left {
+  background-image: url('your-image-url.jpg');
+  /* Set your background image here */
+  background-size: cover;
+  background-position: center;
+  width: 50%;
+  padding: 135px 20px 20px 20px;
+  color: black;
+}
+
+.admin-login-popup-left h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.admin-login-popup-left p {
+  margin-top: 20px;
+  font-size: 1rem;
+}
+
+.admin-login-popup-left span {
+  color: black;
+  cursor: pointer;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.admin-login-popup-right {
+  position: relative;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+  background-color: #740003;
+  border-radius: 10px;
+}
+
+.admin-login-popup-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 2rem;
+  cursor: pointer;
+  color: white;
+  /* Adjust color as needed */
+}
+
+.admin-login-popup-right h2 {
+  font-size: 2rem;
+  color: white;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.admin-login-popup-right input {
+  margin-bottom: 15px;
+  padding: 14px 16px;
+  font-size: 1rem;
+  border: 1px solid #dadce0;
+  /* Google's border color */
+  border-radius: 25px;
+  /* Rounded corners */
+  background-color: white;
+  color: #202124;
+  /* Google's text color */
+  transition: border 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  /* Smooth transition for focus */
+}
+
+.admin-login-popup-right input:focus {
+  outline: none;
+  border-color: #1a73e8;
+  /* Google's blue color on focus */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  /* Subtle shadow on focus */
+}
+
+.admin-login-popup-right input::placeholder {
+  color: #5f6368;
+  /* Google's placeholder color */
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  /* Smooth transition for placeholder movement */
+}
+
+.admin-login-popup-right input:focus::placeholder {
+  transform: translateY(-20px);
+  /* Moves placeholder up on focus */
+  font-size: 0.75rem;
+  color: #000000;
+  /* Placeholder color matches border on focus */
+}
+
+.admin-login-popup-button {
+  padding: 10px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 25px;
+  background-color: yellow;
+  /* Google's blue button color */
+  color: black;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.admin-login-popup-button:hover {
+  background-color: #135ab7;
+  /* Darker shade on hover */
+}
+
+.admin-login-popup-right p {
+  margin-top: 20px;
+  text-align: center;
+  color: white;
+}

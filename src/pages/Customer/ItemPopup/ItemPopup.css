@@ -1,0 +1,131 @@
+.cart-container {
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+  }
+  .cart-container-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: white;
+  }
+  
+  .close {
+    display: flex;
+    justify-content: flex-end;   /* Aligns items to the right */
+    align-items: flex-start; 
+  }
+  
+  .cart-container-content hr {
+    margin: 10px 0px;
+    height: 2px;
+    background-color: #e2e2e2;
+    border: none;
+  }
+  
+  
+  .cart-item-image {
+    display: block;
+    margin: 0 auto;
+    width: 320px;
+    height: 200px;
+    border-radius: 15px 15px 8px 0px;
+  }
+  
+  .header-img {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .close-button {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: flex-end;   /* Aligns items to the right */
+    align-items: flex-start; 
+  }
+  
+  .cart-right h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    display: block;
+    margin: 0 auto; 
+  }
+  
+  .item-details {
+    margin-top: 20px;
+  }
+  
+  .item-name h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px; 
+    text-align: center;
+    padding-top: 10px;
+  }
+  
+  .quantity-control {
+    align-items: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+  }
+  
+  .quantity-button{
+    display: flex;
+    padding-top: 10px;
+  }
+  
+  .quantity {
+    margin: 0 10px;
+    font-size: 1.2rem;
+  }
+  
+  .size-options {
+    margin-top: 20px;
+    padding-top: 10px;
+  }
+  
+  .size-option {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  input[type="radio"] {
+    margin-right: 10px;
+  }
+  
+  .price {
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  .add-to-cart {
+    display: block;
+    margin: 0 auto; 
+    background-color: #ffc107;
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-top: 20px;
+    height: 58px;
+    width: 200px;
+  }

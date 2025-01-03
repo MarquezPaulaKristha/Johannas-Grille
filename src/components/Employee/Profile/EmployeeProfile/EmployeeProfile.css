@@ -1,0 +1,128 @@
+
+
+/* Profile Wrapper */
+.employees-profile-wrapper {
+    background-color: #fafafa;
+    padding: 50px 58px;
+  }
+  
+  /* Center content horizontally and align top section */
+  .employees-profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  h1 {
+    padding-top: 10px;
+  }
+  
+  .cover-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .employees-profile-content {
+    display: flex;
+    gap: 40px;  /* Add more space between the profile info and the form */
+  }
+  
+  /* Left Section: Profile Info */
+  .employees-profile-info {
+    flex: 1;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    height: 350px;
+    margin-top: 30px;
+  }
+  
+  .employees-avatar-box {
+    border: 2px solid #ccc;
+    padding: 20px;
+    border-radius: 10px;
+    display: inline-block;
+    background-color: #f9f9f9;
+    margin-bottom: 10px;
+  }
+  
+  .public-profile-btn {
+    background-color: #740003;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  /* Right Section: Profile Form */
+  .employees-profile-form {
+    flex: 2;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    height: 420px;
+  }
+  
+  .employees-profile-form h3 {
+    margin-bottom: 10px;
+  }
+  
+  .employees-form-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 15px;
+  }
+  
+  .employees-form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .employees-form-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #740003;
+  }
+  
+  .employees-form-group input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .employees-update-btn {
+    background-color: #740003;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .employees-personal-info {
+    margin-top: 10px;
+    text-align: center; /* Align the text to the left */
+  }
+  
+  .employees-personal-info p {
+    margin: 5px 0;
+    font-size: 16px;
+  }
+
+  .employees-avatar {
+    height: 150px;
+    width: 150px;
+    object-fit: cover;
+    border-radius: 20px;
+  }
+  
