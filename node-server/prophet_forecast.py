@@ -53,7 +53,7 @@ model = Prophet()
 model.fit(df)
 
 # Create future DataFrame
-future = model.make_future_dataframe(periods=30)
+future = model.make_future_dataframe(periods=365)
 forecast = model.predict(future)
 
 # Extract forecasted peak hours
