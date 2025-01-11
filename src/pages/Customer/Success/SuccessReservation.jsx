@@ -43,7 +43,7 @@ function SuccessReservationPage() {
         <h1 className="mt-3">Payment Successful</h1>
         <p className="payment-message">Thank you for your Reservation!</p>
         <button className="success-button" onClick={handleShopping}>
-          Order more
+          Go to Home
         </button>
       </div>
     </div>

@@ -10,8 +10,8 @@ export function Provider({ children }) {
   const [foodList, setFoodList] = useState([]);
   const [tableNumber, setTableNumber] = usePersistState('table', '');
   const [orderType, setOrderType] = usePersistState('order', 'Dine In');
-  const [selectedBranch, setSelectedBranch] = useState("Bauan");
-  const [selectedEmployeeBranch, setSelectedEmployeeBranch] = useState("Bauan");
+  const [selectedBranch, setSelectedBranch] = usePersistState('customer_branch', null);
+  const [selectedEmployeeBranch, setSelectedEmployeeBranch] = useState('employee_branch', null);
   const [pickupDate, setPickupDate] = usePersistState(
     'date',
     new Date().toISOString().substring(0, 10)

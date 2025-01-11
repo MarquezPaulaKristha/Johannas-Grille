@@ -4,7 +4,7 @@ import './PlaceOrderPopup.css';
 import { useProvider } from '../../../../global_variable/provider';
 
 const PlaceOrderPopup = ({ onCancel, onConfirm }) => {
-    const { orderItems, setOrderItems, tableNumber, setTableNumber, orderType, setOrderType } = useProvider();
+    const { orderItems, setOrderItems, tableNumber, setTableNumber, orderType, setOrderType, selectedEmployeeBranch } = useProvider();
     const [receivedAmount, setReceivedAmount] = useState('');
     const totalPrice = orderItems.reduce(
         (total, item) => total + (Number(item.price) || 0) * (item.quantity || 0),
@@ -48,6 +48,7 @@ const PlaceOrderPopup = ({ onCancel, onConfirm }) => {
           time: currentTime,
           tableno: tableNumber,
           status: "Pending",
+          selectedBranch: selectedEmployeeBranch,
         };
     
         try {

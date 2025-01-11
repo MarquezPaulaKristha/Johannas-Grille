@@ -58,8 +58,8 @@ const App = () => {
             <Route path='/employee/reservation' element={<ProtectedRoute> <Reservation /> </ProtectedRoute>} />
             <Route path='/employee/profile' element={<ProtectedRoute> <ProfileEmployee /> </ProtectedRoute>} />
             <Route path='/employee/success' element={<ProtectedRoute> <SuccessPage /> </ProtectedRoute>} />
-            <Route path='/success' element={<ProtectedRoute> <SuccessCustomerPage /> </ProtectedRoute>} />
-            <Route path='/success-reservation' element={<ProtectedRoute> <SuccessReservationPage /> </ProtectedRoute>} />
+            <Route path='/success' element={<SuccessCustomerPage />} />
+            <Route path='/success-reservation' element={<SuccessReservationPage />}/>
           </Routes>
         </Provider>
       </div>

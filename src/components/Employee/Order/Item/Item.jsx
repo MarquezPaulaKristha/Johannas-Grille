@@ -24,7 +24,7 @@ const FoodItem = ({ id, name, variants, price, image, orderId }) => {
         <div className="emp-item-food-card-info">
           <div className="emp-item-food-card-name-rating">
             <h3 className="emp-product-name">{name}</h3>
-            <p className="emp-product-price">₱{price}</p>
+            <p className="emp-product-price">₱p{price}</p>
           </div>
         </div>
         <div className="emp-edit-delete-container">

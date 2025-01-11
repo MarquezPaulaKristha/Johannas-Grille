@@ -35,7 +35,7 @@ const pool = new Pool({
   user: 'postgres',
   host: 'localhost',
   database: 'johannasgrilledb',
-  password: 'password',
+  password: '12345678', //12345678 //password
   port: 5433, // Default PostgreSQL port
 });
 
@@ -1377,7 +1377,7 @@ app.post('/api/customer-gcash-checkout', async (req, res) => {
 });
 
 app.post('/api/create-order', async (req, res) => {
-  const { customerid, orderItems, totalamount, ordertype, date, time, tableno, status } = req.body;
+  const { customerid, orderItems, totalamount, ordertype, date, time, tableno, status, selectedBranch } = req.body;
 
   try {
     // Extract orderid from the first item in orderItems
@@ -1400,8 +1400,8 @@ app.post('/api/create-order', async (req, res) => {
 
     for (let item of orderItems) {
       await pool.query(
-          'UPDATE inventorytbl SET quantity = quantity - $1 WHERE menuitemid = $2',
-          [item.order_quantity, item.menuitemid]
+          'UPDATE inventorytbl SET quantity = quantity - $1 WHERE menuitemid = $2 AND branch = $3',
+          [item.order_quantity, item.menuitemid, selectedBranch]
       );
     }
 

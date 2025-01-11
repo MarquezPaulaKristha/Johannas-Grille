@@ -5,7 +5,7 @@ import "./success.css";
 import { useProvider } from "../../../global_variable/provider";
 
 function SuccessCustomerPage() {
-  const { cartItems, setCartItems, customer, pickupHour, setPickupHour, pickupDate, setPickupDate } = useProvider();
+  const { cartItems, setCartItems, customer, pickupHour, setPickupHour, pickupDate, setPickupDate, selectedBranch } = useProvider();
   const navigate = useNavigate();
   const hasCalledPayment = useRef(false);
 
@@ -31,6 +31,7 @@ function SuccessCustomerPage() {
       time: `${pickupHour}:00`,
       tableno: '00000',
       status: "Pending",
+      selectedBranch: selectedBranch,
     };
 
     try {
@@ -60,7 +61,7 @@ function SuccessCustomerPage() {
         <h1 className="mt-3">Payment Successful</h1>
         <p className="payment-message">Thank you for your payment!</p>
         <button className="success-button" onClick={handleShopping}>
-          Order more
+          Go to Home
         </button>
       </div>
     </div>

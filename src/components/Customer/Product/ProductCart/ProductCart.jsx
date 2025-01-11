@@ -19,7 +19,7 @@ const ProductCart = ({ orderId }) => {
   const updateQuantity = (id, change) => {
     setCartItems(prevItems =>
       prevItems.map(item =>
-        item.orderid === id
+        item.menuitemid === id
           ? { ...item, quantity: Math.max(1, item.quantity + change) }
           : item
       )
@@ -81,8 +81,8 @@ const ProductCart = ({ orderId }) => {
               <ProductItem
                 key={item.orderid}
                 item={item}
-                increaseQuantity={() => updateQuantity(item.orderid, 1)}
-                decreaseQuantity={() => updateQuantity(item.orderid, -1)}
+                increaseQuantity={() => updateQuantity(item.menuitemid, 1)}
+                decreaseQuantity={() => updateQuantity(item.menuitemid, -1)}
               />
             ))
           ) : (
