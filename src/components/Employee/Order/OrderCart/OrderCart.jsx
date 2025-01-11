@@ -48,15 +48,15 @@ const OrderCart = ({ category, setCategory, orderId }) => {
 
   const handleQuantityChange = async (itemId, newQuantity) => {
     const updatedItems = orderItems.map((item) =>
-      item.orderitemid === itemId ? { ...item, quantity: newQuantity } : item
+      item.menuitemid === itemId ? { ...item, quantity: newQuantity } : item
     );
     setOrderItems(updatedItems);
 
-    if (newQuantity <= 0) {
-      await handleRemoveItem(itemId);
-    } else {
-      await updateOrder();
-    }
+    // if (newQuantity <= 0) {
+    //   await handleRemoveItem(itemId);
+    // } else {
+    //   await updateOrder();
+    // }
   };
 
   const handleRemoveItem = async (itemId) => {
@@ -168,9 +168,9 @@ const OrderCart = ({ category, setCategory, orderId }) => {
               <OrderItem
                 key={item.menuitemid}
                 item={item}
-                increaseQuantity={() => handleQuantityChange(item.orderitemid, item.quantity + 1)}
+                increaseQuantity={() => handleQuantityChange(item.menuitemid, item.quantity + 1)}
                 decreaseQuantity={() =>
-                  handleQuantityChange(item.orderitemid, item.quantity === 1 ? 0 : item.quantity - 1)
+                  handleQuantityChange(item.menuitemid, item.quantity === 1 ? 0 : item.quantity - 1)
                 }
               />
             ))
