@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './ItemPopup.css';
 import { IoIosCloseCircle } from "react-icons/io";
 import { MdAddCircleOutline } from "react-icons/md";
-import { LuMinusCircle } from "react-icons/lu";
+import { AiOutlineMinusCircle } from "react-icons/ai";
 
 function Cart({ name }) {
   const [isVisible, setIsVisible] = useState(true);
@@ -73,7 +73,7 @@ function Cart({ name }) {
           <div className="quantity-control">
             <div className="quantity-button">
               <i className="decrement" onClick={handleDecrement}>
-                <LuMinusCircle size={25} />
+                <AiOutlineMinusCircle size={25} />
               </i>
               <span className="quantity">{quantity}</span>
               <i className="increment" onClick={handleIncrement}>
