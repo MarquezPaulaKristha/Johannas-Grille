@@ -3,6 +3,7 @@
   gap: 10px;
 }
 
+.open-btn,
 .edit-btn,
 .delete-btn {
   background: none;
@@ -18,6 +19,10 @@
 
 .delete-btn:hover {
   color: #dc3545;
+}
+
+.open-btn:hover {
+  color: #3ce64d;
 }
 
 /* ReservationEdit.css */

@@ -5,8 +5,10 @@ import "./Reservation.css";
 const Orders = () => {
   const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
+  const [isReservationPopupOpen, setIsReservationPopupOpen] = useState(false);
   const [currentItem, setCurrentItem] = useState(null);
   const [reservation, setReservation] = useState([]);
+  const [reservationItems, setReservationItems] = useState([]);
 
 
   const fetchReservation = () => {
@@ -20,6 +22,14 @@ const Orders = () => {
     fetchReservation();
   }, []);
 
+  const handleOpen = (reservation) => {
+    fetch(`http://localhost:3000/api/reservation-items/${reservation.reservationid}`)
+      .then((response) => response.json())
+      .then((data) => setReservationItems(data))
+      .catch((error) => console.error("Error fetching reservation data:", error));
+
+    setIsReservationPopupOpen(true);
+  }
 
   const handleEdit = (reservation) => {
     setCurrentItem(reservation);
@@ -41,6 +51,10 @@ const Orders = () => {
   const closeDeletePopup = () => {
     setIsDeletePopupOpen(false);
     setCurrentItem(null); // Clear the current reservation after closing
+  };
+
+  const closeTablePopup = () => {
+    setIsReservationPopupOpen(false);
   };
 
   // Function to handle delete confirmation
@@ -102,7 +116,7 @@ const Orders = () => {
                     <td>{formattedTime}</td>
                     <td>{dataItem.branch}</td>
                     <td>{dataItem.amount}</td>
-                    <td>{dataItem.paymentmethod}</td>
+                    <td>{dataItem.modeofpayment}</td>
                     <td>
                       <div className="or-dt-status">
                         <span className={`or-dt-status-dot dot-${dataItem.status}`}></span>
@@ -111,6 +125,7 @@ const Orders = () => {
                     </td>
                     <td className="or-dt-cell-action">
                       <OrderAction
+                        onOpen={() => handleOpen(dataItem)}
                         onEdit={() => handleEdit(dataItem)}
                         onDelete={() => handleDelete(dataItem)}
                       />
@@ -230,6 +245,55 @@ const Orders = () => {
               </button>
               <button type="button" className="delete-confirm-btn" onClick={confirmDelete}>
                 Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {isReservationPopupOpen && reservationItems.length > 0 && (
+        <div className="popup-overlay">
+          <div className="popup-form">
+            <h3>Customer Name: {reservationItems[0].firstname} {reservationItems[0].lastname}</h3>
+            <h4>Customer Number: {reservationItems[0].phonenumber}</h4>
+            <p>Reservation Menu Details</p>
+            <hr />
+            <table className="table-reservation">
+              <thead>
+                <tr>
+                  <th className="th-reservation">Item Name</th>
+                  <th className="th-reservation">Menu Category</th>
+                </tr>
+              </thead>
+              <tbody>
+                {reservationItems.map((dataItem) => (
+                  <tr key={dataItem.menuitemid}>
+                    <td className="td-reservation">{dataItem.item_name}</td>
+                    <td className="td-reservation">{dataItem.side_dish}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <br />
+            <hr />
+            <br />
+            <div className="form-actions">
+              <button type="button" className="cancel-btn" onClick={closeTablePopup}>
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Fallback for empty reservationItems */}
+      {isReservationPopupOpen && reservationItems.length === 0 && (
+        <div className="popup-overlay">
+          <div className="popup-form">
+            <p>No reservation details available.</p>
+            <div className="form-actions">
+              <button type="button" className="cancel-btn" onClick={closeTablePopup}>
+                Close
               </button>
             </div>
           </div>
