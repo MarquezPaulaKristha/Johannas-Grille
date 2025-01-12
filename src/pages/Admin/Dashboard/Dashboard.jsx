@@ -11,7 +11,7 @@ const Dashboard = () => {
   const [orders, setOrders] = useState([]);
 
   const fetchOrders = () => {
-    fetch("http://localhost:3000/api/orders")
+    fetch("https://johannasgrille.onrender.com/api/orders")
       .then((response) => response.json())
       .then((data) => {
         // Sort orders by descending order (assuming the date is for ordering)

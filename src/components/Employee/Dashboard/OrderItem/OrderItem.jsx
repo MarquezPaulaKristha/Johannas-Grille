@@ -13,7 +13,7 @@ const OrderItem = ({ orderid, items = [] }) => {
     try {
       // Make a PUT or PATCH request to update the status to 'Complete'
       const response = await axios.patch(
-        `http://localhost:3000/api/orders/${orderid}/status`,
+        `https://johannasgrille.onrender.com/api/orders/${orderid}/status`,
         { status: 'Complete' }
       );
 

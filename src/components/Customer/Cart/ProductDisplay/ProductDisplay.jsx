@@ -11,7 +11,7 @@ const ProductDisplay = ({ category, orderId }) => {
     // Fetch data from the API
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/menuitems'); // Adjust the port accordingly
+        const response = await fetch('https://johannasgrille.onrender.com/api/menuitems'); // Adjust the port accordingly
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
@@ -41,7 +41,7 @@ const ProductDisplay = ({ category, orderId }) => {
                 orderId={orderId}
                 id={item.menuitemid} 
                 name={item.name} 
-                image={`http://localhost:3000${item.image_url}`} // Use the correct field for the image URL
+                image={`https://johannasgrille.onrender.com${item.image_url}`} // Use the correct field for the image URL
                 price={item.price}
               />
             );

@@ -13,7 +13,7 @@ const FoodItem = ({ id, name, price, description, image, category, availability 
 
   const fetchData = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/menuitems');
+      const response = await fetch('https://johannasgrille.onrender.com/api/menuitems');
       const data = await response.json();
       // Find the updated item by id and update the states
       const updatedItem = data.find((item) => item.id === id);

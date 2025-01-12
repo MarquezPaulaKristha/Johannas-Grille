@@ -23,7 +23,7 @@ const OrderCart = ({ category, setCategory, orderId }) => {
     );
 
     try {
-      const response = await fetch(`http://localhost:3000/api/orders/${orderId}`, {
+      const response = await fetch(`https://johannasgrille.onrender.com/api/orders/${orderId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ordertype: orderType, totalamount: totalAmount }),
@@ -61,7 +61,7 @@ const OrderCart = ({ category, setCategory, orderId }) => {
 
   const handleRemoveItem = async (itemId) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/orderitems/${itemId}`, {
+      const response = await fetch(`https://johannasgrille.onrender.com/api/orderitems/${itemId}`, {
         method: 'DELETE',
       });
 
@@ -86,7 +86,7 @@ const OrderCart = ({ category, setCategory, orderId }) => {
       const formattedDate = currentDate.toISOString().split('T')[0]; // YYYY-MM-DD
       const formattedTime = currentDate.toISOString().split('T')[1].split('.')[0]; // HH:MM:SS
 
-      const response = await fetch(`http://localhost:3000/api/orders/${orderId}`, {
+      const response = await fetch(`https://johannasgrille.onrender.com/api/orders/${orderId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

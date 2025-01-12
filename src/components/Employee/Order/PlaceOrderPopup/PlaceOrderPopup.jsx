@@ -52,7 +52,7 @@ const PlaceOrderPopup = ({ onCancel, onConfirm }) => {
         };
     
         try {
-          const response = await axios.post("http://localhost:3000/api/create-order", orderData);
+          const response = await axios.post("https://johannasgrille.onrender.com/api/create-order", orderData);
           if (response.status === 200) {
             setOrderItems([]);
             setTableNumber("");

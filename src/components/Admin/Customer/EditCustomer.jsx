@@ -15,7 +15,7 @@ const EditModal = ({ customerID, onClose, onSave }) => {
     console.log('CustomerID:', customerID); // Check the customerID
     const fetchCustomer = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/api/customer/${customerID}`);
+        const response = await fetch(`https://johannasgrille.onrender.com/api/customer/${customerID}`);
         if (response.ok) {
           const data = await response.json();
           setUpdatedfName(data.firstname);
@@ -23,7 +23,7 @@ const EditModal = ({ customerID, onClose, onSave }) => {
           setUpdatedAddress(data.address);
           setUpdatedphone(data.phonenumber);
           setUpdatedEmail(data.email);
-          setImagePreview(`http://localhost:3000${data.image_url}`);
+          setImagePreview(`https://johannasgrille.onrender.com${data.image_url}`);
         } else {
           console.error('Error fetching customer:', response.statusText);
         }
@@ -49,7 +49,7 @@ const EditModal = ({ customerID, onClose, onSave }) => {
     }
 
     try {
-      const response = await fetch(`http://localhost:3000/api/customer/${customerID}`, {
+      const response = await fetch(`https://johannasgrille.onrender.com/api/customer/${customerID}`, {
         method: 'PUT',
         body: formData,
       });

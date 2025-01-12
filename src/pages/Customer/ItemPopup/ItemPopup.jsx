@@ -12,7 +12,7 @@ function Cart({ name }) {
   useEffect(() => {
     const fetchMenuItems = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/menuitems');
+        const response = await fetch('https://johannasgrille.onrender.com/api/menuitems');
         const data = await response.json();
         console.log('Fetched menu items:', data); // Debugging line
         setMenuItems(data);
@@ -55,7 +55,7 @@ function Cart({ name }) {
             </button>
           </div>
           <div className="item-name">
-            <img className="cart-item-image" src={`http://localhost:3000${item.image_url}`} alt={item.name} />
+            <img className="cart-item-image" src={`https://johannasgrille.onrender.com${item.image_url}`} alt={item.name} />
             <h3>{item.name}</h3> {/* Display the item's name */}
           </div>
           <hr />

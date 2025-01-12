@@ -53,7 +53,7 @@ const FoodItem = ({ id, name, price, image, onAddToOrder, orderId }) => {
   const fetchMenuItems = async () => {
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:3000/api/menuitems');
+      const response = await fetch('https://johannasgrille.onrender.com/api/menuitems');
       if (response.ok) {
         const data = await response.json();
         setMenuItems(data);
