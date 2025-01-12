@@ -48,7 +48,7 @@ const MenuVariant = ({ variants, isOpen, onClose, orderId, itemId, price }) => {
       name: itemName, // Combine name and variant if a variant is selected
       variant: selectedVariant ? selectedVariant.variant : null,
       quantity: 1,
-      price: price,
+      price: foodItem.price,
     };
   
     // Check if the item already exists in orderItems with the same variant
@@ -66,11 +66,10 @@ const MenuVariant = ({ variants, isOpen, onClose, orderId, itemId, price }) => {
         updatedOrderItems[existingItemIndex].quantity * price;
   
       setOrderItems(updatedOrderItems);
-      setPopupMessage("Item quantity updated!");
+      setPopupMessage("Item successfully added to your order!");
     } else {
       // If the item doesn't exist, add it to the orderItems array
       setOrderItems((prevOrderItems) => [...prevOrderItems, newOrderItem]);
-      setPopupMessage("Item successfully added to your order!");
     }
   
     setLoading(false);

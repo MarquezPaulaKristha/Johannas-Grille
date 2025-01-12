@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useProvider } from '../../../../global_variable/provider';
 
-const GCashOrderPopup = ({ orderItems, orderType, onCancel, onConfirm }) => {
+const GCashOrderPopup = ({ orderItems, orderType, onCancel }) => {
     const { tableNumber, setTableNumber } = useProvider()
     const totalPrice = orderItems.reduce(
         (total, item) => total + (Number(item.price) || 0) * (item.quantity || 0),
