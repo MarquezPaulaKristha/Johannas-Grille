@@ -3,7 +3,7 @@ import axios from "axios";
 import './PlaceOrderPopup.css';
 import { useProvider } from '../../../../global_variable/Provider';
 
-const PlaceOrderPopup = ({ onCancel, onConfirm }) => {
+const PlaceOrderPopup = ({ onCancel }) => {
     const { orderItems, setOrderItems, tableNumber, setTableNumber, orderType, setOrderType, selectedEmployeeBranch } = useProvider();
     const [receivedAmount, setReceivedAmount] = useState('');
     const totalPrice = orderItems.reduce(

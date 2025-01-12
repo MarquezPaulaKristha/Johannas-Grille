@@ -1537,6 +1537,41 @@ app.post('/api/create-reservation', async (req, res) => {
   }
 });
 
+app.get('/api/reservation-items/:reservationId', async (req, res) => {
+  const reservationId = req.params.reservationId;
+  
+  try {
+    const reservationQuery = `
+      SELECT 
+        ri.reservationid,
+        c.firstname,
+        c.lastname,
+        c.address,
+        c.phonenumber,
+        c.email,
+        ri.menuitemid, 
+        ri.qty, 
+        rm.item_name, 
+        rm.side_dish
+      FROM 
+        reservationitemtbl ri
+      JOIN 
+        reservationmenutbl rm ON ri.menuitemid = rm.menuitemid
+      JOIN
+        reservationtbl r ON ri.reservationid = r.reservationid
+      JOIN
+        customertbl c ON r.customerid = c.customerid
+        WHERE ri.reservationid = $1
+    `
+    const result = await pool.query(reservationQuery, [reservationId])
+    res.status(200).json(result.rows)
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+
 // Start the server
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);

@@ -165,12 +165,14 @@
   z-index: 1000;
 }
 
-/* Popup Form */
 .popup-form {
-  background: white;
+  background: #fff;
   padding: 20px;
-  border-radius: 8px;
-  width: 400px;
+  border-radius: 10px;
+  max-height: 80vh; /* Limit the height of the popup */
+  width: 90%;
+  max-width: 600px;
+  overflow-y: auto; /* Enable vertical scrolling for the popup */
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
@@ -220,14 +222,14 @@
 }
 
 /* Popup Form */
-.popup-form {
+/* .popup-form {
   background: white;
   padding: 20px;
   border-radius: 8px;
   width: 400px;
   text-align: center;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-}
+} */
 
 .popup-form h2 {
   margin-bottom: 20px;
@@ -265,4 +267,24 @@
 .cancel-btn:hover,
 .delete-confirm-btn:hover {
   opacity: 0.8;
+}
+
+.table-container {
+  max-height: 50vh; /* Limit the height of the table */
+  overflow-y: auto; /* Enable scrolling inside the table container */
+}
+
+.table-reservation {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.th-reservation, .td-reservation {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f4f4f4;
 }
