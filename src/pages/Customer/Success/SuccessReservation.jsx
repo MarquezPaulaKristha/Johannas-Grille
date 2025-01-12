@@ -14,7 +14,7 @@ function SuccessReservationPage() {
     hasCalledPayment.current = true;
 
     try {
-      const response = await axios.post("https://johannasgrille.onrender.com/api/create-reservation", payloadDetails, {
+      const response = await axios.post("https://johannas-grille.onrender.com/api/create-reservation", payloadDetails, {
         headers: { "Content-Type": "application/json" },
       });
 

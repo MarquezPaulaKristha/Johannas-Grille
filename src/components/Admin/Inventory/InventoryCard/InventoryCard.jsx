@@ -18,7 +18,7 @@ const InventoryCard = ({ id, name, price, category, quantity, image, invid, bran
     console.log('Sending Product ID:', id); // Debugging to ensure ID exists
     console.log('Sending Inventory ID:', invid); // Debugging to ensure inventory ID exists
     try {
-      const response = await fetch('https://johannasgrille.onrender.com/api/send-inventory', {
+      const response = await fetch('https://johannas-grille.onrender.com/api/send-inventory', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

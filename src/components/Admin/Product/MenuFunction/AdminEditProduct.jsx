@@ -12,13 +12,13 @@ const EditPopup = ({ productId, onClose, onSave }) => {
   useEffect(() => {
     const fetchMenuItem = async () => {
       try {
-        const response = await fetch(`https://johannasgrille.onrender.com/api/menuitems/${productId}`);
+        const response = await fetch(`https://johannas-grille.onrender.com/api/menuitems/${productId}`);
         if (response.ok) {
           const data = await response.json();
           setUpdatedName(data.name);
           setUpdatedPrice(data.price);
           setUpdatedCategory(data.category);
-          setImagePreview(`https://johannasgrille.onrender.com${data.image_url}`);
+          setImagePreview(`https://johannas-grille.onrender.com${data.image_url}`);
         } else {
           console.error('Error fetching menu item:', response.statusText);
         }
@@ -29,7 +29,7 @@ const EditPopup = ({ productId, onClose, onSave }) => {
 
     const fetchCategories = async () => {
       try {
-        const response = await fetch('https://johannasgrille.onrender.com/api/categories');
+        const response = await fetch('https://johannas-grille.onrender.com/api/categories');
         if (response.ok) {
           const data = await response.json();
           setCategories(data);
@@ -57,7 +57,7 @@ const EditPopup = ({ productId, onClose, onSave }) => {
     }
 
     try {
-      const response = await fetch(`https://johannasgrille.onrender.com/api/menuitems/${productId}`, {
+      const response = await fetch(`https://johannas-grille.onrender.com/api/menuitems/${productId}`, {
         method: 'PUT',
         body: formData,
       });

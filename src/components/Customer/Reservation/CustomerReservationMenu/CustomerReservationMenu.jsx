@@ -17,7 +17,7 @@ const CustomerReservationMenu = ({ reservationDetails, onClose, reservationId })
     useEffect(() => {
         const fetchMenuItems = async () => {
             try {
-                const response = await axios.get("https://johannasgrille.onrender.com/api/menu-items");
+                const response = await axios.get("https://johannas-grille.onrender.com/api/menu-items");
                 const data = response.data;
 
                 const organizedData = data.reduce((acc, item) => {

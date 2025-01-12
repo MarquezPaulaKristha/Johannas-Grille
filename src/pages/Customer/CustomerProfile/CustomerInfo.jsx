@@ -23,7 +23,7 @@ const ProfileCustomer = () => {
           return;
         }
 
-        const response = await axios.get('https://johannasgrille.onrender.com/api/customer/info', {
+        const response = await axios.get('https://johannas-grille.onrender.com/api/customer/info', {
           headers: { Authorization: `Bearer ${token}` },
         });
 
