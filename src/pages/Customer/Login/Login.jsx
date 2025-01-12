@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './Login.css';
 import { IoIosCloseCircle } from "react-icons/io";
 import axios from 'axios';
-import { useProvider } from '../../../global_variable/provider';
+import { useProvider } from '../../../global_variable/Provider';
 
 const LoginPopUp = () => {
   const { customer, setCustomer } = useProvider();
@@ -34,7 +34,7 @@ const LoginPopUp = () => {
 
   const handleSignUp = async () => {
     try {
-      const response = await axios.post('http://localhost:3000/api/signup', {
+      const response = await axios.post('https://johannasgrille.onrender.com/api/signup', {
         firstname: firstName,
         lastname: lastName,
         address,
@@ -56,7 +56,7 @@ const LoginPopUp = () => {
   
   const handleLogin = async () => {
     try {
-      const response = await axios.post('http://localhost:3000/api/customer/login', { username, password });
+      const response = await axios.post('https://johannasgrille.onrender.com/api/customer/login', { username, password });
   
       if (response.status === 200) {
         localStorage.setItem('token', response.data.token);

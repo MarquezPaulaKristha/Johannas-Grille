@@ -35,7 +35,7 @@ const pool = new Pool({
   user: 'postgres',
   host: 'localhost',
   database: 'johannasgrilledb',
-  password: '12345678', //12345678 //password
+  password: 'password', //12345678 //password
   port: 5433, // Default PostgreSQL port
 });
 

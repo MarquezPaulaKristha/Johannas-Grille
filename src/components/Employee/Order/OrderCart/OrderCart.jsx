@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import OrderItem from '../OrderItem';
 import PlaceOrderPopup from '../PlaceOrderPopup/PlaceOrderPopup';
 import './OrderCart.css';
-import { useProvider } from '../../../../global_variable/provider';
+import { useProvider } from '../../../../global_variable/Provider';
 import GCashOrderPopup from '../GCashOrderPopup/GCashOrderPopup';
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { TbBrandGoogleMaps } from "react-icons/tb";
@@ -15,6 +15,29 @@ const OrderCart = ({ category, setCategory, orderId }) => {
   const [showPlaceOrderPopup, setShowPlaceOrderPopup] = useState(false);
   const [gcashOrderPopup, setGCashOrderPopup] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const updateOrder = async () => {
+    const totalAmount = orderItems.reduce(
+      (total, item) => total + item.price * (item.quantity || 1),
+      0
+    );
+
+    try {
+      const response = await fetch(`https://johannasgrille.onrender.com/api/orders/${orderId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ordertype: orderType, totalamount: totalAmount }),
+      });
+
+      if (!response.ok) throw new Error('Failed to update order');
+
+      const updatedOrder = await response.json();
+      console.log('Order updated successfully:', updatedOrder);
+    } catch (error) {
+      console.error('Error updating order:', error.message);
+      alert('Failed to update order.');
+    }
+  };
 
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
@@ -34,6 +57,61 @@ const OrderCart = ({ category, setCategory, orderId }) => {
     // } else {
     //   await updateOrder();
     // }
+  };
+
+  const handleRemoveItem = async (itemId) => {
+    try {
+      const response = await fetch(`https://johannasgrille.onrender.com/api/orderitems/${itemId}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) throw new Error('Failed to delete item');
+
+      setOrderItems(orderItems.filter((item) => item.orderitemid !== itemId));
+    } catch (error) {
+      console.error('Error removing item:', error);
+      alert('Failed to remove item.');
+    }
+  };
+
+  const handleConfirmOrder = async () => {
+    try {
+      const totalAmount = orderItems.reduce(
+        (total, item) => total + item.price * (item.quantity || 1),
+        0
+      );
+      const customerId = '0000'; // Replace with actual customer ID
+
+      const currentDate = new Date();
+      const formattedDate = currentDate.toISOString().split('T')[0]; // YYYY-MM-DD
+      const formattedTime = currentDate.toISOString().split('T')[1].split('.')[0]; // HH:MM:SS
+
+      const response = await fetch(`https://johannasgrille.onrender.com/api/orders/${orderId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          customerId: String(customerId),
+          orderType,
+          totalAmount,
+          date: formattedDate,
+          time: formattedTime,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorDetails = await response.json();
+        console.error('Server responded with error:', errorDetails);
+        throw new Error(errorDetails.message || 'Order update failed.');
+      }
+
+      const result = await response.json();
+      alert(`Order updated successfully! Order ID: ${result.orderid}`);
+      setShowPlaceOrderPopup(false);
+      setOrderItems([]); // Clear cart after placing order
+    } catch (error) {
+      console.error('Error confirming order:', error.message);
+      alert(`Failed to update order: ${error.message}`);
+    }
   };
 
   return (

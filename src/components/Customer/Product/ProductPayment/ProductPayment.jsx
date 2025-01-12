@@ -6,7 +6,7 @@ import { TbBrandGoogleMaps } from "react-icons/tb";
 import { IoIosArrowDown } from "react-icons/io";
 import './ProductPayment.css';
 import ProductReceipt from "../PaymentReceipt/PaymentReceipt";
-import { useProvider } from "../../../../global_variable/provider";
+import { useProvider } from "../../../../global_variable/Provider";
 
 const ProductPayment = ({ onClose }) => {
     const { cartItems, selectedBranch, customer } = useProvider();
@@ -41,7 +41,7 @@ const ProductPayment = ({ onClose }) => {
         };
 
         try {
-            const response = await axios.post('http://localhost:3000/api/customer-gcash-checkout', body);
+            const response = await axios.post('https://johannasgrille.onrender.com/api/customer-gcash-checkout', body);
 
             const { url } = response.data;
 

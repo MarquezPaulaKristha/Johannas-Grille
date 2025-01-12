@@ -11,7 +11,7 @@ const Inventory = () => {
   // Fetch the items from the backend
   const fetchItems = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/menuitems');
+      const response = await fetch('https://johannasgrille.onrender.com/api/menuitems');
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }

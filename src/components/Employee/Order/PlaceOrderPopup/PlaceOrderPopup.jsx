@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from "axios";
 import './PlaceOrderPopup.css';
-import { useProvider } from '../../../../global_variable/provider';
+import { useProvider } from '../../../../global_variable/Provider';
 
 const PlaceOrderPopup = ({ onCancel }) => {
     const { orderItems, setOrderItems, tableNumber, setTableNumber, orderType, setOrderType, selectedEmployeeBranch } = useProvider();
@@ -52,7 +52,7 @@ const PlaceOrderPopup = ({ onCancel }) => {
         };
     
         try {
-          const response = await axios.post("http://localhost:3000/api/create-order", orderData);
+          const response = await axios.post("https://johannasgrille.onrender.com/api/create-order", orderData);
           if (response.status === 200) {
             setOrderItems([]);
             setTableNumber("");

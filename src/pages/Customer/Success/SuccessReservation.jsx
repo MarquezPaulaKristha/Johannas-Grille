@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./success.css";
-import { useProvider } from "../../../global_variable/provider";
+import { useProvider } from "../../../global_variable/Provider";
 
 function SuccessReservationPage() {
   const { payloadDetails, setPayloadDetails, setReservationDetails, setReserveItems,  } = useProvider();
@@ -14,7 +14,7 @@ function SuccessReservationPage() {
     hasCalledPayment.current = true;
 
     try {
-      const response = await axios.post("http://localhost:3000/api/create-reservation", payloadDetails, {
+      const response = await axios.post("https://johannasgrille.onrender.com/api/create-reservation", payloadDetails, {
         headers: { "Content-Type": "application/json" },
       });
 

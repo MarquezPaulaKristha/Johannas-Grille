@@ -7,7 +7,7 @@ const AdminReservationMenuFetch = ({ category }) => {
 
   const fetchMenuItems = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/reservationmenuitems');
+      const response = await fetch('https://johannasgrille.onrender.com/api/reservationmenuitems');
       if (response.ok) {
         const data = await response.json();
         setFoodList(data);
@@ -35,7 +35,7 @@ const AdminReservationMenuFetch = ({ category }) => {
                 id={item.menuitemid}
                 name={item.item_name}
                 price={item.package_price}
-                image={`http://localhost:3000${item.image_url}`}
+                image={`https://johannasgrille.onrender.com${item.image_url}`}
               />
             );
           }

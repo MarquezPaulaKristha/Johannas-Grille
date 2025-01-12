@@ -22,7 +22,7 @@ const InventoryLogs = () => {
   useEffect(() => {
     const fetchInventory = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/inventory");
+        const response = await fetch("https://johannasgrille.onrender.com/api/inventory");
         const data = await response.json();
         setInventory(data);
       } catch (error) {

@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import './ItemDisplay.css';
 import Item from '../Item/Item';
-import { useProvider } from '../../../../global_variable/provider';
+import { useProvider } from '../../../../global_variable/Provider';
 
 const ItemDisplay = ({ category, items, orderId }) => {
   const { foodList, setFoodList, selectedEmployeeBranch, setSelectedEmployeeBranch }  = useProvider();
 
   const fetchData = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/menuitems');
+      const response = await fetch('https://johannasgrille.onrender.com/api/menuitems');
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
@@ -61,7 +61,7 @@ const ItemDisplay = ({ category, items, orderId }) => {
                 id={item.menuitemid}  // Pass the base item ID
                 name={item.name}
                 price={item.price}
-                image={`http://localhost:3000${item.image_url}`} // Use the correct field for the image URL
+                image={`https://johannasgrille.onrender.com${item.image_url}`} // Use the correct field for the image URL
                 variants={item.variants} // Pass the variants to the Item component
               />
             );

@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
 import './CustomerProfile.css';
-import { useProvider } from '../../../global_variable/provider';
+import { useProvider } from '../../../global_variable/Provider';
 
 const CustomerProfile = () => {
     const { customer, setCustomer } = useProvider();

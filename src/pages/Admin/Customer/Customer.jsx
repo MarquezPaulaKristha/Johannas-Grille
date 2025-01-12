@@ -15,7 +15,7 @@ const CustomerList = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/menuitems'); // Adjust this to your API URL
+      const response = await fetch('https://johannasgrille.onrender.com/api/menuitems'); // Adjust this to your API URL
       const data = await response.json();
       setCustomers(data); // Update state with fetched data
       window.location.reload();
@@ -25,7 +25,7 @@ const CustomerList = () => {
   };
 
   const fetchCustomer = () => {
-    fetch("http://localhost:3000/api/customer")
+    fetch("https://johannasgrille.onrender.com/api/customer")
       .then((response) => response.json())
       .then((data) => setCustomer(data))
       .catch((error) => console.error("Error fetching customer data:", error));

@@ -24,9 +24,9 @@ import ProtectedRoute from './components/Admin/PrivateRoute';
 import Inventory from './pages/Admin/Inventory/Inventory'
 import ProfileEmployee from './pages/Employee/Profile/Profile';
 import EmployeeOrder from './pages/Employee/Order/Order';
-import { Provider } from './global_variable/provider';
+import { Provider } from './global_variable/Provider';
 import SuccessPage from './pages/Employee/Success/Success';
-import SuccessCustomerPage from './pages/Customer/Success/success';
+import SuccessCustomerPage from './pages/Customer/Success/Success';
 import SuccessReservationPage from './pages/Customer/Success/SuccessReservation';
 const App = () => {
   return (
