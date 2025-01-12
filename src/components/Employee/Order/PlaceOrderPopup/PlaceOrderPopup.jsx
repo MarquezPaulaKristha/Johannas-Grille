@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from "axios";
 import './PlaceOrderPopup.css';
-import { useProvider } from '../../../../global_variable/provider';
+import { useProvider } from '../../../../global_variable/Provider';
 
 const PlaceOrderPopup = ({ onCancel, onConfirm }) => {
     const { orderItems, setOrderItems, tableNumber, setTableNumber, orderType, setOrderType, selectedEmployeeBranch } = useProvider();

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './ProductCard.css';
-import { useProvider } from '../../../../global_variable/provider';
+import { useProvider } from '../../../../global_variable/Provider';
 
 const FoodItem = ({ id, name, price, image, onAddToOrder, orderId }) => {
   const { customer, cartItems, setCartItems } = useProvider();

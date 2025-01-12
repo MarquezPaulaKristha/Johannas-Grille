@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './ProductDisplay.css';
 import ProductCard from '../ProductCard/ProductCard';
-import { useProvider } from '../../../../global_variable/provider';
+import { useProvider } from '../../../../global_variable/Provider';
 
 const ProductDisplay = ({ category, orderId }) => {
   const { selectedBranch } = useProvider();

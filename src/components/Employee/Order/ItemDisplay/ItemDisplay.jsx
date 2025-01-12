@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './ItemDisplay.css';
 import Item from '../Item/Item';
-import { useProvider } from '../../../../global_variable/provider';
+import { useProvider } from '../../../../global_variable/Provider';
 
 const ItemDisplay = ({ category, items, orderId }) => {
   const { foodList, setFoodList, selectedEmployeeBranch, setSelectedEmployeeBranch }  = useProvider();

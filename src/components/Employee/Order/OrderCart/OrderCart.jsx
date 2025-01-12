@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import OrderItem from '../OrderItem';
 import PlaceOrderPopup from '../PlaceOrderPopup/PlaceOrderPopup';
 import './OrderCart.css';
-import { useProvider } from '../../../../global_variable/provider';
+import { useProvider } from '../../../../global_variable/Provider';
 import GCashOrderPopup from '../GCashOrderPopup/GCashOrderPopup';
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { TbBrandGoogleMaps } from "react-icons/tb";

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import "./CustomerReservationMenu.css";
-import { useProvider } from "../../../../global_variable/provider";
+import { useProvider } from "../../../../global_variable/Provider";
 import CustomerReservationMenuCart from "../CustomerReservationMenuCart/CustomerReservationMenuCart"; // Import the Cart component
 
 const CustomerReservationMenu = ({ reservationDetails, onClose, reservationId }) => {

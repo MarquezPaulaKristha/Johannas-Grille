@@ -1,6 +1,6 @@
 import React from 'react';
 import './OrderItem.css'; // Import the CSS file
-import { useProvider } from '../../../global_variable/provider';
+import { useProvider } from '../../../global_variable/Provider';
 
 function OrderItem({ item, increaseQuantity, decreaseQuantity }) {
   const { orderItems, setOrderItems } = useProvider();

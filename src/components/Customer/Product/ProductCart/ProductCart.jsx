@@ -5,7 +5,7 @@ import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import ProductPayment from "../ProductPayment/ProductPayment";
 import "./ProductCart.css";
 import ProductItem from "../../Cart/ProductItem/ProductItem";
-import { useProvider } from "../../../../global_variable/provider";
+import { useProvider } from "../../../../global_variable/Provider";
 
 const ProductCart = ({ orderId }) => {
   const { selectedBranch, setSelectedBranch, cartItems, setCartItems, pickupDate, setPickupDate, pickupHour, setPickupHour } = useProvider();

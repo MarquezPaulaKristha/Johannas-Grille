@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './Login.css';
 import { IoIosCloseCircle } from "react-icons/io";
 import axios from 'axios';
-import { useProvider } from '../../../global_variable/provider';
+import { useProvider } from '../../../global_variable/Provider';
 
 const LoginPopUp = () => {
   const { customer, setCustomer } = useProvider();

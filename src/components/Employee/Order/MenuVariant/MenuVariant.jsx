@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./MenuVariant.css";
-import { useProvider } from "../../../../global_variable/provider";
+import { useProvider } from "../../../../global_variable/Provider";
 
 const MenuVariant = ({ variants, isOpen, onClose, orderId, itemId, price }) => {
   const [selectedVariant, setSelectedVariant] = useState(null);

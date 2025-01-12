@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./success.css";
-import { useProvider } from "../../../global_variable/provider";
+import { useProvider } from "../../../global_variable/Provider";
 
 function SuccessCustomerPage() {
   const { cartItems, setCartItems, customer, pickupHour, setPickupHour, pickupDate, setPickupDate, selectedBranch } = useProvider();

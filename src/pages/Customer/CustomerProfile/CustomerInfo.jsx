@@ -4,7 +4,7 @@ import { RxAvatar } from "react-icons/rx";
 import Navbar from '../../../pages/Customer/Navbar/Navbar';
 import './CustomerInfo.css';
 import axios from 'axios';
-import { useProvider } from '../../../global_variable/provider';
+import { useProvider } from '../../../global_variable/Provider';
 
 const ProfileCustomer = () => {
   const { customer, setCustomer } = useProvider();

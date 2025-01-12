@@ -3,7 +3,7 @@ import './ReservationForm.css';
 import CustomerReservationMenu from '../CustomerReservationMenu/CustomerReservationMenu';
 import CustomerReservationReceipt from '../CustomerReservationReceipt/CustomerReservationReceipt'; // Import the receipt component
 import { IoIosCloseCircleOutline } from "react-icons/io";
-import { useProvider } from '../../../../global_variable/provider';
+import { useProvider } from '../../../../global_variable/Provider';
 
 const ReservationForm = ({ reservationId, onClose }) => {
   const { reservationDetails, setReservationDetails, customer } = useProvider();

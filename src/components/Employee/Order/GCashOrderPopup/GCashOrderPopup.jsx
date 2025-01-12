@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useProvider } from '../../../../global_variable/provider';
+import { useProvider } from '../../../../global_variable/Provider';
 
 const GCashOrderPopup = ({ orderItems, orderType, onCancel }) => {
     const { tableNumber, setTableNumber } = useProvider()
