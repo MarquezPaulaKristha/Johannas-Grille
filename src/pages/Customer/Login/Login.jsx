@@ -34,7 +34,7 @@ const LoginPopUp = () => {
 
   const handleSignUp = async () => {
     try {
-      const response = await axios.post('https://johannasgrille.onrender.com/api/signup', {
+      const response = await axios.post('https://johannas-grille.onrender.com/api/signup', {
         firstname: firstName,
         lastname: lastName,
         address,
@@ -56,7 +56,7 @@ const LoginPopUp = () => {
   
   const handleLogin = async () => {
     try {
-      const response = await axios.post('http://localhost:3000/api/customer/login', { username, password }); //http://localhost:3000 https://johannasgrille.onrender.com
+      const response = await axios.post('https://johannas-grille.onrender.com/api/customer/login', { username, password });
   
       if (response.status === 200) {
         localStorage.setItem('token', response.data.token);

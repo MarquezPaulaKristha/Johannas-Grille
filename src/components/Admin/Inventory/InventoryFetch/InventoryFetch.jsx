@@ -9,7 +9,7 @@ const InventoryFetch = ({ category }) => {
   useEffect(() => {
     const fetchInventory = async () => {
       try {
-        const response = await fetch('https://johannasgrille.onrender.com/api/inventory');
+        const response = await fetch('https://johannas-grille.onrender.com/api/inventory');
         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
         const data = await response.json();
         setFoodList(data); // Populate foodList directly with the fetched data

@@ -9,7 +9,7 @@ const OrderList = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await axios.get('https://johannasgrille.onrender.com/api/employee-orders'); // Axios GET request
+        const response = await axios.get('https://johannas-grille.onrender.com/api/employee-orders'); // Axios GET request
         console.log("Fetched orders:", response.data);
         setOrders(response.data);
       } catch (error) {

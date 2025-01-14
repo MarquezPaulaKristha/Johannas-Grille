@@ -15,7 +15,7 @@ const EmployeeProfile = () => {
 
     useEffect(() => {
         const storedImage = sessionStorage.getItem('image');
-        const baseURL = 'https://johannasgrille.onrender.com';  // Adjust URL if needed
+        const baseURL = 'https://johannas-grille.onrender.com';  // Adjust URL if needed
         setImage(storedImage ? `${baseURL}${storedImage}` : '');
         setFirstname(sessionStorage.getItem('firstname'));
         setLastname(sessionStorage.getItem('lastname'));

@@ -35,7 +35,7 @@ function SuccessCustomerPage() {
     };
 
     try {
-      const response = await axios.post("https://johannasgrille.onrender.com/api/create-order", orderData);
+      const response = await axios.post("https://johannas-grille.onrender.com/api/create-order", orderData);
       if (response.status === 200) {
         setCartItems([]);
         setPickupHour("12:00");

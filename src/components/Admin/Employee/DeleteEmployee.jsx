@@ -4,7 +4,7 @@ import './DeleteEmployee.css';
 const DeleteModal = ({ employeeId, onClose, onDelete }) => {
   const handleDelete = async () => {
     try {
-      const response = await fetch(`https://johannasgrille.onrender.com/api/employees/${employeeId}`, {
+      const response = await fetch(`https://johannas-grille.onrender.com/api/employees/${employeeId}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

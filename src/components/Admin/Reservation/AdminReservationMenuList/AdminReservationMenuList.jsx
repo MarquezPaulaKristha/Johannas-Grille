@@ -19,7 +19,7 @@ const AdminReservationMenuList = ({ id, name, price, description, image, categor
 
     const fetchData = async () => {
         try {
-            const response = await fetch('https://johannasgrille.onrender.com/api/reservationmenuitems'); // Adjust this to your API URL
+            const response = await fetch('https://johannas-grille.onrender.com/api/reservationmenuitems'); // Adjust this to your API URL
             const data = await response.json();
             setFoodItems(data); // Update state with fetched data
             window.location.reload()
@@ -31,7 +31,7 @@ const AdminReservationMenuList = ({ id, name, price, description, image, categor
     // Triggering fetchData when the component mounts
     const fetchMenuItems = async () => {
         try {
-            const response = await fetch('https://johannasgrille.onrender.com/api/reservationmenuitems');
+            const response = await fetch('https://johannas-grille.onrender.com/api/reservationmenuitems');
             if (response.ok) {
                 const data = await response.json();
                 setMenuItems(data);
