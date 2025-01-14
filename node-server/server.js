@@ -365,9 +365,9 @@ app.post('/api/reservations/items', async (req, res) => {
 });
 
 app.post('/api/reservations/payment', async (req, res) => {
-  const { reservationId, referenceCode } = req.body;
+  const { reservationId, referenceCode, gcashNumber } = req.body;
 
-  if (!reservationId || !referenceCode) {
+  if (!reservationId || !referenceCode || !gcashNumber) {
     return res.status(400).json({ success: false, message: 'Missing reservationId or referenceCode' });
   }
 
@@ -375,9 +375,9 @@ app.post('/api/reservations/payment', async (req, res) => {
     // Update the reservationtbl with the GCash payment details
     const result = await pool.query(
       `UPDATE reservationtbl
-       SET referencecode = $1
-       WHERE reservationid = $2`,
-      [referenceCode, reservationId]
+       SET referencecode = $1, gcashnumber = $2
+       WHERE reservationid = $3`,
+      [referenceCode, gcashNumber, reservationId]
     );
 
     if (result.rowCount === 0) {
@@ -944,6 +944,7 @@ app.post('/api/reservations/receipt', async (req, res) => {
         reservationtbl.reservationdate,
         reservationtbl.reservationtime,
         reservationtbl.numberofguests,
+        reservationtbl.amount,
         reservationmenutbl.item_name,
         reservationitemtbl.qty,
         reservationmenutbl.package_price,
@@ -1491,6 +1492,7 @@ app.post('/api/reservation-gcash-checkout', async (req, res) => {
 
 app.post('/api/create-reservation', async (req, res) => {
   const reservations = req.body; // The payload array from the frontend
+  const totalAmount = reservations[reservations.length - 1]?.amount || 0;
 
   try {
       // Loop through each reservation item in the payload
@@ -1514,7 +1516,7 @@ app.post('/api/create-reservation', async (req, res) => {
               `INSERT INTO reservationtbl (reservationid, customerid, numberofguests, reservationdate, reservationtime, branch, amount, modeofpayment, status)
                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
                ON CONFLICT (reservationid) DO NOTHING`, // Prevent duplicate reservations
-              [reservationId, customerid, numberOfGuests, reservationDate, reservationTime, branch, amount, modeOfPayment, status]
+              [reservationId, customerid, numberOfGuests, reservationDate, reservationTime, branch, totalAmount, modeOfPayment, status]
           );
 
           // Insert item details into transactions table

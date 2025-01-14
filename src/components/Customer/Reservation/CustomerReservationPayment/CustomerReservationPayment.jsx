@@ -65,7 +65,7 @@ const CustomerReservationPayment = ({ reservationId, onClose }) => {
         </div>
 
         <button type="submit" onClick={handleConfirmReceipt} className="payment-button">
-          Pay Now
+          Confirm
         </button>
 
         {isReceiptVisible && (

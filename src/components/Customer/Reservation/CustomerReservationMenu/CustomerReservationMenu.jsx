@@ -9,7 +9,8 @@ const CustomerReservationMenu = ({ reservationDetails, onClose, reservationId })
     const { reserveItems, setReserveItems, customer, setPayloadDetails } = useProvider();
     const [menuItems, setMenuItems] = useState({});
     const [selectedMenu, setSelectedMenu] = useState(null); // Track selected menu
-    const [selectedSides, setSelectedSides] = useState({}); // Track selected side dishes
+    const [selectedCategories, setSelectedCategories] = useState({});
+    const [selectedSideDishes, setSelectedSideDishes] = useState({});
     const [quantities, setQuantities] = useState({});
     const [cart, setCart] = useState([]); // Cart to store selected items
     const [isPaymentOpen, setIsPaymentOpen] = useState(false);
@@ -17,7 +18,7 @@ const CustomerReservationMenu = ({ reservationDetails, onClose, reservationId })
     useEffect(() => {
         const fetchMenuItems = async () => {
             try {
-                const response = await axios.get("https://johannasgrille.onrender.com/api/menu-items");
+                const response = await axios.get("http://localhost:3000/api/menu-items"); //http://localhost:3000 https://johannasgrille.onrender.com
                 const data = response.data;
 
                 const organizedData = data.reduce((acc, item) => {
@@ -43,6 +44,20 @@ const CustomerReservationMenu = ({ reservationDetails, onClose, reservationId })
                 }, {});
 
                 setQuantities(initialQuantities);
+
+                const initialSelectedCategories = Object.keys(organizedData).reduce((acc, category) => {
+                    acc[category] = false;
+                    return acc;
+                }, {});
+
+                const initialSelectedSideDishes = Object.keys(organizedData).reduce((acc, category) => {
+                    acc[category] = {};
+                    return acc;
+                }, {});
+
+                setSelectedCategories(initialSelectedCategories);
+                setSelectedSideDishes(initialSelectedSideDishes);
+
             } catch (error) {
                 console.error("Error fetching menu items:", error);
             }
@@ -51,8 +66,44 @@ const CustomerReservationMenu = ({ reservationDetails, onClose, reservationId })
         fetchMenuItems();
     }, []);
 
+    const handleSideDishSelection = (category, sideCategory, item) => {
+        setSelectedSideDishes((prev) => {
+            // Retain previous selections for other categories
+            const updatedCategory = {
+                ...prev[category],
+                [sideCategory]: prev[category]?.[sideCategory]?.menuitemid === item.menuitemid ? null : item,
+            };
+    
+            return {
+                ...prev,
+                [category]: updatedCategory,
+            };
+        });
+    };
+
+    const validateSelection = () => {
+        for (const category in selectedCategories) {
+            if (selectedCategories[category]) {
+                const sideDishes = selectedSideDishes[category];
+                const allSideCategories = menuItems[category]?.Sides || {};
+                const selectedSides = Object.keys(allSideCategories).every(
+                    (sideCategory) => sideDishes[sideCategory]
+                );
+                if (!selectedSides) {
+                    alert(`Please select at least one side dish for each side category in ${category}.`);
+                    return false;
+                }
+            }
+        }
+        return true;
+    };
+
     const handleMenuSelection = (category) => {
         setSelectedMenu(selectedMenu === category ? null : category); // Toggle selection
+        setSelectedCategories((prev) => ({
+            ...prev,
+            [category]: !prev[category],
+        }));
     };
 
     const handleQuantityChange = (category, change) => {
@@ -65,77 +116,180 @@ const CustomerReservationMenu = ({ reservationDetails, onClose, reservationId })
         });
     };
 
-    const handleSideSelection = (category, sideCategory, item) => {
-        setSelectedSides(prev => ({
-            ...prev,
-            [category]: { sideCategory, item },
-        }));
+    const handleIncreaseQuantity = (index) => {
+        const updatedCart = [...cart];
+    
+        // Increase the quantity of the whole menu item
+        updatedCart[index].quantity += 1;
+    
+        // Increase the quantity for all main dishes in the current item
+        updatedCart[index].mainDishes.forEach(dish => {
+            dish.quantity += 1;
+        });
+    
+        // Increase the quantity for all side dishes in the current item
+        updatedCart[index].sideDishes.forEach(side => {
+            side.quantity += 1;
+        });
+    
+        setCart(updatedCart);
+    };
+    
+    const handleDecreaseQuantity = (index) => {
+        const updatedCart = [...cart];
+    
+        // Decrease the quantity of the whole menu item
+        if (updatedCart[index].quantity > 1) {
+            updatedCart[index].quantity -= 1;
+    
+            // Decrease the quantity for all main dishes in the current item
+            updatedCart[index].mainDishes.forEach(dish => {
+                if (dish.quantity > 1) dish.quantity -= 1;
+            });
+    
+            // Decrease the quantity for all side dishes in the current item
+            updatedCart[index].sideDishes.forEach(side => {
+                if (side.quantity > 1) side.quantity -= 1;
+            });
+        }
+    
+        setCart(updatedCart);
+    };
+    
+    const handleRemoveItem = (index) => {
+        const updatedCart = cart.filter((_, i) => i !== index);
+        setCart(updatedCart);
     };
 
     const addToCart = (category) => {
-        if (menuItems[category]) {
-            const { Main, Sides } = menuItems[category];
-            const categoryPrice = parseFloat(menuItems[category]?.package_price) || 0;
-            const quantity = quantities[category] || 1;
-
-            const cartItems = [...cart];
-
-            // Add Main dishes to the cart if not already added
-            Main.forEach((item) => {
-                // Only add if not already in the cart
-                if (!cartItems.some(cartItem => cartItem.itemName === item.item_name)) {
-                    cartItems.push({
-                        itemName: item.item_name,
-                        price: item.price,
-                        quantity: quantity,
-                    });
-                }
-            });
-
-            // Ensure a side dish is selected before adding to the cart
-            if (selectedSides[category]) {
-                const { sideCategory, item } = selectedSides[category];
-                // Add the selected side dish to the cart
-                cartItems.push({
-                    itemName: item.item_name,
-                    price: item.price,
-                    quantity: quantity,
+        if (!validateSelection()) return;
+    
+        const { Main, Sides } = menuItems[category];
+        const selectedSidesForCategory = selectedSideDishes[category];
+        const quantity = quantities[category];
+    
+        // Create a new cart entry
+        const newCartEntry = {
+            menu: category,
+            mainDishes: Main.map(item => ({
+                menuitemid: item.menuitemid,
+                itemName: item.item_name,
+                quantity,
+            })),
+            sideDishes: Object.keys(selectedSidesForCategory).map(sideCategory => ({
+                sideCategory,
+                menuitemid: selectedSidesForCategory[sideCategory].menuitemid,
+                itemName: selectedSidesForCategory[sideCategory].item_name,
+                quantity,
+            })),
+            quantity,
+            packagePrice: menuItems[category]?.package_price,
+        };
+    
+        // Check if the menu is already in the cart
+        setCart((prevCart) => {
+            const existingItemIndex = prevCart.findIndex(item => item.menu === category);
+            if (existingItemIndex !== -1) {
+                // If the item is already in the cart, update its details
+                const updatedCart = [...prevCart];
+                updatedCart[existingItemIndex].quantity += quantity;  // Update quantity
+                updatedCart[existingItemIndex].mainDishes.forEach(dish => {
+                    dish.quantity += quantity;  // Update main dish quantities
                 });
-            } else if (Object.keys(Sides).length > 0) {
-                // If the category has sides but none are selected, do not add to the cart
-                return;
+                updatedCart[existingItemIndex].sideDishes = updatedCart[existingItemIndex].sideDishes.map(side => {
+                    const newSideDish = selectedSidesForCategory[side.sideCategory];
+                    if (newSideDish) {
+                        return {
+                            sideCategory: side.sideCategory,
+                            menuitemid: newSideDish.menuitemid,
+                            itemName: newSideDish.item_name,
+                            quantity, // Update quantity of the side dish
+                        };
+                    }
+                    return side; // Keep the existing side if no new side is selected
+                });
+                return updatedCart;
+            } else {
+                // If the item is not in the cart, add the new entry
+                return [...prevCart, newCartEntry];
             }
-
-            // Update the cart
-            setCart(cartItems);
-        }
+        });
     };
 
     const handleFinalSubmit = async () => {
+
+        try {
+            const gcashPayload = cart.map((item) => {
+                // Iterate through each item in the cart
+                const { menu, packagePrice, quantity } = item;
+        
+                // Total price for this cart item
+                const totalItemPrice = parseFloat(packagePrice).toFixed(2);
+        
+                return {
+                    name: menu,  
+                    quantity: quantity || 0, 
+                    price: totalItemPrice || 0,  
+                };
+            });
+        
+            const body = { lineItems: gcashPayload };
+        
+            const response = await axios.post('http://localhost:3000/api/reservation-gcash-checkout', body);
+            const { url } = response.data;
+        
+            window.location.href = url;
+        } catch (error) {
+            console.error('Error initiating payment:', error);
+        }
+
         try {
             const payload = [];
             let totalAmount = 0;
-
-            cart.forEach(item => {
-                totalAmount += item.price * item.quantity;
-
-                payload.push({
-                    reservationId,
-                    customerid: customer.customerid,
-                    numberOfGuests: reservationDetails.numberofguests,
-                    reservationDate: reservationDetails.reservationdate,
-                    reservationTime: `${reservationDetails.reservationtime}:00`,
-                    branch: reservationDetails.branch,
-                    amount: totalAmount || 0,
-                    modeOfPayment: "GCash",
-                    status: "Approved",
-                    menuItemId: item.menuItemId,
-                    quantity: item.quantity,
+        
+            // Iterate through each menu item in the cart
+            cart.forEach((item) => {
+                const categoryPrice = parseFloat(item.packagePrice) || 0;
+                totalAmount += categoryPrice * item.quantity;  // Accumulate price * quantity for each menu item
+                
+                // Process each main dish in the cart item
+                item.mainDishes.forEach((mainDish) => {
+                    payload.push({
+                        reservationId,
+                        customerid: customer.customerid,
+                        numberOfGuests: reservationDetails.numberofguests,
+                        reservationDate: reservationDetails.reservationdate,
+                        reservationTime: `${reservationDetails.reservationtime}:00`,
+                        branch: reservationDetails.branch,
+                        amount: totalAmount || 0,  // Set amount to the cumulative total amount
+                        modeOfPayment: "GCash",
+                        status: "Approved",
+                        menuItemId: mainDish.menuitemid,
+                        quantity: item.quantity,  // Quantity is taken from the cart
+                    });
+                });
+        
+                // Process each side dish in the cart item
+                item.sideDishes.forEach((sideDish) => {
+                    payload.push({
+                        reservationId,
+                        customerid: customer.customerid,
+                        numberOfGuests: reservationDetails.numberofguests,
+                        reservationDate: reservationDetails.reservationdate,
+                        reservationTime: `${reservationDetails.reservationtime}:00`,
+                        branch: reservationDetails.branch,
+                        amount: totalAmount || 0,  // Set amount to the cumulative total amount
+                        modeOfPayment: "GCash",
+                        status: "Approved",
+                        menuItemId: sideDish.menuitemid,
+                        quantity: item.quantity,  // Quantity is taken from the cart
+                    });
                 });
             });
-
-            setPayloadDetails(payload);
-            setIsPaymentOpen(true); // Show payment form after submission
+        
+            // Optionally, if you want to log or set the payload:
+            setPayloadDetails(payload); // Uncomment when you want to use the payload
+        
         } catch (error) {
             console.error("Error submitting reservation:", error);
         }
@@ -154,6 +308,7 @@ const CustomerReservationMenu = ({ reservationDetails, onClose, reservationId })
                             key={category}
                             className={`cust-reserve-menu-navbar-item ${selectedMenu === category ? "active" : ""}`}
                             onClick={() => handleMenuSelection(category)}
+                            // onChange={() => handleCategorySelection(category)}
                         >
                             {category} - {menuItems[category].package_price}
                         </div>
@@ -182,7 +337,13 @@ const CustomerReservationMenu = ({ reservationDetails, onClose, reservationId })
                                                         type="radio"
                                                         name={`side-${selectedMenu}-${sideCategory}`}
                                                         className="cust-reserve-menu-item-input"
-                                                        onChange={() => handleSideSelection(selectedMenu, sideCategory, item)}
+                                                        onChange={() =>
+                                                            handleSideDishSelection(selectedMenu, sideCategory, item)
+                                                        }
+                                                        checked={
+                                                            selectedSideDishes[selectedMenu]?.[sideCategory]?.menuitemid ===
+                                                            item.menuitemid
+                                                        }
                                                     />
                                                     {item.item_name}
                                                 </label>
@@ -211,13 +372,22 @@ const CustomerReservationMenu = ({ reservationDetails, onClose, reservationId })
                                     </button>
                                 </div>
                             </div>
-                            <button onClick={() => addToCart(selectedMenu)} className="cust-reserve-menu-add-to-cart">
+                            <button 
+                                onClick={() => addToCart(selectedMenu)} 
+                                className="cust-reserve-menu-add-to-cart"
+                            >
                                 Add to Cart
                             </button>
                         </div>
                     )}
                 </div>
-                <CustomerReservationMenuCart cart={cart} handleFinalSubmit={handleFinalSubmit} />
+                <CustomerReservationMenuCart 
+                    cart={cart} 
+                    handleFinalSubmit={handleFinalSubmit}
+                    handleDecreaseQuantity={handleDecreaseQuantity}
+                    handleIncreaseQuantity={handleIncreaseQuantity}
+                    handleRemoveItem={handleRemoveItem}
+                />
             </div>
         </div>
     );

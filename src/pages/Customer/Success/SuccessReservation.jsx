@@ -1,11 +1,16 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./success.css";
 import { useProvider } from "../../../global_variable/Provider";
+import CustomerReservationReceipt from "../../../components/Customer/Reservation/CustomerReservationReceipt/CustomerReservationReceipt";
 
 function SuccessReservationPage() {
   const { payloadDetails, setPayloadDetails, setReservationDetails, setReserveItems,  } = useProvider();
+  const [gcashNumber, setGcashNumber] = useState('');
+  const [reservationId, setReservationId] = useState(payloadDetails.length > 0 ? payloadDetails[0].reservationId : null);
+  const [referenceCode, setReferenceCode] = useState('');
+  const [isReceiptVisible, setIsReceiptVisible] = useState(false);
   const navigate = useNavigate();
   const hasCalledPayment = useRef(false);
 
@@ -14,14 +19,12 @@ function SuccessReservationPage() {
     hasCalledPayment.current = true;
 
     try {
-      const response = await axios.post("https://johannasgrille.onrender.com/api/create-reservation", payloadDetails, {
+      const response = await axios.post("http://localhost:3000/api/create-reservation", payloadDetails, { //https://johannasgrille.onrender.com
         headers: { "Content-Type": "application/json" },
       });
 
       if (response.status === 200) {
-        setPayloadDetails([]);
-        setReserveItems([]);
-        setReservationDetails(null)
+
       }
     } catch (error) {
       alert("Failed to create order. Please try again.");
@@ -32,19 +35,79 @@ function SuccessReservationPage() {
     handleConfirmPayment();
   }, []);
 
+  const handleConfirmReceipt = async () => {
+    console.log('Sending payment details:', { reservationId, referenceCode, gcashNumber });
+  
+    try {
+      const response = await fetch('http://localhost:3000/api/reservations/payment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ reservationId, referenceCode, gcashNumber }),
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        setIsReceiptVisible(true); // Show receipt after successful payment
+      } else {
+        console.error('Payment error:', data.message);
+      }
+    } catch (error) {
+      console.error('Error during payment:', error);
+    }
+  };
+
   const handleShopping = () => {
     navigate("/");
   };
 
+  const onClose = () => {
+    setIsReceiptVisible(false);
+    setPayloadDetails([]);
+    setReserveItems([]);
+    setReservationDetails(null)
+    navigate("/");
+  }
+
   return (
-    <div className="success-container">
-      <div className="success-message">
-        <div className="success-icon">✔</div>
-        <h1 className="mt-3">Payment Successful</h1>
-        <p className="payment-message">Thank you for your Reservation!</p>
-        <button className="success-button" onClick={handleShopping}>
-          Go to Home
+    <div className="payment-popup">
+      <div className="payment-popup-content">
+
+        <h2>GCash Payment Details</h2>
+        <div className="form-group">
+          <label htmlFor="gcashNumber">GCash Mobile Number</label>
+          <input
+            type="text"
+            id="gcashNumber"
+            value={gcashNumber}
+            onChange={(e) => setGcashNumber(e.target.value)}
+            placeholder="Enter your GCash number"
+            maxLength="11"
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="referenceCode">GCash Reference Code</label>
+          <input
+            type="text"
+            id="referenceCode"
+            value={referenceCode}
+            onChange={(e) => setReferenceCode(e.target.value)}
+            placeholder="Enter reference code"
+            maxLength="12"
+          />
+        </div>
+
+        <button type="submit" onClick={handleConfirmReceipt} className="payment-button">
+          Confirm
         </button>
+
+        {isReceiptVisible && (
+          <CustomerReservationReceipt
+            reservationId={reservationId}
+            onClose={onClose}
+          />
+        )}
       </div>
     </div>
   );

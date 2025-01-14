@@ -11,7 +11,7 @@ const CustomerReservationReceipt = ({ reservationId, onClose }) => {
   useEffect(() => {
     const fetchReservation = async () => {
       try {
-        const response = await fetch('https://johannasgrille.onrender.com/api/reservations/receipt', {
+        const response = await fetch('http://localhost:3000/api/reservations/receipt', { //https://johannasgrille.onrender.com
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ reservationId }),
@@ -60,7 +60,7 @@ const CustomerReservationReceipt = ({ reservationId, onClose }) => {
         </div>
 
         <p>Your reservation at Johannas Grille is confirmed</p>
-        <p>{reservationdate} at {reservationtime}</p>
+        <p>{new Date(reservationdate).toLocaleDateString()} at {reservationtime}</p>
         <p className="receipt-branch">Branch: {branch}</p>
 
         <div className="receipt-details">
@@ -90,9 +90,7 @@ const CustomerReservationReceipt = ({ reservationId, onClose }) => {
               <td colSpan="2" className="total-label">Total</td>
               <td>
                 {Array.isArray(reservations) && reservations.length > 0
-                  ? reservations
-                      .reduce((sum, item) => sum + (parseFloat(item.total_cost) || 0), 0)
-                      .toFixed(2)
+                  ? reservations[0].amount
                   : '0.00'}
               </td>
             </tr>

@@ -1,91 +1,91 @@
 .receipt-popup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    max-width: 400px;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-  }
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  max-width: 600px;
+  max-height: 90%; /* Ensure the popup doesn't exceed the viewport */
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  overflow: hidden; /* Prevent content from overflowing the popup */
+  display: flex; /* Use flex to control layout */
+  flex-direction: column; /* Stack children vertically */
+}
 
-  .receipt-popup-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    width: 100%;
-    box-shadow: 0 4px 8px rgba(233, 9, 9, 0.1);
-    position: relative;
-    text-align: center;
-  }
+.receipt-popup-content {
+  display: flex;
+  flex-direction: column;
+  max-height: 100%; /* Ensure content fits within the popup */
+  overflow-y: auto;
+}
 
-  .receipt-popup-close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: none;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-    color: #333;
-  }
+.receipt-popup-close {
+  align-self: flex-end;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #555;
+  cursor: pointer;
+  margin: 8px;
+}
 
-  .receipt-status {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    font-size: 1.0em;
-    color: green;
-  }
+.receipt-status {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 16px;
+}
 
-  .receipt-status .checkmark {
-    font-size: 3em;
-  }
+.checkmark {
+  font-size: 2rem;
+  color: #28a745;
+}
 
-  .receipt-ref,
-  .receipt-date {
-    margin: 10px 0;
-    color: #666;
-  }
+.receipt-details {
+  margin: 16px;
+}
 
-  .receipt-details {
-    margin: 20px 0;
-  }
+.package-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+}
 
-  .order-option {
-    display: flex;
-    justify-content: space-between;
-    font-weight: bold;
-  }
+.package-table th,
+.package-table td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
 
-  .terms {
-    text-align: center;
-    font-size: 0.9em;
-    color: #666;
-  }
+.total-label {
+  font-weight: bold;
+}
 
-  .package-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-  }
+.terms {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 16px;
+}
 
-  .package-table th,
-  .package-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-  }
+/* Make content scrollable */
+.receipt-popup-content {
+  overflow-y: auto; /* Enables vertical scrolling */
+  padding: 16px;
+}
 
-  .package-table th {
-    background-color: #f2f2f2;
-    font-weight: bold;
-  }
+.receipt-popup::-webkit-scrollbar {
+  width: 8px; /* Scrollbar width */
+}
 
-  .total-label {
-    text-align: right;
-    font-weight: bold;
-  }
+.receipt-popup::-webkit-scrollbar-thumb {
+  background: #ccc; /* Scrollbar thumb color */
+  border-radius: 4px;
+}
+
+.receipt-popup::-webkit-scrollbar-thumb:hover {
+  background: #aaa; /* Scrollbar thumb hover color */
+}

@@ -56,7 +56,7 @@ const LoginPopUp = () => {
   
   const handleLogin = async () => {
     try {
-      const response = await axios.post('https://johannasgrille.onrender.com/api/customer/login', { username, password });
+      const response = await axios.post('http://localhost:3000/api/customer/login', { username, password }); //http://localhost:3000 https://johannasgrille.onrender.com
   
       if (response.status === 200) {
         localStorage.setItem('token', response.data.token);
