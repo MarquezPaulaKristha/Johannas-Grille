@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "../../../components/Admin/Sidebar/Sidebar";
 import OrderTable from "../../../components/Admin/Order/OrderTable";
+import OrderHistory from "../../../components/Admin/OrderHistory/OrderHistory";
 import OrderEdit from "../../../components/Admin/Order/OrderEdit";
 import OrderDelete from "../../../components/Admin/Order/OrderDel";
 import "./Order.css";
+import OrderHistory from "../../../components/Admin/OrderHistory/OrderHistory";
 
 const Orders = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -64,6 +66,7 @@ const Orders = () => {
             <div className="or-data-table-info">
               <h1 className="or-data-table-title">Latest Orders</h1>
             </div>
+            <OrderHistory/>
             <OrderTable
               orders={paginatedOrders}
               handleEdit={handleEdit}
