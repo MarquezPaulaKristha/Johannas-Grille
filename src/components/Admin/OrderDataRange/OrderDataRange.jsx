@@ -1,5 +1,5 @@
 import { MdOutlineMenu } from "react-icons/md";
-import "./OrderHistory.css";
+import "./OrderDataRange.css";
 import { useContext, useEffect, useRef, useState } from "react";
 import { SidebarContext } from "../context/SidebarContext";
 import "react-date-range/dist/styles.css"; // main style file
@@ -7,7 +7,7 @@ import "react-date-range/dist/theme/default.css"; // theme css file
 import { addDays } from "date-fns";
 import { DateRange } from "react-date-range";
 
-const OrderHistory = () => {
+const OrderDataRange = () => {
   const { openSidebar } = useContext(SidebarContext);
 
   const [state, setState] = useState([
@@ -74,4 +74,4 @@ const OrderHistory = () => {
   );
 };
 
-export default OrderHistory;
+export default OrderDataRange;
