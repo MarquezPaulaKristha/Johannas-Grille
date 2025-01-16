@@ -62,10 +62,10 @@ const Orders = () => {
         <div>
           <h1>Orders Page</h1>
           <section className="or-content-area-table">
+          <OrderDataRange/>
             <div className="or-data-table-info">
               <h1 className="or-data-table-title">Latest Orders</h1>
             </div>
-            <OrderDataRange/>
             <OrderTable
               orders={paginatedOrders}
               handleEdit={handleEdit}
