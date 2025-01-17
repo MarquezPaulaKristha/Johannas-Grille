@@ -5,6 +5,7 @@ import OrderDataRange from "../../../components/Admin/OrderDataRange/OrderDataRa
 import OrderEdit from "../../../components/Admin/Order/OrderEdit";
 import OrderDelete from "../../../components/Admin/Order/OrderDel";
 import "./Order.css";
+import { addDays } from "date-fns";
 
 const Orders = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -12,7 +13,16 @@ const Orders = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [orders, setOrders] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const rowsPerPage = 100;
+  const rowsPerPage = 50;
+  const [filteredOrders, setFilteredOrders] = useState([]);
+  const [dateRange, setDateRange] = useState([
+    {
+      startDate: new Date(),
+      endDate: addDays(new Date(), 7),
+      key: "selection",
+    },
+  ]);
+  const [isDateAvailable, setIsDateAvailable] = useState(false);
 
   // Fetch orders data
   const fetchOrders = () => {
@@ -22,6 +32,7 @@ const Orders = () => {
         // Sort orders by descending order (assumes orders have a date or ID for sorting)
         const sortedData = data.sort((a, b) => (a.date > b.date ? -1 : 1));
         setOrders(sortedData);
+        setFilteredOrders(sortedData);
       })
       .catch((error) => console.error("Error fetching order data:", error));
   };
@@ -30,14 +41,37 @@ const Orders = () => {
     fetchOrders();
   }, []);
 
-  // Get paginated orders
-  const paginatedOrders = orders.slice(
-    (currentPage - 1) * rowsPerPage,
-    currentPage * rowsPerPage
-  );
+  useEffect(() => {
+    const { startDate, endDate } = dateRange[0];
+    const filtered = orders.filter((order) => {
+      const orderDate = new Date(order.date);
+      return orderDate >= startDate && orderDate <= endDate;
+    });
+    setFilteredOrders(filtered);
+    setCurrentPage(1); // Reset to first page
+  }, [dateRange, orders]);
+
+  let paginatedOrders;
+
+  if (isDateAvailable) {
+    paginatedOrders = filteredOrders.slice(
+      (currentPage - 1) * rowsPerPage,
+      currentPage * rowsPerPage
+    );
+  } else {
+    paginatedOrders = orders.slice(
+      (currentPage - 1) * rowsPerPage,
+      currentPage * rowsPerPage
+    );
+  }
 
   // Handle page change
-  const totalPages = Math.ceil(orders.length / rowsPerPage);
+  let totalPages;
+  if (isDateAvailable) {
+    totalPages = Math.ceil(filteredOrders.length / rowsPerPage);
+  } else{
+    totalPages = Math.ceil(orders.length / rowsPerPage);
+  }
 
   const handlePageChange = (newPage) => {
     if (newPage > 0 && newPage <= totalPages) {
@@ -62,7 +96,7 @@ const Orders = () => {
         <div>
           <h1>Orders Page</h1>
           <section className="or-content-area-table">
-          <OrderDataRange/>
+          <OrderDataRange dateRange={dateRange} setDateRange={setDateRange} setIsDateAvailable={setIsDateAvailable} />
             <div className="or-data-table-info">
               <h1 className="or-data-table-title">Latest Orders</h1>
             </div>

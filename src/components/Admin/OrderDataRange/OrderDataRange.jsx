@@ -7,7 +7,7 @@ import "react-date-range/dist/theme/default.css"; // theme css file
 import { addDays } from "date-fns";
 import { DateRange } from "react-date-range";
 
-const OrderDataRange = () => {
+const OrderDataRange = ({ dateRange, setDateRange, setIsDateAvailable }) => {
   const { openSidebar } = useContext(SidebarContext);
 
   const [state, setState] = useState([
@@ -29,6 +29,11 @@ const OrderDataRange = () => {
     if (dateRangeRef.current && !dateRangeRef.current.contains(event.target)) {
       setShowDatePicker(false);
     }
+  };
+
+  const handleDateChange = (item) => {
+    setState([item.selection]);
+    onDateRangeChange(item.selection);
   };
 
   useEffect(() => {
@@ -63,9 +68,9 @@ const OrderDataRange = () => {
         >
           <DateRange
             editableDateInputs={true}
-            onChange={(item) => setState([item.selection])}
+            onChange={(item) => (setDateRange([item.selection]), setIsDateAvailable(true))}
             moveRangeOnFirstSelection={false}
-            ranges={state}
+            ranges={dateRange}
             showMonthAndYearPickers={false}
           />
         </div>
