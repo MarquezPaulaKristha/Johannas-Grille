@@ -4,7 +4,7 @@ import { assets } from '../../../assets/assets';
 import { Link } from 'react-router-dom';
 import AddToCart from '../../../pages/Customer/Product/Cart';
 import Login from '../../../pages/Customer/Login/Login';
-import CustomerProfile from '../../../pages/Customer/CustomerProfile/CustomerProfile'; // Import CustomerProfile
+import CustomerProfile from '../../../components/Customer/CustomerProfile/CustomerProfile/CustomerProfile'; // Import CustomerProfile
 import { FiShoppingCart } from "react-icons/fi";
 import { FaUserCircle } from "react-icons/fa"; // For profile icon
 

@@ -4,7 +4,7 @@ import { assets } from '../../../assets/assets';
 import { Link } from 'react-router-dom';
 import Cart from '../../../pages/Customer/Cart/Cart'
 import Login from '../../../pages/Customer/Login/Login';
-import CustomerProfile from '../../../pages/Customer/CustomerProfile/CustomerProfile'; // Import CustomerProfile
+import CustomerProfile from '../CustomerProfile/CustomerProfile/CustomerProfile'; // Import CustomerProfile
 import { FiShoppingCart } from "react-icons/fi";
 import { MdOutlineAccountCircle } from "react-icons/md";
 

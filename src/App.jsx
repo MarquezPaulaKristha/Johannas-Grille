@@ -5,7 +5,7 @@ import Cart from './pages/Customer/ItemPopup/ItemPopup';
 import AddToCart from './pages/Customer/Product/Cart';
 import LoginPopUp from './pages/Customer/Login/Login';
 import ConfirmOrder from './pages/Customer/Receipt/Receipt';
-import ProfileCustomer from './pages/Customer/CustomerProfile/CustomerInfo'
+import CustomerProfile from './pages/Customer/CustomerProfile/CustomerProfile'
 import Admin_LoginPopUp from './pages/Admin/Login/Login';
 import Order from './pages/Admin/Orders/Order'
 import ReservationMenu from './pages/Admin/Reservation/Reservation'
@@ -39,7 +39,7 @@ const App = () => {
             <Route path='/add-to-cart' element={ <AddToCart /> } />
             <Route path='/login' element={ <LoginPopUp /> } />
             <Route path='/confirm' element={ <ConfirmOrder /> } />
-            <Route path='/customerinfo' element={ <ProfileCustomer /> } />
+            <Route path='/customerinfo' element={ <CustomerProfile /> } />
             <Route path='/admin/login' element={ <Admin_LoginPopUp />} />
             <Route path="/admin/dashboard" element={<ProtectedRoute> <BaseLayout /> </ProtectedRoute> } />
             <Route path='/admin/order' element={<ProtectedRoute> <Order /> </ProtectedRoute>} />

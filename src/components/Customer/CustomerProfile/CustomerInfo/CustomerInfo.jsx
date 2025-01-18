@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { RxAvatar } from "react-icons/rx";
-import Navbar from '../../../pages/Customer/Navbar/Navbar';
+import Navbar from '../../../../pages/Customer/Navbar/Navbar';
 import './CustomerInfo.css';
 import axios from 'axios';
-import { useProvider } from '../../../global_variable/Provider';
+import { useProvider } from '../../../../global_variable/Provider';
 
 const ProfileCustomer = () => {
   const { customer, setCustomer } = useProvider();
