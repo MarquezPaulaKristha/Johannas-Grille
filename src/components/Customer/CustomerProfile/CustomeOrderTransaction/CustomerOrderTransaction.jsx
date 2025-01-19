@@ -43,12 +43,12 @@ const CustomerOrderTransaction = () => {
               <p><strong>Quantity:</strong> {transaction.qty}</p>
               <p><strong>Total Amount:</strong> ₱{transaction.totalAmount.toFixed(2)}</p>
               <p><strong>Order Type:</strong> {transaction.orderType}</p>
-              <img 
+              {/* <img 
                 src={transaction.image_url || 'default-image.png'} 
                 alt={transaction.menuName} 
                 width="100" 
                 height="100" 
-              />
+              /> */}
             </div>
           </div>
         ))}
