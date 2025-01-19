@@ -9,7 +9,7 @@ const CustomerOrderTransaction = () => {
       qty: 2,
       totalAmount: 300,
       orderType: 'Dine-In',
-      image_url: 'cheeseburger.png', // Make sure this property exists
+      // image_url: 'cheeseburger.png', // Make sure this property exists
     },
     {
       orderno: '002',
@@ -17,7 +17,7 @@ const CustomerOrderTransaction = () => {
       qty: 1,
       totalAmount: 150,
       orderType: 'Take-Out',
-      image_url: 'spaghetti.png', // Ensure this property exists
+      // image_url: 'spaghetti.png', // Ensure this property exists
     },
     {
       orderno: '003',
@@ -25,7 +25,7 @@ const CustomerOrderTransaction = () => {
       qty: 3,
       totalAmount: 900,
       orderType: 'Delivery',
-      image_url: 'pizza.png', // Ensure this property exists
+      // image_url: 'pizza.png', // Ensure this property exists
     },
   ];
 
