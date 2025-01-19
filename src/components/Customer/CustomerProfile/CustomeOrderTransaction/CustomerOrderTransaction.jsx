@@ -9,6 +9,7 @@ const CustomerOrderTransaction = () => {
       qty: 2,
       totalAmount: 300,
       orderType: 'Dine-In',
+      image_url: 'cheeseburger.png', // Make sure this property exists
     },
     {
       orderno: '002',
@@ -16,6 +17,7 @@ const CustomerOrderTransaction = () => {
       qty: 1,
       totalAmount: 150,
       orderType: 'Take-Out',
+      image_url: 'spaghetti.png', // Ensure this property exists
     },
     {
       orderno: '003',
@@ -23,6 +25,7 @@ const CustomerOrderTransaction = () => {
       qty: 3,
       totalAmount: 900,
       orderType: 'Delivery',
+      image_url: 'pizza.png', // Ensure this property exists
     },
   ];
 
@@ -40,6 +43,12 @@ const CustomerOrderTransaction = () => {
               <p><strong>Quantity:</strong> {transaction.qty}</p>
               <p><strong>Total Amount:</strong> ₱{transaction.totalAmount.toFixed(2)}</p>
               <p><strong>Order Type:</strong> {transaction.orderType}</p>
+              <img 
+                src={transaction.image_url || 'default-image.png'} 
+                alt={transaction.menuName} 
+                width="100" 
+                height="100" 
+              />
             </div>
           </div>
         ))}
