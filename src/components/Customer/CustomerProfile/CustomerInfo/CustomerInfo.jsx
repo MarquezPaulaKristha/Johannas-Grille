@@ -71,6 +71,21 @@ const ProfileCustomer = () => {
     );
   }
 
+  // Ensure that the customer object is available before rendering
+  if (!customer) {
+    return (
+      <main>
+        <Navbar />
+        <div className="customer-info-header">
+          <h1>Profile</h1>
+        </div>
+        <div className="error-message">
+          <p>No customer data found.</p>
+        </div>
+      </main>
+    );
+  }
+
   return (
     <main>
       <Navbar />
