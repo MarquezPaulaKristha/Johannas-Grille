@@ -1,0 +1,71 @@
+/* Reservation Transaction Styles */
+.customer-reservation-transaction {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff;
+  }
+  
+  .reservation-header {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333333;
+  }
+  
+  .reservation-cards-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
+    gap: 20px;
+  }
+  
+  .reservation-card {
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .reservation-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  .reservation-card-header {
+    background-color: #FF8C00; /* For reservation color */
+    color: white;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 5px 5px 0 0;
+    text-align: center;
+  }
+  
+  .reservation-card-content {
+    padding: 10px 0;
+  }
+  
+  .reservation-card-content p {
+    margin: 8px 0;
+    font-size: 16px;
+    color: #333333;
+  }
+  
+  .reservation-card-content p strong {
+    color: #555555;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 1024px) {
+    .reservation-cards-container {
+      grid-template-columns: repeat(2, 1fr); /* 2 cards per row on medium screens */
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .reservation-cards-container {
+      grid-template-columns: 1fr; /* 1 card per row on small screens */
+    }
+  }
+  

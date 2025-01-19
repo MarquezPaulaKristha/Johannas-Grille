@@ -8,7 +8,7 @@ const ItemDisplay = ({ category, items, orderId }) => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch('https://johannas-grille.onrender.com/api/menuitems');
+      const response = await fetch('https://johannasgrille.onrender.com/api/menuitems');
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
@@ -61,7 +61,7 @@ const ItemDisplay = ({ category, items, orderId }) => {
                 id={item.menuitemid}  // Pass the base item ID
                 name={item.name}
                 price={item.price}
-                image={`https://johannas-grille.onrender.com${item.image_url}`} // Use the correct field for the image URL
+                image={`https://johannasgrille.onrender.com${item.image_url}`} // Use the correct field for the image URL
                 variants={item.variants} // Pass the variants to the Item component
               />
             );

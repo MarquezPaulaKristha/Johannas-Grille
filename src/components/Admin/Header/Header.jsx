@@ -39,7 +39,7 @@ function Header({ text }) {
     console.log('Image URL:', storedImage); // Log the image URL for debugging
 
     // Prepend base URL if necessary
-    const baseURL = 'https://johannas-grille.onrender.com';
+    const baseURL = 'https://johannasgrille.onrender.com';
     setImage(storedImage ? `${baseURL}${storedImage}` : '');
     const username = sessionStorage.getItem('username');
     const usertype = sessionStorage.getItem('usertype');

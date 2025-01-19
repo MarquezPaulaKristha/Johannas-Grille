@@ -9,7 +9,7 @@ const ItemDisplay = ({ category, items}) => {
     // Fetch data from the API
     const fetchData = async () => {
       try {
-        const response = await fetch('https://johannas-grille.onrender.com/api/menuitems'); // Adjust the port accordingly
+        const response = await fetch('https://johannasgrille.onrender.com/api/menuitems'); // Adjust the port accordingly
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
@@ -37,7 +37,7 @@ const ItemDisplay = ({ category, items}) => {
                 id={item.menuitemid} 
                 name={item.name}
                 price={item.price} 
-                image={`https://johannas-grille.onrender.com${item.image_url}`}// Use the correct field for the image URL
+                image={`https://johannasgrille.onrender.com${item.image_url}`}// Use the correct field for the image URL
               />
             );
           }

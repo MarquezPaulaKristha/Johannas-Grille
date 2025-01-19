@@ -4,7 +4,7 @@ import './DeleteCustomer.css';
 const DeleteCustomerPopup = ({ customerID, onClose, onDelete }) => {
   const handleDelete = async () => {
     try {
-      const response = await fetch(`https://johannas-grille.onrender.com/api/customer/${customerID}`, {
+      const response = await fetch(`https://johannasgrille.onrender.com/api/customer/${customerID}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

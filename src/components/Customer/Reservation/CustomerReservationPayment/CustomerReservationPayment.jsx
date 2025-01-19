@@ -12,7 +12,7 @@ const CustomerReservationPayment = ({ reservationId, onClose }) => {
     console.log('Sending payment details:', { reservationId, referenceCode });
   
     try {
-      const response = await fetch('https://johannas-grille.onrender.com/api/reservations/payment', {
+      const response = await fetch('https://johannasgrille.onrender.com/api/reservations/payment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ reservationId, referenceCode }),

@@ -25,7 +25,7 @@ const EmployeeList = () => {
   const [employees, setEmployees] = useState([]);
 
   const fetchEmployees = () => {
-    fetch("https://johannas-grille.onrender.com/api/employees")
+    fetch("https://johannasgrille.onrender.com/api/employees")
       .then((response) => response.json())
       .then((data) => setEmployees(data))
       .catch((error) => console.error("Error fetching employee data:", error));
@@ -61,7 +61,7 @@ const EmployeeList = () => {
   };
 
   const handleSaveNewEmployee = (formData) => {
-    fetch("https://johannas-grille.onrender.com/api/employeeadd", {
+    fetch("https://johannasgrille.onrender.com/api/employeeadd", {
       method: "POST",
       body: formData,
     })

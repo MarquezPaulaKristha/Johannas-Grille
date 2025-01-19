@@ -34,9 +34,8 @@ const Navbar = () => {
             <img src={assets.logo} alt="" className="logo" />
             <ul className="navbar-menu">
                 <Link to='/' onClick={() => setMenu("home")} className={menu === "home" ? "active" : ""}>HOME</Link>
-                <a href='#explore-menu' onClick={() => setMenu("menu")} className={menu === "menu" ? "active" : ""}>MENU</a>
-                <a href='#reservation' onClick={() => setMenu("reservation")} className={menu === "reservation" ? "active" : ""}>RESERVATION</a>
-                <a href='#footer' onClick={() => setMenu("contact us")} className={menu === "contact us" ? "active" : ""}>CONTACT US</a>
+                <a href='#orders' onClick={() => setMenu("orders")} className={menu === "orders" ? "active" : ""}>ORDERS</a>
+                <a href='#reservations' onClick={() => setMenu("reservations")} className={menu === "reservations" ? "active" : ""}>RESERVATIONS</a>
             </ul>
             <div className="navbar-right">
                 <div className="navbar-search-icon">

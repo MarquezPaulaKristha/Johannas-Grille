@@ -32,7 +32,7 @@ const AreaLineChart = ({ month, setMonth, year, setYear }) => {
     const fetchPredictionData = async () => {
       try {
         const response = await axios.get(
-          `https://johannas-grille.onrender.com/api/predict?month=${month}&year=${year}`
+          `https://johannasgrille.onrender.com/api/predict?month=${month}&year=${year}`
         );
         const predictions = response.data.predictions;
 

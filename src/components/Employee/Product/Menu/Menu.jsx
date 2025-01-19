@@ -25,7 +25,7 @@ const Menu = ({ category, setCategory }) => {
 
     try {
       // Send form data to backend API
-      const response = await fetch('https://johannas-grille.onrender.com/api/menuitems', {
+      const response = await fetch('https://johannasgrille.onrender.com/api/menuitems', {
         method: 'POST',
         body: formData, // Send form data as body
       });

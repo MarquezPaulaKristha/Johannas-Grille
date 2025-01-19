@@ -41,7 +41,7 @@ const ProductPayment = ({ onClose }) => {
         };
 
         try {
-            const response = await axios.post('https://johannas-grille.onrender.com/api/customer-gcash-checkout', body);
+            const response = await axios.post('https://johannasgrille.onrender.com/api/customer-gcash-checkout', body);
 
             const { url } = response.data;
 

@@ -15,7 +15,7 @@ const EditModal = ({ employeeId, onClose, onSave }) => {
   useEffect(() => {
     const fetchEmployee = async () => {
       try {
-        const response = await fetch(`https://johannas-grille.onrender.com/api/employees/${employeeId}`);
+        const response = await fetch(`https://johannasgrille.onrender.com/api/employees/${employeeId}`);
         if (response.ok) {
           const data = await response.json();
           setUpdatedfName(data.firstname);
@@ -23,7 +23,7 @@ const EditModal = ({ employeeId, onClose, onSave }) => {
           setUpdatedEmail(data.email);
           setUpdatedUsername(data.username);
           setUpdatedSelectedBranch(data.branch);
-          setImagePreview(data.image_url ? `https://johannas-grille.onrender.com${data.image_url}` : ''); // If image exists
+          setImagePreview(data.image_url ? `https://johannasgrille.onrender.com${data.image_url}` : ''); // If image exists
         } else {
           console.error('Error fetching employee:', response.statusText);
         }
@@ -50,7 +50,7 @@ const EditModal = ({ employeeId, onClose, onSave }) => {
     }
 
     try {
-      const response = await fetch(`https://johannas-grille.onrender.com/api/employees/${employeeId}`, {
+      const response = await fetch(`https://johannasgrille.onrender.com/api/employees/${employeeId}`, {
         method: 'PUT',
         body: formData,
       });

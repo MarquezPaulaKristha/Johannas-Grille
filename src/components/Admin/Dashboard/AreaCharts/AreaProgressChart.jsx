@@ -7,7 +7,7 @@ const AreaProgressChart = ({ month, year }) => {
 
   const fetchTopMenu = async () => {
     try {
-      const response = await axios.get(`https://johannas-grille.onrender.com/api/top-items?month=${month}&year=${year}`);
+      const response = await axios.get(`https://johannasgrille.onrender.com/api/top-items?month=${month}&year=${year}`);
       if (response.status === 200) {
         setTopMenu(response.data);
         setError(null); // Clear any previous errors

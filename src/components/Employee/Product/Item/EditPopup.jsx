@@ -9,7 +9,7 @@ const EditPopup = ({ id, name, availability, onClose, onSave }) => {
 
     try {
       // Send updated data to the backend
-      const response = await fetch(`https://johannas-grille.onrender.com/api/menuitems-edit-availability/${id}`, {
+      const response = await fetch(`https://johannasgrille.onrender.com/api/menuitems-edit-availability/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

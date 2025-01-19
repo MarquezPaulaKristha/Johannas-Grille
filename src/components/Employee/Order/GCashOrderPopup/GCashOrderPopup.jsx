@@ -19,7 +19,7 @@ const GCashOrderPopup = ({ orderItems, orderType, onCancel }) => {
         };
 
         try {
-            const response = await axios.post('https://johannas-grille.onrender.com/api/gcash-checkout', body);
+            const response = await axios.post('https://johannasgrille.onrender.com/api/gcash-checkout', body);
 
             const { url } = response.data;
 

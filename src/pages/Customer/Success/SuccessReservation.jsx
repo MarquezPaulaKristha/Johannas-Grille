@@ -19,7 +19,7 @@ function SuccessReservationPage() {
     hasCalledPayment.current = true;
 
     try {
-      const response = await axios.post("http://localhost:3000/api/create-reservation", payloadDetails, { //https://johannasgrille.onrender.com
+      const response = await axios.post("https://johannasgrille.onrender.comapi/create-reservation", payloadDetails, { //https://johannasgrille.onrender.com
         headers: { "Content-Type": "application/json" },
       });
 
@@ -39,7 +39,7 @@ function SuccessReservationPage() {
     console.log('Sending payment details:', { reservationId, referenceCode, gcashNumber });
   
     try {
-      const response = await fetch('http://localhost:3000/api/reservations/payment', {
+      const response = await fetch('https://johannasgrille.onrender.comapi/reservations/payment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ reservationId, referenceCode, gcashNumber }),

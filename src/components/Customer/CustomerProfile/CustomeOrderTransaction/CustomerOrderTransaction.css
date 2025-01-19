@@ -1,0 +1,70 @@
+/* Customer Transaction Styles */
+.customer-transaction {
+  max-width: 1200px; /* Increased width for more cards */
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #ffffff;
+}
+
+.transaction-header {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333333;
+}
+
+.transaction-cards-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
+  gap: 20px;
+}
+
+.transaction-card {
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 20px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.transaction-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.transaction-card-header {
+  background-color: #4CAF50;
+  color: white;
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 5px 5px 0 0;
+  text-align: center;
+}
+
+.transaction-card-content {
+  padding: 10px 0;
+}
+
+.transaction-card-content p {
+  margin: 8px 0;
+  font-size: 16px;
+  color: #333333;
+}
+
+.transaction-card-content p strong {
+  color: #555555;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .transaction-cards-container {
+    grid-template-columns: repeat(2, 1fr); /* 2 cards per row on medium screens */
+  }
+}
+
+@media (max-width: 768px) {
+  .transaction-cards-container {
+    grid-template-columns: 1fr; /* 1 card per row on small screens */
+  }
+}
