@@ -1591,6 +1591,15 @@ app.get('/api/reservation-items/:reservationId', async (req, res) => {
   }
 });
 
+app.get('/test-db-connection', async (req, res) => {
+  try {
+    await client.query('SELECT 1');
+    res.send('Database is connected');
+  } catch (error) {
+    res.status(500).send('Database connection failed');
+  }
+});
+
 
 // Start the server
 app.listen(port, () => {
