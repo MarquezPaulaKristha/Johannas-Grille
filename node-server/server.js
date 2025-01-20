@@ -40,6 +40,23 @@ const pool = new Pool({
 //   port: 5433, // Default PostgreSQL port
 // });
 
+const { Client } = require('pg');
+
+// Ensure you're using the correct database connection string (from Render or your environment)
+const client = new Client({
+  connectionString: process.env.DATABASE_URL, // Ensure this is set in your Render environment variables
+  ssl: { rejectUnauthorized: false } // This is required by Render for SSL
+});
+
+client.connect()
+  .then(() => {
+    console.log('Successfully connected to PostgreSQL');
+  })
+  .catch((err) => {
+    console.error('Error connecting to PostgreSQL:', err);
+  });
+
+
 // Multer storage for handling image uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -1593,13 +1610,14 @@ app.get('/api/reservation-items/:reservationId', async (req, res) => {
 
 app.get('/test-db-connection', async (req, res) => {
   try {
-    await client.query('SELECT 1');
+    const result = await client.query('SELECT 1');
+    console.log('Database response:', result); // Log the result to debug
     res.send('Database is connected');
   } catch (error) {
-    res.status(500).send('Database connection failed');
+    console.error('Database connection failed:', error);
+    res.status(500).send(`Database connection failed: ${error.message}`);
   }
 });
-
 
 // Start the server
 app.listen(port, () => {
