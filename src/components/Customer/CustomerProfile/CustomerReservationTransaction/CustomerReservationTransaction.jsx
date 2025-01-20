@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './CustomerReservationTransaction.css';
 import { useProvider } from '../../../../global_variable/Provider';
 
