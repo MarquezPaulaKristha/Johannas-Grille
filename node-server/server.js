@@ -1105,6 +1105,22 @@ app.get('/analytics', async (req, res) => {
       totalSales: parseFloat(row.total_sales),
     }));
 
+    if (weeklySales.length === 0) {
+      // Return empty data if no sales were found
+      return res.json({
+        labels: [],
+        datasets: [
+          {
+            label: 'Weekly Sales',
+            data: [],
+            borderColor: 'rgba(75, 192, 192, 1)',
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            tension: 0.4,
+          },
+        ],
+      });
+    }
+
     // Return data to frontend
     res.json({
       labels: weeklySales.map((data) => data.week),
