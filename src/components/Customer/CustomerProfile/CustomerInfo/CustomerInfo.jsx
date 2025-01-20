@@ -23,15 +23,26 @@ const ProfileCustomer = () => {
           return;
         }
 
-        // Update the URL for the deployed environment
+        // Log the request to inspect if it's being made
+        console.log('Fetching customer data...');
+
         const response = await axios.get('https://your-api.onrender.com/api/customer/info', {
           headers: { Authorization: `Bearer ${token}` },
         });
 
-        setCustomer(response.data.data); // Access the `data` field from the response
-        setError(null); // Clear any previous error
+        // Log the response to inspect the data being returned
+        console.log('Response:', response);
+
+        if (response.data && response.data.data) {
+          setCustomer(response.data.data); // Access the `data` field from the response
+          setError(null); // Clear any previous error
+        } else {
+          setError('Customer data is missing or invalid.');
+        }
       } catch (error) {
         console.error('Error fetching customer data:', error);
+
+        // Handling specific error responses
         if (error.response) {
           console.error('Error response:', error.response);
           if (error.response.status === 401) {
