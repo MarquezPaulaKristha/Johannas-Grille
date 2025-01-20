@@ -40,6 +40,23 @@ const pool = new Pool({
 //   port: 5433, // Default PostgreSQL port
 // });
 
+const { Client } = require('pg');
+
+// Ensure you're using the correct database connection string (from Render or your environment)
+const client = new Client({
+  connectionString: process.env.DATABASE_URL, // Ensure this is set in your Render environment variables
+  ssl: { rejectUnauthorized: false } // This is required by Render for SSL
+});
+
+client.connect()
+  .then(() => {
+    console.log('Successfully connected to PostgreSQL');
+  })
+  .catch((err) => {
+    console.error('Error connecting to PostgreSQL:', err);
+  });
+
+
 // Multer storage for handling image uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -1591,64 +1608,14 @@ app.get('/api/reservation-items/:reservationId', async (req, res) => {
   }
 });
 
-app.get('/api/customer/transaction-details/:customerid', async (req, res) => {
-  const customer_id = req.params.customerid;
-  
+app.get('/test-db-connection', async (req, res) => {
   try {
-    const transactionQuery = `
-      SELECT 
-        o.orderid,
-        o.totalamount,
-        o.ordertype,
-        mn.name,
-        oi.quantity
-      FROM 
-        orderstbl o
-      JOIN
-        orderitemtbl oi ON o.orderid = oi.orderid
-      JOIN
-        menuitemtbl mn ON oi.menuitemid = mn.menuitemid
-      WHERE
-        o.customerid = $1
-    `
-    const result = await pool.query(transactionQuery, [customer_id])
-    res.status(200).json(result.rows)
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ message: 'Server error' });
+    await client.query('SELECT 1');
+    res.send('Database is connected');
+  } catch (error) {
+    res.status(500).send('Database connection failed');
   }
 });
-
-app.get('/api/customer/reservation-details/:customerid', async (req, res) => {
-  const customer_id = req.params.customerid;
-  
-  try {
-    const reservationQuery = `
-      SELECT 
-          rv.reservationid,
-          rv.reservationdate,
-          rv.reservationtime,
-          rv.amount,
-          STRING_AGG(DISTINCT rm.menu_name, ', ') AS menu_names
-      FROM 
-          reservationtbl rv
-      JOIN
-          reservationitemtbl ri ON rv.reservationid = ri.reservationid
-      JOIN
-          reservationmenutbl rm ON ri.menuitemid = rm.menuitemid
-      WHERE
-          rv.customerid = $1
-      GROUP BY
-          rv.reservationid, rv.reservationdate, rv.reservationtime, rv.amount;
-    `
-    const result = await pool.query(reservationQuery, [customer_id])
-    res.status(200).json(result.rows)
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ message: 'Server error' });
-  }
-});
-
 
 // Start the server
 app.listen(port, () => {
