@@ -23,7 +23,8 @@ const ProfileCustomer = () => {
           return;
         }
 
-        const response = await axios.get('https://johannasgrille.onrender.com/api/customer/info', {
+        // Update the URL for the deployed environment
+        const response = await axios.get('https://your-api.onrender.com/api/customer/info', {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -31,12 +32,17 @@ const ProfileCustomer = () => {
         setError(null); // Clear any previous error
       } catch (error) {
         console.error('Error fetching customer data:', error);
-        if (error.response?.status === 401) {
-          setError('Session expired. Please log in again.');
-          localStorage.removeItem('token');
-          navigate('/login'); // Redirect to login page
+        if (error.response) {
+          console.error('Error response:', error.response);
+          if (error.response.status === 401) {
+            setError('Session expired. Please log in again.');
+            localStorage.removeItem('token');
+            navigate('/login'); // Redirect to login page
+          } else {
+            setError(error.response?.data?.message || 'Failed to fetch customer data.');
+          }
         } else {
-          setError(error.response?.data?.message || 'Failed to fetch customer data.');
+          setError('An unknown error occurred.');
         }
       } finally {
         setLoading(false);
@@ -44,7 +50,7 @@ const ProfileCustomer = () => {
     };
 
     fetchCustomerInfo();
-  }, []);
+  }, [navigate, setCustomer]);
 
   if (loading) {
     return (
