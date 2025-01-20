@@ -19,7 +19,7 @@ function SuccessReservationPage() {
     hasCalledPayment.current = true;
 
     try {
-      const response = await axios.post("https://johannasgrille.onrender.comapi/create-reservation", payloadDetails, { //https://johannasgrille.onrender.com
+      const response = await axios.post("https://johannasgrille.onrender.com/api/create-reservation", payloadDetails, { //https://johannasgrille.onrender.com
         headers: { "Content-Type": "application/json" },
       });
 

@@ -1,23 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './CustomerReservationTransaction.css';
+import { useProvider } from '../../../../global_variable/Provider';
 
 const CustomerReservationTransaction = () => {
-  const reservations = [
-    {
-      package: 'Package 1',
-      date: '01-20-2025',
-      time: '12:00',
-      price: 4500,
-      bundle: ['Menu A', 'Menu B'],
-    },
-    {
-      package: 'Package 2',
-      date: '01-20-2025',
-      time: '12:00',
-      price: 6000,
-      bundle: ['Menu A', 'Menu B', 'Menu D'],
-    },
-  ];
+  const { customer } = useProvider();
+  const [reservations, setReservations] = useState([]);
+
+  const fetchReservation = async () => {
+    if (!customer?.customerid) {
+      alert('Sign in first!');
+      return;
+    }
+
+    try {
+      const result = await axios.get(`https://johannasgrille.onrender.com/api/customer/reservation-details/${customer.customerid}`);
+      if (result.status === 200) {
+        setReservations(result.data);
+      }
+    } catch (error) {
+      console.error('Error fetching reservation details:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchReservation();
+  }, []);
 
   return (
     <div className="customer-reservation-transaction" id="reservations">
@@ -29,10 +36,10 @@ const CustomerReservationTransaction = () => {
               <h2>{reservation.package}</h2>
             </div>
             <div className="reservation-card-content">
-              <p><strong>Date:</strong> {reservation.date}</p>
-              <p><strong>Time:</strong> {reservation.time}</p>
-              <p><strong>Price:</strong> ₱{reservation.price.toFixed(2)}</p>
-              <p><strong>Bundle:</strong> {reservation.bundle.join(', ')}</p>
+              <p><strong>Date:</strong> {reservation.reservationdate}</p>
+              <p><strong>Time:</strong> {reservation.reservationtime}</p>
+              <p><strong>Price:</strong> ₱{reservation.amount}</p>
+              <p><strong>Bundle:</strong> {reservation.menu_names}</p>
             </div>
           </div>
         ))}

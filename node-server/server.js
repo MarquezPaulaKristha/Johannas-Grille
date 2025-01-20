@@ -1610,12 +1610,10 @@ app.get('/api/reservation-items/:reservationId', async (req, res) => {
 
 app.get('/test-db-connection', async (req, res) => {
   try {
-    const result = await client.query('SELECT 1');
-    console.log('Database response:', result); // Log the result to debug
+    await client.query('SELECT 1');
     res.send('Database is connected');
   } catch (error) {
-    console.error('Database connection failed:', error);
-    res.status(500).send(`Database connection failed: ${error.message}`);
+    res.status(500).send('Database connection failed');
   }
 });
 

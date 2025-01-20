@@ -1,33 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './CustomerOrderTransaction.css';
+import axios from 'axios';
+import { useProvider } from '../../../../global_variable/Provider';
 
 const CustomerOrderTransaction = () => {
-  const transactions = [
-    {
-      orderno: '001',
-      menuName: 'Cheeseburger',
-      qty: 2,
-      totalAmount: 300,
-      orderType: 'Dine-In',
-      // image_url: 'cheeseburger.png', // Make sure this property exists
-    },
-    {
-      orderno: '002',
-      menuName: 'Spaghetti',
-      qty: 1,
-      totalAmount: 150,
-      orderType: 'Take-Out',
-      // image_url: 'spaghetti.png', // Ensure this property exists
-    },
-    {
-      orderno: '003',
-      menuName: 'Pizza',
-      qty: 3,
-      totalAmount: 900,
-      orderType: 'Delivery',
-      // image_url: 'pizza.png', // Ensure this property exists
-    },
-  ];
+  const { customer } = useProvider();
+  const [transactions, setTransactions] = useState([]);
+
+  const fetchTransaction = async () => {
+    if (!customer?.customerid) {
+      alert('Sign in first!');
+      return;
+    }
+
+    try {
+      const result = await axios.get(`http://localhost:3000/api/customer/transaction-details/${customer.customerid}`);
+      if (result.status === 200) {
+        setTransactions(result.data);
+      }
+    } catch (error) {
+      console.error('Error fetching transaction details:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchTransaction();
+  }, []);
 
   return (
     <div className="customer-transaction" id="orders">
@@ -36,12 +34,12 @@ const CustomerOrderTransaction = () => {
         {transactions.map((transaction, index) => (
           <div className="transaction-card" key={index}>
             <div className="transaction-card-header">
-              <h2>Order No: {transaction.orderno}</h2>
+              <h2>Order No: {transaction.orderid}</h2>
             </div>
             <div className="transaction-card-content">
-              <p><strong>Menu Name:</strong> {transaction.menuName}</p>
-              <p><strong>Quantity:</strong> {transaction.qty}</p>
-              <p><strong>Total Amount:</strong> ₱{transaction.totalAmount.toFixed(2)}</p>
+              <p><strong>Menu Name:</strong> {transaction.name}</p>
+              <p><strong>Quantity:</strong> {transaction.quantity}</p>
+              <p><strong>Total Amount:</strong> ₱{transaction.totalamount}</p>
               <p><strong>Order Type:</strong> {transaction.orderType}</p>
               {/* <img 
                 src={transaction.image_url || 'default-image.png'} 
