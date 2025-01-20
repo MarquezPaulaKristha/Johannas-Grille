@@ -221,14 +221,6 @@ export const food_list = [
         category: "Appetizer"
     },
     {
-        _id: "12",
-        name: "yes",
-        image: menu_13,
-        price: 140,
-        description: "lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum",
-        category: "Appetizer"
-    },
-    {
         _id: "13",
         name: "Sizzling Sisig",
         image: menu_14,
