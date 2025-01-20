@@ -11,19 +11,26 @@ const ProductDisplay = ({ category, orderId }) => {
     // Fetch data from the API
     const fetchData = async () => {
       try {
-        const response = await fetch('https://johannasgrille.onrender.com/api/menuitems'); // Adjust the port accordingly
+        const response = await fetch('https://johannasgrille.onrender.com/api/menuitems');
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        const data = await response.json();
-
-        // Filter out items where the quantity is zero or less
-        const filteredData = data.filter(item => item.quantity > 0 && item.branch === selectedBranch);
-        setFoodList(filteredData);
+    
+        // Check if the response is JSON
+        const contentType = response.headers.get("Content-Type");
+        if (contentType && contentType.includes("application/json")) {
+          const data = await response.json();
+          
+          // Filter out items where the quantity is zero or less
+          const filteredData = data.filter(item => item.quantity > 0 && item.branch === selectedBranch);
+          setFoodList(filteredData);
+        } else {
+          throw new Error("Received non-JSON response");
+        }
       } catch (error) {
         console.error('Error fetching food items:', error);
       }
-    };
+    };    
 
     fetchData();
   }, [selectedBranch]);   
