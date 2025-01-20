@@ -17,7 +17,7 @@ const CustomerProfile = () => {
 
     return (
         <div className="customer-profile-dropdown">
-            <h4><i className="fas fa-user-circle"></i> John Doe</h4> {/* Profile icon */}
+            <h4><i className="fas fa-user-circle"></i>{customer.firstname} {customer.lastname}</h4> {/* Profile icon */}
             <Link to="/customerinfo"><i className="fas fa-user"></i> View Profile</Link> {/* Use Link for navigation */}
             <button onClick={handleLogout} className="logout-button">
                 <i className="fas fa-sign-out-alt"></i> Logout
