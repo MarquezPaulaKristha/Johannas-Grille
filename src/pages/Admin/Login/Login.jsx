@@ -5,16 +5,9 @@ import './Login.css';
 const Admin_LoginPopUp = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    if (!username || !password) {
-      alert('Please enter both username and password.');
-      return;
-    }
-
-    setLoading(true);
     try {
       const response = await fetch('https://johannasgrille.onrender.com/user/login', {
         method: 'POST',
@@ -26,6 +19,7 @@ const Admin_LoginPopUp = () => {
 
       console.log('Response:', response);
 
+      // Handle non-JSON responses or errors
       if (!response.ok) {
         const errorText = await response.text();
         console.error(`HTTP Error ${response.status}: ${errorText}`);
@@ -33,6 +27,7 @@ const Admin_LoginPopUp = () => {
         return;
       }
 
+      // Ensure response is JSON
       const contentType = response.headers.get('content-type');
       if (contentType && contentType.includes('application/json')) {
         const data = await response.json();
@@ -46,53 +41,49 @@ const Admin_LoginPopUp = () => {
           sessionStorage.setItem('image', data.image);
           sessionStorage.setItem('branch', data.branch);
 
-          navigate(data.usertype === 'Admin' ? '/admin/dashboard' : '/employee/dashboard');
+          if (data.usertype === 'Admin') {
+            navigate('/admin/dashboard');
+          } else {
+            navigate('/employee/dashboard');
+          }
         } else {
           alert(data.message);
         }
       } else {
-        const nonJsonResponse = await response.text();
-        console.error('Non-JSON response:', nonJsonResponse);
-        alert('Unexpected response. Please contact support.');
+        const errorMessage = await response.text();
+        console.error('Non-JSON response:', errorMessage);
+        alert('Login failed. Please try again.');
       }
     } catch (error) {
       console.error('Error logging in:', error);
       alert('An error occurred during login. Please try again.');
-    } finally {
-      setLoading(false);
     }
   };
 
   return (
-    <div className="admin-login-popup">
+    <div className='admin-login-popup'>
       <div className="admin-login-popup-content">
         <div className="admin-login-popup-left">
-          <img src="/assets/logo.png" alt="Logo" className="admin-login-logo" />
+          <img src="/src/assets/logo.png" alt="Logo" className="admin-login-logo" />
         </div>
         <div className="admin-login-popup-right">
           <h2>Login</h2>
           <input
             type="text"
-            placeholder="Username"
+            placeholder='Username'
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
-            disabled={loading}
           />
           <input
             type="password"
-            placeholder="Password"
+            placeholder='Password'
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            disabled={loading}
           />
-          <button
-            className="admin-login-popup-button"
-            onClick={handleLogin}
-            disabled={loading}
-          >
-            {loading ? 'Logging in...' : 'Login'}
+          <button className="admin-login-popup-button" onClick={handleLogin}>
+            Login
           </button>
         </div>
       </div>
