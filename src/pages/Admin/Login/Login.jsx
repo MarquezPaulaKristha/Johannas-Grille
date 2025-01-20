@@ -16,8 +16,18 @@ const Admin_LoginPopUp = () => {
         },
         body: JSON.stringify({ username, password }),
       });
-  
-      // Check if response is JSON
+
+      console.log('Response:', response);
+
+      // Handle non-JSON responses or errors
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error(`HTTP Error ${response.status}: ${errorText}`);
+        alert(`Login failed: ${errorText}`);
+        return;
+      }
+
+      // Ensure response is JSON
       const contentType = response.headers.get('content-type');
       if (contentType && contentType.includes('application/json')) {
         const data = await response.json();
@@ -31,32 +41,29 @@ const Admin_LoginPopUp = () => {
           sessionStorage.setItem('image', data.image);
           sessionStorage.setItem('branch', data.branch);
 
-  
           if (data.usertype === 'Admin') {
             navigate('/admin/dashboard');
           } else {
             navigate('/employee/dashboard');
           }
         } else {
-          alert(data.message); // Display error message if login fails
+          alert(data.message);
         }
       } else {
-        // Handle non-JSON responses
         const errorMessage = await response.text();
         console.error('Non-JSON response:', errorMessage);
         alert('Login failed. Please try again.');
       }
     } catch (error) {
       console.error('Error logging in:', error);
+      alert('An error occurred during login. Please try again.');
     }
   };
-  
 
   return (
     <div className='admin-login-popup'>
       <div className="admin-login-popup-content">
         <div className="admin-login-popup-left">
-          {/* Add the logo image with the class 'admin-login-logo' */}
           <img src="/src/assets/logo.png" alt="Logo" className="admin-login-logo" />
         </div>
         <div className="admin-login-popup-right">

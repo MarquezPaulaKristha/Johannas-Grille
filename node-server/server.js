@@ -155,32 +155,33 @@ app.post('/user/login', async (req, res) => {
   const { username, password } = req.body;
 
   try {
+    // Query the database to find the user by username
     const result = await pool.query('SELECT * FROM usertbl WHERE username = $1', [username]);
     const user = result.rows[0];
 
     if (!user) {
-      return res.status(400).json({ success: false, message: 'User not found' });
+      return res.status(404).json({ success: false, message: 'User not found' }); // Use 404 for "not found"
     }
 
-    // Check if the password matches
+    // Compare the provided password with the stored password
     if (user.password !== password) {
-      return res.status(400).json({ success: false, message: 'Invalid credentials' });
+      return res.status(401).json({ success: false, message: 'Invalid credentials' }); // Use 401 for "unauthorized"
     }
 
-    // Send back firstname, lastname, usertype, email, and image_url
-    res.json({ 
+    // Send back necessary user details
+    res.status(200).json({ 
       success: true, 
       customerid: user.customerid,
       firstname: user.firstname, 
       lastname: user.lastname, 
       usertype: user.usertype, 
       email: user.email, 
-      image: user.image_url,
-      branch: user.branch // Add image_url here
+      image: user.image_url, 
+      branch: user.branch 
     });   
   } catch (err) {
     console.error('Error during login:', err);
-    res.status(500).json({ success: false, message: 'Server error' });
+    res.status(500).json({ success: false, message: 'Server error' }); // Handle server errors
   }
 });
 
