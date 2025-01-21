@@ -9,19 +9,22 @@ const ProductDisplay = ({ category, orderId }) => {
   const [foodList, setFoodList] = useState([]);
 
   useEffect(() => {
-    // Fetch data from the API using Axios
     const fetchData = async () => {
       try {
         const response = await axios.get('https://johannasgrille.onrender.com/api/menuitems');
-        
-        // Check if the response status is 200 (OK)
+  
         if (response.status === 200) {
-          const data = response.data;
-          
-          // Filter out items where the quantity is zero or less and match the selected branch
-          const filteredData = data.filter(item => item.quantity > 0 && item.branch === selectedBranch);
-          
-          setFoodList(filteredData);
+          const data = response.data; // Inspect the data structure
+          console.log('API response data:', data);
+  
+          if (Array.isArray(data)) {
+            const filteredData = data.filter(
+              item => item.quantity > 0 && item.branch === selectedBranch
+            );
+            setFoodList(filteredData);
+          } else {
+            console.error('Unexpected data format:', data);
+          }
         } else {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
@@ -31,7 +34,7 @@ const ProductDisplay = ({ category, orderId }) => {
     };
   
     fetchData();
-  }, [selectedBranch]); 
+  }, [selectedBranch]);  
 
   return (
     <div className='food-display' id='food-display'>
