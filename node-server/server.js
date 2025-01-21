@@ -43,9 +43,9 @@ const pool = new Pool({
 const { Client } = require('pg');
 
 // Ensure you're using the correct database connection string (from Render or your environment)
-const client = new Client({
-  connectionString: process.env.DATABASE_URL, // Ensure this is set in your Render environment variables
-  ssl: { rejectUnauthorized: false } // This is required by Render for SSL
+const pool = new Pool({
+  connectionString: process.env.POSTGRES_URL, // Ensure this is set in your Render environment variables
+  ssl: { rejectUnauthorized: false }, // This is required by Render for SSL
 });
 
 client.connect()
