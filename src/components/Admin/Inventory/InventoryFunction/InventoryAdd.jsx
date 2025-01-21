@@ -8,7 +8,7 @@ const InventoryAdd = ({ productId, quantity, invid, onClose, onSave, name }) => 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch('https://johannasgrille.onrender.com/api/categories');
+        const response = await fetch('https://johannas-grille.onrender.com/api/categories');
         if (response.ok) {
           const data = await response.json();
           setCategories(data);
@@ -30,7 +30,7 @@ const InventoryAdd = ({ productId, quantity, invid, onClose, onSave, name }) => 
     const newQuantity = parseInt(quantity) + parseInt(additionalQuantity);
 
     try {
-      const response = await fetch(`https://johannasgrille.onrender.com/api/inventory/${invid}`, {
+      const response = await fetch(`https://johannas-grille.onrender.com/api/inventory/${invid}`, {
         method: 'PUT', // Use PUT for updates
         headers: {
           'Content-Type': 'application/json',

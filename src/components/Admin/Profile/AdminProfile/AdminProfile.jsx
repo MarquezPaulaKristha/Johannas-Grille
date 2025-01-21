@@ -17,7 +17,7 @@ const AdminProfile = () => {
     console.log('Image URL:', storedImage); // Log the image URL for debugging
 
     // Prepend base URL if necessary
-    const baseURL = 'https://johannasgrille.onrender.com';
+    const baseURL = 'https://johannas-grille.onrender.com';
     setImage(storedImage ? `${baseURL}${storedImage}` : '');
     setFirstname(sessionStorage.getItem('firstname'));
     setLastname(sessionStorage.getItem('lastname'));

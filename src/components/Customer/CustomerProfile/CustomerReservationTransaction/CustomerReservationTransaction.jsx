@@ -13,7 +13,7 @@ const CustomerReservationTransaction = () => {
     }
 
     try {
-      const result = await axios.get(`https://johannasgrille.onrender.com/api/customer/reservation-details/${customer.customerid}`);
+      const result = await axios.get(`https://johannas-grille.onrender.com/api/customer/reservation-details/${customer.customerid}`);
       if (result.status === 200) {
         setReservations(result.data);
       }

@@ -11,7 +11,7 @@ const CustomerReservationReceipt = ({ reservationId, onClose }) => {
   useEffect(() => {
     const fetchReservation = async () => {
       try {
-        const response = await fetch('https://johannasgrille.onrender.comapi/reservations/receipt', { //https://johannasgrille.onrender.com
+        const response = await fetch('https://johannas-grille.onrender.comapi/reservations/receipt', { //https://johannas-grille.onrender.com
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ reservationId }),

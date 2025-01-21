@@ -26,7 +26,7 @@ const Orders = () => {
 
   // Fetch orders data
   const fetchOrders = () => {
-    fetch("https://johannasgrille.onrender.com/api/orders")
+    fetch("https://johannas-grille.onrender.com/api/orders")
       .then((response) => response.json())
       .then((data) => {
         // Sort orders by descending order (assumes orders have a date or ID for sorting)

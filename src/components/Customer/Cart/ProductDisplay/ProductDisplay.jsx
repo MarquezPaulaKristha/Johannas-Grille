@@ -12,7 +12,7 @@ const ProductDisplay = ({ category, orderId }) => {
     // Fetch data from the API using Axios
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://johannasgrille.onrender.com/api/menuitems');
+        const response = await axios.get('https://johannas-grille.onrender.com/api/menuitems');
         
         // Check if the response status is 200 (OK)
         if (response.status === 200) {
@@ -46,7 +46,7 @@ const ProductDisplay = ({ category, orderId }) => {
                 orderId={orderId}
                 id={item.menuitemid} 
                 name={item.name} 
-                image={`https://johannasgrille.onrender.com${item.image_url}`} // Use the correct field for the image URL
+                image={`https://johannas-grille.onrender.com${item.image_url}`} // Use the correct field for the image URL
                 price={item.price}
               />
             );
