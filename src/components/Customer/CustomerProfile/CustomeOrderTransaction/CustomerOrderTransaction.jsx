@@ -14,7 +14,7 @@ const CustomerOrderTransaction = () => {
     }
 
     try {
-      const result = await axios.get(`http://localhost:3000/api/customer/transaction-details/${customer.customerid}`);
+      const result = await axios.get(`https://johannas-grille.onrender.com/api/customer/transaction-details/${customer.customerid}`);
       if (result.status === 200) {
         setTransactions(result.data);
       }

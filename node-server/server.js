@@ -40,22 +40,6 @@ const pool = new Pool({
 //   port: 5433, // Default PostgreSQL port
 // });
 
-const { Client } = require('pg');
-
-// Ensure you're using the correct database connection string (from Render or your environment)
-const client = new Client({
-  connectionString: process.env.DATABASE_URL, // Ensure this is set in your Render environment variables
-  ssl: { rejectUnauthorized: false } // This is required by Render for SSL
-});
-
-client.connect()
-  .then(() => {
-    console.log('Successfully connected to PostgreSQL');
-  })
-  .catch((err) => {
-    console.error('Error connecting to PostgreSQL:', err);
-  });
-
 
 // Multer storage for handling image uploads
 const storage = multer.diskStorage({

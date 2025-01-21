@@ -18,7 +18,7 @@ const CustomerReservationMenu = ({ reservationDetails, onClose, reservationId })
     useEffect(() => {
         const fetchMenuItems = async () => {
             try {
-                const response = await axios.get("https://johannas-grille.onrender.comapi/menu-items"); //https://johannas-grille.onrender.com https://johannas-grille.onrender.com
+                const response = await axios.get("https://johannas-grille.onrender.com/api/menu-items"); //https://johannas-grille.onrender.com https://johannas-grille.onrender.com
                 const data = response.data;
 
                 const organizedData = data.reduce((acc, item) => {
@@ -235,7 +235,7 @@ const CustomerReservationMenu = ({ reservationDetails, onClose, reservationId })
         
             const body = { lineItems: gcashPayload };
         
-            const response = await axios.post('https://johannas-grille.onrender.comapi/reservation-gcash-checkout', body);
+            const response = await axios.post('https://johannas-grille.onrender.com/api/reservation-gcash-checkout', body);
             const { url } = response.data;
         
             window.location.href = url;

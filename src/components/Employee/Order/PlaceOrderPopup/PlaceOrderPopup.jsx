@@ -36,7 +36,7 @@ const PlaceOrderPopup = ({ onCancel }) => {
         }
 
         const orderData = {
-          customerid: "0000",
+          customerid: "00000",
           orderItems: orderItems.map(item => ({
             orderid: item.orderid,
             menuitemid: item.menuitemid,
