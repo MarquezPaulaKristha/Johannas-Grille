@@ -34,6 +34,8 @@ function SuccessCustomerPage() {
       selectedBranch: selectedBranch,
     };
 
+    console.log(orderData);
+
     try {
       const response = await axios.post("https://johannas-grille.onrender.com/api/create-order", orderData);
       if (response.status === 200) {
