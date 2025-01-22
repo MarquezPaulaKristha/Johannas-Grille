@@ -39,7 +39,7 @@ const CustomerOrderTransaction = () => {
           orderid,
           ordertype,
           items: [],
-          totalAmount: 0,
+          totalAmount: totalamount,
         };
       }
 

@@ -35,7 +35,7 @@ const CustomerReservationTransaction = () => {
         {reservations.map((reservation) => (
           <div className="reservation-card" key={reservation.reservationid}>
             <div className="reservation-card-header">
-              <h2>{reservation.package}</h2>
+              <h2>{reservation.reservationid}</h2>
             </div>
             <div className="reservation-card-content">
               <p><strong>Date:</strong> {format(new Date(reservation.reservationdate), 'dd/MM/yyyy')}</p>
