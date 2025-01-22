@@ -1,149 +1,159 @@
-
-.order-main-content {
-  position: relative;;
-  background-color: #fafafa;
-  min-height: 100vh;
-  padding: 25px;
-  position: absolute;
-  right: 0;
-  width: 100%;
+.em-content-area-table {
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 4px 12px;
+  padding: 12px 16px;
 }
 
-.order-content-area-table {
-    background: #fff;
-    border-radius: 5px;
-    box-shadow: rgba(0, 0, 0, 0.02) 0px 4px 12px;
-    padding: 12px 16px;
+@media (max-width: 768px) {
+  .em-content-area-table {
+    padding: 12px;
   }
-  
-  @media (max-width: 768px) {
-    .order-content-area-table {
-      padding: 12px;
-    }
+}
+
+.em-content-area-table .em-data-table-title {
+  font-size: 18px;
+  color: var(--xl-text-color);
+  margin-bottom: 12px;
+}
+
+/* Data Table Styles */
+.em-data-table-diagram {
+  border-radius: 6px;
+  border: 1px solid #f2f4ff !important;
+  overflow-x: auto;
+}
+
+.em-data-table-diagram::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+
+.em-data-table-diagram::-webkit-scrollbar-track {
+  background-color: var(--scroll-track-bg-color);
+}
+
+.em-data-table-diagram::-webkit-scrollbar-thumb {
+  border-radius: 100vh !important;
+  background-color: #e9e9e9;
+  outline: 1px solid rgba(0, 0, 0, 0.02);
+  outline-offset: -1px;
+}
+
+.em-data-table-diagram table {
+  min-width: 900px;
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--text-colem-inverted);
+}
+
+.em-data-table-diagram table td,
+.em-data-table-diagram table th {
+  padding: 14px 12px;
+}
+
+@media (max-width: 768px) {
+  .em-data-table-diagram table td,
+  .em-data-table-diagram table th {
+    font-size: 15px;
+    padding: 12px 10px;
   }
-  
-  .order-content-area-table .order-data-table-title {
-    font-size: 18px;
-    color: var(--xl-text-color);
-    margin-bottom: 12px;
-  }
-  
-  .order-content-area-table .order-data-table-diagram {
-    border-radius: 6px;
-    border: 1px solid #f2f4ff !important;
-    overflow-x: scroll;
-  }
-  
-  .order-content-area-table .order-data-table-diagram::-webkit-scrollbar {
-    height: 6px;
-    width: 6px;
-  }
-  
-  .order-content-area-table .order-data-table-diagram::-webkit-scrollbar-track {
-    background-color: var(--scroll-track-bg-color);
-  }
-  
-  .order-content-area-table .order-data-table-diagram::-webkit-scrollbar-thumb {
-    border-radius: 100vh !important;
-    background-color: #e9e9e9;
-    outline: 1px solid rgba(0, 0, 0, 0.02);
-    outline-offset: -1px;
-  }
-  
-  .order-content-area-table .order-data-table-diagram table {
-    min-width: 900px;
-    width: 100%;
-    border-collapse: collapse;
-    color: var(--text-color-inverted);
-  }
-  
-  .order-content-area-table .order-data-table-diagram table td,
-  .order-content-area-table .order-data-table-diagram table th {
-    padding: 14px 12px;
-  }
-  
-  @media (max-width: 768px) {
-    .order-content-area-table .order-data-table-diagram table td,
-    .order-content-area-table .order-data-table-diagram table th {
-      font-size: 15px;
-      padding: 12px 10px;
-    }
-  }
-  
-  .order-content-area-table .order-data-table-diagram table thead {
-    text-align: left;
-    font-size: 17px;
-    background-color: #f2f4ff;
-  }
-  
-  .order-content-area-table .order-data-table-diagram table thead th:last-child {
-    text-align: center;
-  }
-  
-  .order-content-area-table .order-data-table-diagram table .order-dt-cell-order-action {
-    text-align: center;
-  }
-  
-  .order-content-area-table .order-data-table-diagram table .order-dt-status {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    column-gap: 6px;
-  }
-  
-  .order-content-area-table .order-data-table-diagram table .order-dt-status .order-dt-status-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 100%;
-  }
-  
-  .order-content-area-table .order-data-table-diagram table .order-dt-status .order-dt-status-dot.dot-pending {
-    background-color: var(--orange-color);
-  }
-  
-  .order-content-area-table .order-data-table-diagram table .order-dt-status .order-dt-status-dot.dot-canceled {
-    background-color: var(--red-color);
-  }
-  
-  .order-content-area-table .order-data-table-diagram table .order-dt-status .order-dt-status-dot.dot-delivered {
-    background-color: var(--green-color);
-  }
-  
-  .order-content-area-table .order-data-table-diagram table .order-dt-status .order-dt-status-text {
-    text-transform: capitalize;
-  }
-  
-  .order-content-area-table .order-action-dropdown-btn {
-    color: var(--text-color-inverted);
-    position: relative;
-  }
-  
-  .order-content-area-table .order-action-dropdown-menu {
-    position: absolute;
-    top: 100%;
-    right: 50%;
-    transform: translateX(50%);
-    height: auto;
-    min-width: 80px;
-    box-shadow: rgba(100, 100, 111, 0.1) 0px 1px 4px 0px;
-    background-color: var(--secondary-color);
-    padding: 6px 10px;
-    z-index: 1;
-    border-radius: 8px;
-    border: 1px solid var(--border-color-inverted);
-    text-align: left;
-  }
-  
-  .order-content-area-table .order-dropdown-menu-item {
-    margin: 8px 0;
-  }
-  
-  .order-content-area-table .order-dropdown-menu-link {
-    color: var(--text-color-inverted);
-    font-weight: 600;
-    transition: var(--default-transition);
-  }
-  
-  .order-content-area-table .order-dropdown-menu-link:hover {
-    opacity: 0.9;
-  }
+}
+
+.em-data-table-diagram table thead {
+  text-align: left;
+  font-size: 17px;
+  background-color: #f2f4ff;
+}
+
+.em-data-table-diagram table thead th:last-child {
+  text-align: center;
+}
+
+/* Row Cell Action */
+.em-data-table-diagram table .em-dt-cell-action {
+  text-align: center;
+}
+
+/* Status Dot Styles */
+.em-data-table-diagram table .em-dt-status {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  column-gap: 6px;
+}
+
+.em-data-table-diagram table .em-dt-status .em-dt-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 100%;
+}
+
+.em-data-table-diagram table .em-dt-status .em-dt-status-dot.dot-pending {
+  background-color: var(--orange-color);
+}
+
+.em-data-table-diagram table .em-dt-status .em-dt-status-dot.dot-canceled {
+  background-color: var(--red-color);
+}
+
+.em-data-table-diagram table .em-dt-status .em-dt-status-dot.dot-delivered {
+  background-color: var(--green-color);
+}
+
+.em-data-table-diagram table .em-dt-status .em-dt-status-text {
+  text-transform: capitalize;
+}
+
+/* Edit/Delete Button Container */
+.edit-delete-container {
+  display: flex;
+  gap: 10px;
+}
+
+.item-btn-cart {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.item-btn-cart:hover {
+  transform: scale(1.1);
+}
+
+/* Dropdown Menu for Actions */
+.em-action-dropdown-btn {
+  color: var(--text-colem-inverted);
+  position: relative;
+}
+
+.em-action-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 50%;
+  transform: translateX(50%);
+  height: auto;
+  min-width: 80px;
+  box-shadow: rgba(100, 100, 111, 0.1) 0px 1px 4px 0px;
+  background-color: var(--secondary-color);
+  padding: 6px 10px;
+  z-index: 1;
+  border-radius: 8px;
+  border: 1px solid var(--border-colem-inverted);
+  text-align: left;
+}
+
+.em-dropdown-menu-item {
+  margin: 8px 0;
+}
+
+.em-dropdown-menu-link {
+  color: var(--text-colem-inverted);
+  font-weight: 600;
+  transition: var(--default-transition);
+}
+
+.em-dropdown-menu-link:hover {
+  opacity: 0.9;
+}

@@ -55,7 +55,7 @@ const FoodItem = ({ id, name, price, description, image, category, availability 
       <div className="edit-delete-container">
         <div className="edit-btn">
           <button className="em-item-btn-cart" onClick={() => setShowEditPopup(true)}>
-            <RiEditLine size={25} />
+            
           </button>
         </div>
       </div>
