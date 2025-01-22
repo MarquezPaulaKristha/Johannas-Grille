@@ -1322,8 +1322,8 @@ app.post('/api/gcash-checkout', async (req, res) => {
                       show_line_items: true,
                       line_items: formattedLineItems, 
                       payment_method_types: ['gcash'],
-                      success_url: 'http://localhost:5173/employee/success',
-                      cancel_url: 'http://localhost:5173/employee/order',
+                      success_url: 'https://johannasgrille.onrender.com/employee/success',
+                      cancel_url: 'https://johannasgrille.onrender.com/employee/order',
                   },
               },
           },
@@ -1370,8 +1370,8 @@ app.post('/api/customer-gcash-checkout', async (req, res) => {
                       show_line_items: true,
                       line_items: formattedLineItems, 
                       payment_method_types: ['gcash'],
-                      success_url: 'http://localhost:5173/success',
-                      cancel_url: 'http://localhost:5173/',
+                      success_url: 'https://johannasgrille.onrender.com/success',
+                      cancel_url: 'https://johannasgrille.onrender.com/',
                   },
               },
           },
@@ -1402,12 +1402,13 @@ app.post('/api/create-order', async (req, res) => {
   try {
     // Extract orderid from the first item in orderItems
     const formattedDate = date.replace(/-/g, ""); // Remove dashes from date
-    const orderid = `${formattedDate}${orderItems[0].orderid}`;
+    const orderid = parseInt(`${formattedDate}${orderItems[0].orderid}`, 10);
+    const tablenum = parseInt(tableno, 10);
 
     // Insert into Orders table with manually provided orderid
     await pool.query(
       'INSERT INTO orderstbl (orderid, customerid, totalamount, ordertype, date, time, tableno, status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
-      [orderid, customerid, totalamount, ordertype, date, time, tableno, status]
+      [orderid, customerid, totalamount, ordertype, date, time, tablenum, status]
     );
 
     // Insert items into the orderitemtbl table
@@ -1482,8 +1483,8 @@ app.post('/api/reservation-gcash-checkout', async (req, res) => {
                       show_line_items: true,
                       line_items: formattedLineItems, 
                       payment_method_types: ['gcash'],
-                      success_url: 'http://localhost:5173/success-reservation',
-                      cancel_url: 'http://localhost:5173/',
+                      success_url: 'https://johannasgrille.onrender.com/success-reservation',
+                      cancel_url: 'https://johannasgrille.onrender.com/',
                   },
               },
           },
@@ -1583,6 +1584,64 @@ app.get('/api/reservation-items/:reservationId', async (req, res) => {
         WHERE ri.reservationid = $1
     `
     const result = await pool.query(reservationQuery, [reservationId])
+    res.status(200).json(result.rows)
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+app.get('/api/customer/transaction-details/:customerid', async (req, res) => {
+  const customer_id = req.params.customerid;
+  
+  try {
+    const transactionQuery = `
+      SELECT 
+        o.orderid,
+        o.totalamount,
+        o.ordertype,
+        mn.name,
+        oi.quantity
+      FROM 
+        orderstbl o
+      JOIN
+        orderitemtbl oi ON o.orderid = oi.orderid
+      JOIN
+        menuitemtbl mn ON oi.menuitemid = mn.menuitemid
+      WHERE
+        o.customerid = $1
+    `
+    const result = await pool.query(transactionQuery, [customer_id])
+    res.status(200).json(result.rows)
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+app.get('/api/customer/reservation-details/:customerid', async (req, res) => {
+  const customer_id = req.params.customerid;
+  
+  try {
+    const reservationQuery = `
+      SELECT 
+          rv.reservationid,
+          rv.reservationdate,
+          rv.reservationtime,
+          rv.amount,
+          STRING_AGG(DISTINCT rm.menu_name, ', ') AS menu_names
+      FROM 
+          reservationtbl rv
+      JOIN
+          reservationitemtbl ri ON rv.reservationid = ri.reservationid
+      JOIN
+          reservationmenutbl rm ON ri.menuitemid = rm.menuitemid
+      WHERE
+          rv.customerid = $1
+      GROUP BY
+          rv.reservationid, rv.reservationdate, rv.reservationtime, rv.amount;
+    `
+    const result = await pool.query(reservationQuery, [customer_id])
     res.status(200).json(result.rows)
   } catch (err) {
     console.error(err.message);
