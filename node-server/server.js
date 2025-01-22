@@ -1641,7 +1641,7 @@ app.get('/api/customer/reservation-details/:customerid', async (req, res) => {
       GROUP BY
           rv.reservationid, rv.reservationdate, rv.reservationtime, rv.amount
       ORDER BY
-          rv.reservationdate;
+          rv.reservationdate DESC;
     `
     const result = await pool.query(reservationQuery, [customer_id])
     res.status(200).json(result.rows)
