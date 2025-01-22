@@ -1,4 +1,4 @@
-.em-order-item {
+.emp-order-card {
   background: white;
   padding: 20px;
   border-radius: 10px;
@@ -9,100 +9,73 @@
   overflow: hidden;
 }
 
-.em-order-header {
+.emp-order-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
 }
 
-.em-order-date {
+.emp-order-header h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.emp-order-header .user-icon {
+  font-size: 24px;
+}
+
+.emp-order-date {
   font-size: 12px;
   color: grey;
 }
 
-.em-user-img {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+.emp-order-items {
+  margin-top: 10px;
 }
 
-.em-order-item-detail {
+.emp-order-item {
   display: flex;
-  align-items: center;
-  margin-bottom: 15px;
-  gap: 20px;
+  justify-content: space-between;
+  margin-bottom: 10px;
 }
 
-.em-order-name {
-  display: grid;
-  justify-items: start;
-}
-
-.em-order-name h3 {
-  display: grid;
-  margin: 0;
-  font-size: 18px;
-}
-.em-item-img {
-  width: 50px;
-  height: 50px;
-  border-radius: 10px;
-  margin-right: 10px;
-}
-
-.em-item-info h4 {
+.emp-item-info h4 {
   margin: 0;
   font-size: 16px;
 }
 
-.em-item-info span {
-  font-size: 12px;
-  color: grey;
-}
-
-.em-price {
-  display: flex;
-  justify-content: space-between;
-}
-
-.em-qty {
-  margin-left: auto;
-  margin-top: 20px;
-
-}
-.em-order-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 20px;
-}
-
-.edit-item-info {
-  display: flex;
-  flex-direction: column;
-}
-.em-item {
-  display: grid;
-}
-.em-order-summary {
+.emp-item-info span {
   font-size: 14px;
   color: grey;
 }
 
-.em-order-total {
-  font-size: 18px;
+.emp-item-quantity {
+  font-size: 14px;
+  color: #555;
+}
+
+.emp-order-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.emp-order-summary span {
   font-weight: bold;
 }
 
-.em-action-buttons {
+.emp-action-buttons {
   display: flex;
-  gap: 10px;
+  justify-content: space-between;
+  margin-top: 15px;
 }
 
-.em-reject-btn, .em-approve-btn {
+.emp-reject-btn,
+.emp-approve-btn {
   background-color: white;
-  border: 0.5px solid;
+  border: 1px solid;
   border-radius: 25%;
   width: 50px;
   height: 50px;
@@ -111,73 +84,14 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  gap: 10px;
 }
 
-.em-reject-btn {
+.emp-reject-btn {
   color: red;
   border-color: red;
 }
 
-.em-approve-btn {
+.emp-approve-btn {
   color: green;
   border-color: green;
-}
-
-.em-order-details hr {
-  margin: 10px 0px;
-  height: 2px;
-  background-color: #e2e2e2;
-  border: none;
-}
-
-.em-order-item {
-  margin-bottom: 20px;
-  border: 1px solid #ddd;
-  padding: 10px;
-  border-radius: 5px;
-}
-
-.em-order-header {
-  cursor: pointer;
-}
-
-.em-order-name h3 {
-  margin: 0;
-  font-size: 18px;
-}
-
-.em-order-details {
-  margin-top: 10px;
-}
-
-.em-order-item-detail {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
-}
-
-.em-item-info {
-  display: flex;
-  flex-direction: column;
-}
-
-.em-qty {
-  font-size: 14px;
-  color: #555;
-}
-
-.em-order-footer {
-  display: flex;
-  justify-content: space-between;
-}
-
-.em-order-summary {
-  font-weight: bold;
-}
-
-.em-order-total {
-  font-size: 16px;
-  font-weight: bold;
-  color: #000;
 }

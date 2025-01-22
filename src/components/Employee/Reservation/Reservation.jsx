@@ -83,14 +83,13 @@ const Orders = () => {
           <table>
             <thead>
               <tr>
+                <th>OrderID</th>
                 <th>CustomerID</th>
                 <th>Guests</th>
                 <th>Date</th>
                 <th>Time</th>
                 <th>Branch</th>
                 <th>Amount</th>
-                <th>PaymentMethod</th>
-                <th>Status</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -110,19 +109,13 @@ const Orders = () => {
 
                 return (
                   <tr key={dataItem.id}>
+                    <td>{dataItem.reservationid}</td>
                     <td>{dataItem.customerid}</td>
                     <td>{dataItem.numberofguests}</td>
                     <td>{formattedDate}</td>
                     <td>{formattedTime}</td>
                     <td>{dataItem.branch}</td>
                     <td>{dataItem.amount}</td>
-                    <td>{dataItem.modeofpayment}</td>
-                    <td>
-                      <div className="or-dt-status">
-                        <span className={`or-dt-status-dot dot-${dataItem.status}`}></span>
-                        <span className="or-dt-status-text">{dataItem.status}</span>
-                      </div>
-                    </td>
                     <td className="or-dt-cell-action">
                       <OrderAction
                         onOpen={() => handleOpen(dataItem)}

@@ -39,7 +39,7 @@ const OrderTable = ({ orders, handleEdit, handleDelete }) => {
 
             return (
               <tr key={dataItem.orderid}>
-                <td>{dataItem.orderid}</td>
+                <td>{dataItem.orderid.slice(-5)}</td>
                 <td>{dataItem.customerid}</td>
                 <td>{dataItem.ordertype}</td>
                 <td>{formattedDate}</td>

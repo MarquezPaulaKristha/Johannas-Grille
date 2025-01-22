@@ -61,7 +61,7 @@ const InventoryCategory = ({ category, setCategory }) => {
       <div className="admin-inv-product-menu">
         <h1>Inventory</h1>
   
-        <button className="admin-inv-add-product-button" onClick={() => setShowPopup(true)}>
+        {/* <button className="admin-inv-add-product-button" onClick={() => setShowPopup(true)}>
           Add Product
         </button>
   
@@ -116,7 +116,7 @@ const InventoryCategory = ({ category, setCategory }) => {
               </form>
             </div>
           </div>
-        )}
+        )} */}
   
         <div className="admin-inv-product-menu-list">
           {filteredItems.map((item, index) => (

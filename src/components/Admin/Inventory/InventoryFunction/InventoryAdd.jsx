@@ -58,18 +58,21 @@ const InventoryAdd = ({ productId, quantity, invid, onClose, onSave, name }) => 
         <form onSubmit={handleFormSubmit}>
           <label>Product Name</label>
           <input type="text" value={name} readOnly />
-
-          <label>Current Quantity</label>
-          <input type="number" value={quantity} readOnly />
-
-          <label>Additional Quantity</label>
-          <input
-            type="number"
-            value={additionalQuantity}
-            onChange={(e) => setAdditionalQuantity(e.target.value)}
-            required
-          />
-
+          <div className="inv-add-quantity">
+            <div className="inv-current-qty">
+            <label>Current Quantity</label>
+            <input type="number" value={quantity} readOnly />
+            </div>
+            <div className="inv-additional">
+            <label>Additional Quantity</label>
+            <input
+              type="number"
+              value={additionalQuantity}
+              onChange={(e) => setAdditionalQuantity(e.target.value)}
+              required
+            />
+            </div>
+          </div>
           <div className="inv-edit-popup-buttons">
             <button type="submit" className="inv-save-button">
               Save Changes

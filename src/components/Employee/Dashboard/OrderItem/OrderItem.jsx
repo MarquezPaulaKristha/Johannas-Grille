@@ -1,68 +1,68 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import axios from "axios";
-import './OrderItem.css';
+import "./OrderItem.css";
 
 const OrderItem = ({ orderid, items = [] }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
 
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
-  };
+  const totalAmount = items
+    .reduce((total, item) => total + parseFloat(item.price) * item.quantity, 0)
+    .toFixed(2);
 
   const handleCompleteOrder = async () => {
     try {
-      // Make a PUT or PATCH request to update the status to 'Complete'
-      const response = await axios.patch(
+      await axios.patch(
         `https://johannas-grille.onrender.com/api/orders/${orderid}/status`,
-        { status: 'Complete' }
+        { status: "Complete" }
       );
-
-      // Optionally, update the order status locally or show a success message
-      if (response.status === 200) {
-        window.location.reload();
-        // Update your local state or UI to reflect the change
-      }
+      window.location.reload();
     } catch (error) {
-      console.error('Error completing order:', error);
-      alert('Failed to complete the order');
+      console.error("Error completing order:", error);
+      alert("Failed to complete the order");
     }
   };
 
   return (
-    <div className="em-order-item">
-      <div className="em-order-header" onClick={toggleDropdown}>
-        <div className="em-order-name">
-          <h3>Order #{orderid}</h3>
+    <div className="emp-order-card">
+      {/* Header section is always visible */}
+      <div
+        className="emp-order-header"
+        onClick={() => setIsExpanded(!isExpanded)} // Toggle visibility
+      >
+        <div className="emp-order-header-info">
+          <h3>Order #{orderid.slice(-5)}</h3>
+          <span className="emp-order-date">23 Feb 2021, 07:28 PM</span>
         </div>
+        <div className="emp-user-icon">😊</div>
       </div>
 
-      {isOpen && (
-        <div className="em-order-details">
-          {items.map((item, index) => (
-            <div key={index} className="em-order-item-detail">
-              <div className="em-item-info">
-                <h4>{item.name}</h4>
-                <p>Price: ${item.price}</p>
+      {/* Rest of the content is conditionally displayed */}
+      {isExpanded && (
+        <>
+          <div className="emp-order-items">
+            {items.map((item, index) => (
+              <div key={index} className="emp-order-item">
+                <div className="emp-item-info">
+                  <h4>{item.name}</h4>
+                  <span>₱{parseFloat(item.price).toFixed(2)}</span>
+                </div>
+                <span className="emp-item-quantity">Qty: {item.quantity}</span>
               </div>
-              <p className="em-qty">Qty: {item.quantity}</p>
+            ))}
+          </div>
+          <div className="emp-order-summary">
+            <div className="emp-prices">
+              <h6>{items.length} Items</h6>
+              <span>Total: ₱{totalAmount}</span>
             </div>
-          ))}
-          <hr />
-          <div className="em-order-footer">
-            <div className="em-item">
-              <span className="em-order-summary">{items.length} Items</span>
-              <span className="em-order-total">
-                Total: ${items.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2)}
-              </span>
-            </div>
-            <div>
-              <button onClick={handleCompleteOrder}>
-                Complete
+            <div className="emp-action-buttons">
+              <button className="emp-reject-btn">❌</button>
+              <button className="emp-approve-btn" onClick={handleCompleteOrder}>
+                ✅
               </button>
-              <button onClick={toggleDropdown}>Close</button>
             </div>
           </div>
-        </div>
+        </>
       )}
     </div>
   );

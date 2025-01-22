@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+  import React, { useState } from "react";
 import "./AdminReservationMenuCategory.css"; // Assuming you have a CSS file
 import { res_list } from '../../../../assets/assets';
 
@@ -61,7 +61,7 @@ const AdminReservationMenuCategory = ({ category, setCategory }) => {
     <div className="admin-product-menu">
       <h1>Product</h1>
 
-      <button className="admin-add-product-button" onClick={() => setShowPopup(true)}>
+      {/* <button className="admin-add-product-button" onClick={() => setShowPopup(true)}>
         Add Products
       </button>
 
@@ -116,7 +116,7 @@ const AdminReservationMenuCategory = ({ category, setCategory }) => {
             </form>
           </div>
         </div>
-      )}
+      )} */}
 
       <div className="admin-product-menu-list">
         {filteredItems.map((item, index) => (

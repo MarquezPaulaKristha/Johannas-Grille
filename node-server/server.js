@@ -1524,18 +1524,16 @@ app.post('/api/create-reservation', async (req, res) => {
               reservationTime,
               branch,
               amount,
-              modeOfPayment,
-              status,
               menuItemId,
               quantity,
           } = reservation;
 
           // Insert into reservation table (only if new reservation)
           await pool.query(
-              `INSERT INTO reservationtbl (reservationid, customerid, numberofguests, reservationdate, reservationtime, branch, amount, modeofpayment, status)
-               VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+              `INSERT INTO reservationtbl (reservationid, customerid, numberofguests, reservationdate, reservationtime, branch, amount)
+               VALUES ($1, $2, $3, $4, $5, $6, $7)
                ON CONFLICT (reservationid) DO NOTHING`, // Prevent duplicate reservations
-              [reservationId, customerid, numberOfGuests, reservationDate, reservationTime, branch, totalAmount, modeOfPayment, status]
+              [reservationId, customerid, numberOfGuests, reservationDate, reservationTime, branch, amount]
           );
 
           // Insert item details into transactions table
