@@ -17,6 +17,7 @@ const SendInventory = ({ itemName, onConfirm, onCancel }) => {
       <div className="send-popup-inner">
         <h2>Send Inventory</h2>
         <p>How many units of <strong>{itemName}</strong> would you like to send?</p>
+        <div className="send-popup-qty">
         <input
           type="number"
           min="1"
@@ -24,6 +25,7 @@ const SendInventory = ({ itemName, onConfirm, onCancel }) => {
           value={quantityToSend}
           onChange={(e) => setQuantityToSend(e.target.value)}
         />
+        </div>
         <div className="send-popup-buttons">
           <button className="send-confirm-button" onClick={handleSubmit}>
             Confirm

@@ -31,6 +31,12 @@
     width: 40%;
     text-align: center;
   }
+
+  .inv-add-quantity {
+    display: flex;
+    gap: 15px;
+  }
+
   
   .inv-edit-popup-right label {
     display: block;
@@ -53,6 +59,7 @@
   .inv-edit-popup-buttons {
     display: flex;
     justify-content: space-between;
+    gap: 10px;
   }
   
   .inv-save-button {

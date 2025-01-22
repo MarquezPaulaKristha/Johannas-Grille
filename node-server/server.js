@@ -23,22 +23,22 @@ app.use(bodyParser.json());
 app.use('/uploads', express.static('uploads')); // Serve uploaded images statically
 
 // PostgreSQL connection
-const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_DATABASE,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT || 5433, // Default to 5433 if not specified
-  ssl: {rejectUnauthorized: false },
-});
-
 // const pool = new Pool({
-//   user: 'postgres',
-//   host: 'localhost',
-//   database: 'johannasgrilledb',
-//   password: 'password', //12345678 //password
-//   port: 5433, // Default PostgreSQL port
+//   user: process.env.DB_USER,
+//   host: process.env.DB_HOST,
+//   database: process.env.DB_DATABASE,
+//   password: process.env.DB_PASSWORD,
+//   port: process.env.DB_PORT || 5433, // Default to 5433 if not specified
+//   ssl: {rejectUnauthorized: false },
 // });
+
+const pool = new Pool({
+  user: 'postgres',
+  host: 'localhost',
+  database: 'johannasgrilledb',
+  password: 'password', //12345678 //password
+  port: 5433, // Default PostgreSQL port
+});
 
 
 // Multer storage for handling image uploads
@@ -1523,18 +1523,16 @@ app.post('/api/create-reservation', async (req, res) => {
               reservationTime,
               branch,
               amount,
-              modeOfPayment,
-              status,
               menuItemId,
               quantity,
           } = reservation;
 
           // Insert into reservation table (only if new reservation)
           await pool.query(
-              `INSERT INTO reservationtbl (reservationid, customerid, numberofguests, reservationdate, reservationtime, branch, amount, modeofpayment, status)
-               VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+              `INSERT INTO reservationtbl (reservationid, customerid, numberofguests, reservationdate, reservationtime, branch, amount)
+               VALUES ($1, $2, $3, $4, $5, $6, $7)
                ON CONFLICT (reservationid) DO NOTHING`, // Prevent duplicate reservations
-              [reservationId, customerid, numberOfGuests, reservationDate, reservationTime, branch, totalAmount, modeOfPayment, status]
+              [reservationId, customerid, numberOfGuests, reservationDate, reservationTime, branch, amount]
           );
 
           // Insert item details into transactions table
