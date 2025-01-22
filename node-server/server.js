@@ -1402,7 +1402,7 @@ app.post('/api/create-order', async (req, res) => {
   try {
     // Extract orderid from the first item in orderItems
     const formattedDate = date.replace(/-/g, ""); // Remove dashes from date
-    const orderid = `${formattedDate}${orderItems[0].orderid}`;
+    const orderid = BigInt(`${formattedDate}${orderItems[0].orderid}`);
 
     // Insert into Orders table with manually provided orderid
     await pool.query(
