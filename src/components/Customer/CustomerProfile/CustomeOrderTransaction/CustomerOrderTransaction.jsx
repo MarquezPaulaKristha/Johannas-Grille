@@ -44,7 +44,6 @@ const CustomerOrderTransaction = () => {
       }
 
       acc[orderid].items.push({ name, quantity });
-      acc[orderid].totalAmount += totalamount;
 
       return acc;
     }, {});
