@@ -56,14 +56,14 @@ const Sidebar = () => {
                 <span className="em-menu-link-text">Order History</span>
               </Link>
             </li>
-            <li className="em-menu-item">
+            {/* <li className="em-menu-item">
               <Link to="/employee/statistics" className={`em-menu-link ${isActive("/employee/statistics") ? "active" : ""}`}>
                 <span className="em-menu-link-icon">
                   <BsGraphUp size={20} />
                 </span>
                 <span className="em-menu-link-text">Statistics</span>
               </Link>
-            </li>
+            </li> */}
             <li className="em-menu-item">
               <Link to="/employee/product" className={`em-menu-link ${isActive("/employee/product") ? "active" : ""}`}>
                 <span className="em-menu-link-icon">
