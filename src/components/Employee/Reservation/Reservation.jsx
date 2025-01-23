@@ -23,7 +23,7 @@ const Orders = () => {
   }, []);
 
   const handleOpen = (reservation) => {
-    fetch(`https://johannas-grille.onrender.comapi/reservation-items/${reservation.reservationid}`)
+    fetch(`https://johannas-grille.onrender.com/api/reservation-items/${reservation.reservationid}`)
       .then((response) => response.json())
       .then((data) => setReservationItems(data))
       .catch((error) => console.error("Error fetching reservation data:", error));
