@@ -52,7 +52,6 @@ const App = () => {
             <Route path='/admin/inventory' element={<ProtectedRoute> <Inventory /> </ProtectedRoute>} />
             <Route path='/employee/dashboard' element={<ProtectedRoute> <Employee_Dashboard /> </ProtectedRoute>} />
             <Route path='/employee/orderhistory' element={<ProtectedRoute> <OrderHistory /> </ProtectedRoute>} />
-            <Route path='/employee/statistics' element={<ProtectedRoute> <Statistics /> </ProtectedRoute>} />
             <Route path='/employee/product' element={<ProtectedRoute> <ProductList /> </ProtectedRoute>} />
             <Route path='/employee/order' element={<ProtectedRoute> <EmployeeOrder /> </ProtectedRoute>} />
             <Route path='/employee/reservation' element={<ProtectedRoute> <Reservation /> </ProtectedRoute>} />

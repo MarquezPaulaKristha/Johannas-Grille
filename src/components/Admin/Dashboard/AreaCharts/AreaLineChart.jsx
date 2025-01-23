@@ -90,7 +90,7 @@ const AreaLineChart = ({ month, setMonth, year, setYear }) => {
         onChange={(e) => setYear(Number(e.target.value))}
         style={{ padding: '5px', fontSize: '16px', marginLeft: '10px' }}
       >
-        {[2024, 2025].map((y) => (
+        {[2022, 2023, 2024, 2025].map((y) => (
           <option key={y} value={y}>
             {y}
           </option>

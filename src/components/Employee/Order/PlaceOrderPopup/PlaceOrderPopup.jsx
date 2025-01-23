@@ -19,14 +19,14 @@ const PlaceOrderPopup = ({ onCancel }) => {
 
     const getCurrentDateTime = () => {
         const now = new Date();
-    
+
         // Format the date as YYYY-MM-DD
         const currentDate = now.toISOString().split("T")[0]; // YYYY-MM-DD
         const currentTime = now.toTimeString().split(" ")[0]; // HH:mm:ss
-    
+
         return { currentDate, currentTime };
     };
-    
+
     const { currentDate, currentTime } = getCurrentDateTime();
 
     const handleConfirmPayment = async () => {
@@ -36,34 +36,34 @@ const PlaceOrderPopup = ({ onCancel }) => {
         }
 
         const orderData = {
-          customerid: "00000",
-          orderItems: orderItems.map(item => ({
-            orderid: item.orderid,
-            menuitemid: item.menuitemid,
-            order_quantity: item.quantity,
-          })),
-          totalamount: totalPrice,
-          ordertype: orderType,
-          date: currentDate,
-          time: currentTime,
-          tableno: tableNumber,
-          status: "Pending",
-          selectedBranch: selectedEmployeeBranch,
+            customerid: "00000",
+            orderItems: orderItems.map(item => ({
+                orderid: item.orderid,
+                menuitemid: item.menuitemid,
+                order_quantity: item.quantity,
+            })),
+            totalamount: totalPrice,
+            ordertype: orderType,
+            date: currentDate,
+            time: currentTime,
+            tableno: tableNumber,
+            status: "Pending",
+            selectedBranch: selectedEmployeeBranch,
         };
-    
+
         try {
-          const response = await axios.post("https://johannas-grille.onrender.com/api/create-order", orderData);
-          if (response.status === 200) {
-            setOrderItems([]);
-            setTableNumber("");
-            setOrderType("Dine In");
-            window.location.reload();
-            onCancel();
-          }
+            const response = await axios.post("https://johannas-grille.onrender.com/api/create-order", orderData);
+            if (response.status === 200) {
+                setOrderItems([]);
+                setTableNumber("");
+                setOrderType("Dine In");
+                window.location.reload();
+                onCancel();
+            }
         } catch (error) {
-          alert("Failed to create order. Please try again.");
+            alert("Failed to create order. Please try again.");
         }
-      };
+    };
 
     return (
         <div className="place-order-popup">
@@ -72,19 +72,26 @@ const PlaceOrderPopup = ({ onCancel }) => {
                 <ul className="order-items-list">
                     {orderItems.map((item) => (
                         <li key={item.menuitemid}>
-                            {item.name} - Quantity: {item.quantity} - 
-                            Price: ${Number(item.price) ? Number(item.price).toFixed(2) : 'N/A'}
+                            <div className="orderitems">
+                                <div className="orderitem-info">
+                                <h4>{item.name}</h4>
+                                <p>Qty: {item.quantity}</p> 
+                                </div>
+                                <div className="orderitem-price">
+                                    <p>Price: P{Number(item.price) ? Number(item.price).toFixed(2) : 'N/A'}</p>
+                                </div>
+                            </div>
                         </li>
                     ))}
                 </ul>
                 <p>Order Type: <strong>{orderType}</strong></p>
                 <p>Total Items: <strong>{orderItems.length}</strong></p>
-                <p>Total Price: <strong>${totalPrice.toFixed(2)}</strong></p>
+                <p>Total Price: <strong>P{totalPrice.toFixed(2)}</strong></p>
                 <div className="emp-table-number">
                     <label>
                         Table No.
-                        <input 
-                            type="number" 
+                        <input
+                            type="number"
                             value={tableNumber}  // Bind input value to state
                             onChange={(e) => setTableNumber(e.target.value)}  // Update state on input change
                         />
@@ -102,7 +109,7 @@ const PlaceOrderPopup = ({ onCancel }) => {
                             placeholder="Enter amount"
                         />
                     </label>
-                    <p>Change: <strong>${change.toFixed(2)}</strong></p>
+                    <p>Change: <strong>P{change.toFixed(2)}</strong></p>
                 </div>
                 <div className="place-order-buttons">
                     <button

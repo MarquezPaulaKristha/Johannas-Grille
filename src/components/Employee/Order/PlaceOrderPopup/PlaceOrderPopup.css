@@ -4,87 +4,174 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.3);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 1000;
-    padding: 10px; /* Added padding to prevent touching edges */
+    padding: 20px;
+    animation: fadeIn 0.3s ease-out;
 }
 
 .place-order-popup-inner {
-    background: #fff;
-    padding: 25px;
-    border-radius: 10px;
+    background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
+    border-radius: 15px;
     width: 100%;
-    max-width: 400px; /* Ensure the popup doesn't get too wide */
+    max-width: 450px;
     text-align: left;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Add shadow for better visibility */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    padding: 30px;
+    animation: slideUp 0.3s ease-out;
     overflow-y: auto;
+    transition: transform 0.3s ease-in-out;
 }
 
 .place-order-popup-inner h2 {
-    font-size: 24px;
+    font-size: 28px;
     margin-bottom: 20px;
     text-align: center;
+    color: #333;
+    font-family: 'Roboto', sans-serif;
 }
 
 .order-items-list {
     list-style-type: none;
     padding: 0;
     margin: 0;
-    max-height: 200px; /* Limit the height if there are many items */
-    overflow-y: auto; /* Make the list scrollable */
-    margin-bottom: 20px;
+    max-height: 230px;
+    overflow-y: auto;
+    margin-bottom: 25px;
 }
 
 .order-items-list li {
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.orderitems {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    font-weight: 500;
+    color: #555;
+}
+
+.orderitem-info h4 {
+    font-size: 16px;
+    color: #333;
+}
+
+.orderitem-price p {
     font-size: 14px;
-    margin-bottom: 10px;
+    color: #777;
+}
+
+.emp-table-number,
+.payment-section {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #666;
+    font-weight: 600;
+}
+
+input[type="number"] {
+    width: 100%;
+    padding: 14px 18px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background: #f9f9f9;
+    box-sizing: border-box;
+    margin-bottom: 5px;
+    transition: all 0.3s ease;
+}
+
+input[type="number"]:focus {
+    border-color: #4CAF50;
+    background: #fff;
+    outline: none;
+}
+
+.payment-section p {
+    font-size: 18px;
+    color: #333;
+    font-weight: 600;
 }
 
 .place-order-buttons {
     display: flex;
     justify-content: space-between;
-    margin-top: 20px;
+    gap: 20px;
 }
 
-.confirm-button, .cancel-button {
+.confirm-button,
+.cancel-button {
     font-size: 16px;
-    padding: 12px 20px;
+    padding: 16px 24px;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
-    width: 45%;
+    width: 48%;
+    transition: background-color 0.3s, transform 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .confirm-button {
-    background-color: #4CAF50;
+    background-color: #00796b;
     color: white;
 }
 
 .cancel-button {
-    background-color: #f44336;
+    background-color: #e57373;
     color: white;
 }
 
 .confirm-button:hover {
-    background-color: #45a049;
+    background-color: #004d40;
+    transform: translateY(-3px);
 }
 
 .cancel-button:hover {
-    background-color: #e53935;
+    background-color: #d32f2f;
+    transform: translateY(-3px);
 }
 
 .place-order-buttons button:focus {
-    outline: none; /* Remove default focus outline for a cleaner look */
+    outline: none;
 }
 
 .place-order-popup-inner p {
     font-size: 14px;
     margin: 8px 0;
+    color: #555;
 }
 
 .place-order-popup-inner p strong {
     font-weight: bold;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    0% {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }

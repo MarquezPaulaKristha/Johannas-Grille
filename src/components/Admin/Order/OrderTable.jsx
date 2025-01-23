@@ -52,14 +52,14 @@ const OrderTable = ({ orders, handleEdit, handleDelete }) => {
                 <td>P{dataItem.totalamount}</td>
                 <td>{formattedTime}</td>
                 <td className="or-dt-cell-action">
-                  <div className="edit-delete-container">
+                  {/* <div className="edit-delete-container">
                     <button className="item-btn-cart" onClick={() => handleEdit(dataItem)}>
                       <RiEditLine size={25} />
                     </button>
                     <button className="item-btn-cart" onClick={() => handleDelete(dataItem.orderid)}>
                       <MdDeleteOutline size={25} />
                     </button>
-                  </div>
+                  </div> */}
                 </td>
               </tr>
             );
