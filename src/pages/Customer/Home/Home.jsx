@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import './Home.css';
 import Header from '../../../components/Customer/Header/Header';
 import Product from '../Product/Product';
@@ -11,6 +10,7 @@ import LoginPopUp from '../../Customer/Login/Login';
 const Home = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [orderId, setOrderId] = useState('');
+  const [isOrderIdGenerated, setIsOrderIdGenerated] = useState(false); // To check if orderId is generated
 
   // Generate orderId with current year, month, date, and a 5-digit random number
   useEffect(() => {
@@ -21,25 +21,29 @@ const Home = () => {
       const day = currentDate.getDate().toString().padStart(2, '0'); // Adding padding for single-digit days
       const randomDigits = Math.floor(10000 + Math.random() * 90000).toString();
 
-      console.log(`Year: ${year}, Month: ${month}, Day: ${day}, Random: ${randomDigits}`); // Debugging log
-
       return `${year}${month}${day}${randomDigits}`;
     };
 
     const newOrderId = generateOrderId();
-    console.log("Generated Order ID:", newOrderId); // Log the generated order ID
     setOrderId(newOrderId);
+    setIsOrderIdGenerated(true); // Set to true once orderId is generated
   }, []);
 
   return (
     <div>
-      {/* Pass the same orderId to Navbar and Product */}
-      <Navbar setShowLogin={setShowLogin} orderId={orderId} />
-      {showLogin && <LoginPopUp setShowLogin={setShowLogin} />}
-      <Header />
-      <Product orderId={orderId} />
-      <Carousel />
-      <Footer />
+      {isOrderIdGenerated ? (
+        <>
+          {/* Pass the orderId to Navbar and Product once it's generated */}
+          <Navbar setShowLogin={setShowLogin} orderId={orderId} />
+          {showLogin && <LoginPopUp setShowLogin={setShowLogin} />}
+          <Header />
+          <Product orderId={orderId} />
+          <Carousel />
+          <Footer />
+        </>
+      ) : (
+        <p>Loading...</p> // You can show a loading spinner or a message until the orderId is generated
+      )}
     </div>
   );
 };
