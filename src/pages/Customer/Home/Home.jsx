@@ -10,7 +10,7 @@ import LoginPopUp from '../../Customer/Login/Login';
 
 const Home = () => {
   const [showLogin, setShowLogin] = useState(false);
-  const [orderId, setOrderId] = useState('');
+  const [newOrderId, setOrderId] = useState('');
 
   // Generate orderId with current year, month, date, and a 5-digit random number
   useEffect(() => {
@@ -20,18 +20,24 @@ const Home = () => {
       const month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // Adding padding for single-digit months
       const day = currentDate.getDate().toString().padStart(2, '0'); // Adding padding for single-digit days
       const randomDigits = Math.floor(10000 + Math.random() * 90000).toString();
+
+      console.log(`Year: ${year}, Month: ${month}, Day: ${day}, Random: ${randomDigits}`); // Debugging log
+
       return `${year}${month}${day}${randomDigits}`;
     };
-    setOrderId(generateOrderId());
+
+    const newOrderId = generateOrderId();
+    console.log("Generated Order ID:", newOrderId); // Log the generated order ID
+    setOrderId(newOrderId);
   }, []);
 
   return (
     <div>
       {/* Pass the same orderId to Navbar and Product */}
-      <Navbar setShowLogin={setShowLogin} orderId={orderId} />
+      <Navbar setShowLogin={setShowLogin} newOrderId={orderId} />
       {showLogin && <LoginPopUp setShowLogin={setShowLogin} />}
       <Header />
-      <Product orderId={orderId} />
+      <Product newOrderId={orderId} />
       <Carousel />
       <Footer />
     </div>
