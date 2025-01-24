@@ -10,7 +10,7 @@ import LoginPopUp from '../../Customer/Login/Login';
 
 const Home = () => {
   const [showLogin, setShowLogin] = useState(false);
-  const [newOrderId, setOrderId] = useState('');
+  const [orderId, setOrderId] = useState('');
 
   // Generate orderId with current year, month, date, and a 5-digit random number
   useEffect(() => {
@@ -34,10 +34,10 @@ const Home = () => {
   return (
     <div>
       {/* Pass the same orderId to Navbar and Product */}
-      <Navbar setShowLogin={setShowLogin} newOrderId={orderId} />
+      <Navbar setShowLogin={setShowLogin} orderId={orderId} />
       {showLogin && <LoginPopUp setShowLogin={setShowLogin} />}
       <Header />
-      <Product newOrderId={orderId} />
+      <Product orderId={orderId} />
       <Carousel />
       <Footer />
     </div>
