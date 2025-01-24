@@ -1540,7 +1540,7 @@ app.post('/api/create-reservation', async (req, res) => {
           await pool.query(
               `INSERT INTO reservationitemtbl (reservationid, menuitemid, qty)
                VALUES ($1, $2, $3)`,
-              [reservationId, menuItemId, quantity]
+              [reservation_id, menuItemId, quantity]
           );
 
           // Update inventory stock
