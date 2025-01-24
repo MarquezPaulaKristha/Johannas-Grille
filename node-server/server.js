@@ -23,22 +23,22 @@ app.use(bodyParser.json());
 app.use('/uploads', express.static('uploads')); // Serve uploaded images statically
 
 // PostgreSQL connection
-const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_DATABASE,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT || 5433, // Default to 5433 if not specified
-  ssl: {rejectUnauthorized: false },
-});
-
 // const pool = new Pool({
-//   user: 'postgres',
-//   host: 'localhost',
-//   database: 'johannasgrilledb',
-//   password: 'password', //12345678 //password
-//   port: 5433, // Default PostgreSQL port
+//   user: process.env.DB_USER,
+//   host: process.env.DB_HOST,
+//   database: process.env.DB_DATABASE,
+//   password: process.env.DB_PASSWORD,
+//   port: process.env.DB_PORT || 5433, // Default to 5433 if not specified
+//   ssl: {rejectUnauthorized: false },
 // });
+
+const pool = new Pool({
+  user: 'postgres',
+  host: 'localhost',
+  database: 'johannasgrilledb',
+  password: 'password', //12345678 //password
+  port: 5433, // Default PostgreSQL port
+});
 
 
 // Multer storage for handling image uploads
@@ -366,15 +366,14 @@ app.post('/api/reservations/items', async (req, res) => {
   }
 });
 
-app.post('/api/reservations/payment', async (req, res) => {
+app.patch('/api/reservations/payment', async (req, res) => {
   const { reservationId, referenceCode, gcashNumber } = req.body;
 
   if (!reservationId || !referenceCode || !gcashNumber) {
-    return res.status(400).json({ success: false, message: 'Missing reservationId or referenceCode' });
+    return res.status(400).json({ success: false, message: 'Missing reservationId, referenceCode, or gcashNumber' });
   }
 
   try {
-    // Update the reservationtbl with the GCash payment details
     const result = await pool.query(
       `UPDATE reservationtbl
        SET referencecode = $1, gcashnumber = $2
@@ -383,7 +382,7 @@ app.post('/api/reservations/payment', async (req, res) => {
     );
 
     if (result.rowCount === 0) {
-      // No rows were updated
+      console.error('Reservation not found for ID:', reservationId);
       return res.status(404).json({ success: false, message: 'Reservation not found' });
     }
 
@@ -393,8 +392,6 @@ app.post('/api/reservations/payment', async (req, res) => {
     res.status(500).json({ success: false, message: 'Error inserting payment details' });
   }
 });
-
-
 
 // delete menu items
 

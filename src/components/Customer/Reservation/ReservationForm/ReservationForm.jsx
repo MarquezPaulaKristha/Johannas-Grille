@@ -2,15 +2,16 @@ import React, { useState } from 'react';
 import './ReservationForm.css';
 import CustomerReservationMenu from '../CustomerReservationMenu/CustomerReservationMenu';
 import CustomerReservationReceipt from '../CustomerReservationReceipt/CustomerReservationReceipt'; // Import the receipt component
-import { IoIosCloseCircleOutline } from "react-icons/io";
+import TermsAndConditions from '../CustomerTerms&Condition/CustomerTerms&Condition';
 import { useProvider } from '../../../../global_variable/Provider';
 
 const ReservationForm = ({ reservationId, onClose }) => {
   const { reservationDetails, setReservationDetails, customer } = useProvider();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
+  const [showTerms, setShowTerms] = useState(false); // To control the Terms and Conditions popup
   const [isReceiptOpen, setIsReceiptOpen] = useState(false); // New state for receipt
-  const branchOptions = ["Batangas", "Bauan"];
+  const branchOptions = ['Batangas', 'Bauan'];
 
   const handleCheckboxChange = (e) => {
     setTermsAccepted(e.target.checked);
@@ -18,7 +19,7 @@ const ReservationForm = ({ reservationId, onClose }) => {
 
   const handleTermsClick = (e) => {
     e.preventDefault();
-    setIsReceiptOpen(true); // Open the receipt popup
+    setShowTerms(true); // Show the Terms and Conditions popup
   };
 
   const handleFormSubmit = (e) => {
@@ -46,8 +47,16 @@ const ReservationForm = ({ reservationId, onClose }) => {
     setIsSubmitted(true); // Mark the form as submitted
   };
 
+  const handleCloseTerms = () => {
+    setShowTerms(false); // Close the Terms and Conditions popup
+  };
+
   return (
     <>
+      {/* Terms and Conditions Popup */}
+      {showTerms && <TermsAndConditions onClose={handleCloseTerms} />}
+
+      {/* Receipt Popup */}
       {isReceiptOpen && (
         <CustomerReservationReceipt
           reservationId={reservationId}
@@ -55,7 +64,8 @@ const ReservationForm = ({ reservationId, onClose }) => {
         />
       )}
 
-      {!isSubmitted ? (
+      {/* Reservation Form */}
+      {!isSubmitted && !showTerms && (
         <div className="res-modal-overlay">
           <div className="res-modal-content modern">
             <h1>{reservationId}</h1>
@@ -75,12 +85,7 @@ const ReservationForm = ({ reservationId, onClose }) => {
                 </div>
                 <div className="res-form-group">
                   <label htmlFor="date">Date</label>
-                  <input
-                    type="date"
-                    id="date"
-                    name="date"
-                    required
-                  />
+                  <input type="date" id="date" name="date" required />
                 </div>
                 <div className="res-form-group">
                   <label htmlFor="time">Time</label>
@@ -113,7 +118,10 @@ const ReservationForm = ({ reservationId, onClose }) => {
                     required
                   />
                   <label htmlFor="terms">
-                    I accept the <a href="#" onClick={handleTermsClick} className="terms-condition">Terms and Conditions</a>
+                    I accept the{' '}
+                    <a href="#" onClick={handleTermsClick} className="terms-condition">
+                      Terms and Conditions
+                    </a>
                   </label>
                 </div>
               </div>
@@ -128,8 +136,15 @@ const ReservationForm = ({ reservationId, onClose }) => {
             </form>
           </div>
         </div>
-      ) : (
-        <CustomerReservationMenu reservationDetails={reservationDetails} onClose={onClose} reservationId={reservationId} />
+      )}
+
+      {/* Customer Reservation Menu */}
+      {isSubmitted && (
+        <CustomerReservationMenu
+          reservationDetails={reservationDetails}
+          onClose={onClose}
+          reservationId={reservationId}
+        />
       )}
     </>
   );

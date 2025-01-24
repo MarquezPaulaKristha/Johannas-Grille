@@ -1,8 +1,9 @@
-.navbar{
+.navbar {
     padding: 20px 0px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
 }
 
 .navbar .logo {
@@ -15,6 +16,7 @@
     gap: 20px;
     color: #49557e;
     font-size: 18px;
+    transition: all 0.3s ease-in-out;
 }
 
 .navbar-right {
@@ -28,7 +30,7 @@
     background: transparent;
     font-size: 16px;
     color: #49557e;
-    border: 1px  solid tomato;
+    border: 1px solid tomato;
     padding: 10px 30px;
     border-radius: 50px;
     cursor: pointer;
@@ -51,7 +53,8 @@
 .navbar-search-icon {
     position: relative;
 }
-.navbar-search-icon .dot{
+
+.navbar-search-icon .dot {
     position: absolute;
     min-width: 10px;
     min-height: 10px;
@@ -61,47 +64,203 @@
     right: -8px;
 }
 
-@media (max-width:1050px) {
-    .navbar .logo{
+/* Menu Toggle Button */
+.menu-toggle {
+    display: none; /* Hidden by default */
+    cursor: pointer;
+    color: #000000;
+    font-size: 24px;
+}
+
+/* Responsive Styles */
+@media (max-width: 1050px) {
+    .navbar .logo {
         width: 140px;
     }
-    .navbar-menu{
+    .navbar-menu {
         gap: 20px;
         font-size: 17px;
     }
-    .navbar-right{
+    .navbar-right {
         gap: 30px;
     }
-    .navbar-right img{
+    .navbar-right img {
         width: 22px;
     }
-    .navbar-right .login-btn{
+    .navbar-right .login-btn {
         padding: 8px 25px;
     }
 }
 
-@media (max-width:900px) {
-    .navbar .logo{
+@media (max-width: 900px) {
+    .navbar .logo {
         width: 120px;
     }
-    .navbar-menu{
+    .navbar-menu {
         gap: 15px;
         font-size: 16px;
     }
-    .navbar-right{
+    .navbar-right {
         gap: 20px;
     }
-    .navbar-right img{
+    .navbar-right img {
         width: 20px;
     }
-    .navbar-right .login-btn{
+    .navbar-right .login-btn {
         padding: 7px 20px;
         font-size: 15px;
     }
 }
 
-@media (max-width:750px) {
-    .navbar-menu{
+@media (max-width: 750px) {
+    /* Hide default menu */
+    .navbar-menu {
+        display: none; /* Hide by default */
+        flex-direction: column;
+        position: absolute;
+        top: 70px; /* Adjust based on navbar height */
+        right: 20px;
+        background-color: white;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        padding: 10px 0;
+        z-index: 10;
+        width: 200px;
+    }
+
+    /* Show menu when active */
+    .navbar-menu.active {
+        display: flex;
+    }
+
+    /* Menu items style */
+    .navbar-menu a {
+        padding: 10px 15px;
+        text-align: left;
+        border-bottom: 1px solid #eee;
+    }
+
+    .navbar-menu a:last-child {
+        border-bottom: none;
+    }
+
+    /* Hide right-side options */
+    .navbar-right {
         display: none;
+    }
+
+    /* Show menu toggle */
+    .menu-toggle {
+        display: block;
+    }
+}
+.navbar {
+    padding: 20px 0px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+.navbar .logo {
+    width: 150px;
+}
+
+.navbar-menu {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+    color: #49557e;
+    font-size: 18px;
+    transition: all 0.3s ease-in-out;
+}
+
+.navbar-menu.active {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 70px; /* Adjust based on navbar height */
+    right: 20px;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 10px 0;
+    z-index: 10;
+    width: 200px;
+}
+
+.navbar-menu a {
+    padding: 10px 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.navbar-menu a:last-child {
+    border-bottom: none;
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.navbar .login-btn {
+    background: transparent;
+    font-size: 16px;
+    color: #49557e;
+    border: 1px solid tomato;
+    padding: 10px 30px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.navbar .login-btn:hover {
+    background-color: #fff4f2;
+}
+
+.navbar-search-icon {
+    position: relative;
+}
+
+.navbar-search-icon .dot {
+    position: absolute;
+    min-width: 10px;
+    min-height: 10px;
+    background-color: tomato;
+    border-radius: 5px;
+    top: -8px;
+    right: -8px;
+}
+
+/* Menu Toggle Button */
+.menu-toggle {
+    cursor: pointer;
+    color: #49557e;
+    display: none; /* Hidden by default */
+}
+
+/* Responsive Styles */
+@media (max-width: 750px) {
+    .navbar-menu {
+        display: none; /* Hide by default */
+    }
+
+    .navbar-menu.active {
+        display: flex; /* Show menu when active */
+    }
+
+    .navbar-right {
+        gap: 10px;
+    }
+
+    .menu-toggle {
+        display: block; /* Show toggle button */
+    }
+
+    .navbar .login-btn {
+        font-size: 14px;
+        padding: 7px 20px;
     }
 }

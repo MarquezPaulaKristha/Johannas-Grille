@@ -12,15 +12,21 @@ const Home = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [orderId, setOrderId] = useState('');
 
-  // Generate a single 5-digit orderId on mount
+  // Generate orderId with current year, month, date, and a 5-digit random number
   useEffect(() => {
-    const generateOrderId = () => Math.floor(10000 + Math.random() * 90000).toString();
+    const generateOrderId = () => {
+      const currentDate = new Date();
+      const year = currentDate.getFullYear();
+      const month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // Adding padding for single-digit months
+      const day = currentDate.getDate().toString().padStart(2, '0'); // Adding padding for single-digit days
+      const randomDigits = Math.floor(10000 + Math.random() * 90000).toString();
+      return `${year}${month}${day}${randomDigits}`;
+    };
     setOrderId(generateOrderId());
   }, []);
 
   return (
     <div>
-      
       {/* Pass the same orderId to Navbar and Product */}
       <Navbar setShowLogin={setShowLogin} orderId={orderId} />
       {showLogin && <LoginPopUp setShowLogin={setShowLogin} />}

@@ -40,7 +40,7 @@ function SuccessReservationPage() {
   
     try {
       const response = await fetch('https://johannas-grille.onrender.com/api/reservations/payment', {
-        method: 'POST',
+        method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ reservationId, referenceCode, gcashNumber }),
       });
