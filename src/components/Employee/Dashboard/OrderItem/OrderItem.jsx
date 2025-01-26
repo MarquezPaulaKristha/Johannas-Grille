@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./OrderItem.css";
 
-const OrderItem = ({ orderid, items = [] }) => {
+const OrderItem = ({ orderid, date, items = [] }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const totalAmount = items
