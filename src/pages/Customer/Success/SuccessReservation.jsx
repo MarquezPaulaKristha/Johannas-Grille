@@ -24,7 +24,7 @@ function SuccessReservationPage() {
 
       if (response.status === 200) {
         // Successfully created reservation, now trigger the receipt
-        setReservationId(response.data.reservationId); // Assuming response has reservationId
+        setReservationId(response.data.reservation_id); // Assuming response has reservationId
         // Step 2: Proceed to show receipt
         setIsReceiptVisible(true);
       }

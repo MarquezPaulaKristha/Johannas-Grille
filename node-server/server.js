@@ -1540,7 +1540,7 @@ app.post('/api/create-reservation', async (req, res) => {
           await pool.query(
               `INSERT INTO reservationitemtbl (reservationid, menuitemid, qty)
                VALUES ($1, $2, $3)`,
-              [reservationId, menuItemId, quantity]
+              [reservation_id, menuItemId, quantity]
           );
 
           // Update inventory stock
@@ -1550,7 +1550,10 @@ app.post('/api/create-reservation', async (req, res) => {
           // );
       }
 
-      res.status(200).json({ message: 'Reservations created successfully' });
+      res.status(200).json({ 
+        message: 'Reservations created successfully', 
+        reservation_id 
+      });
   } catch (err) {
       console.error(err.message);
       res.status(500).json({ message: 'Server error' });
