@@ -366,14 +366,15 @@ app.post('/api/reservations/items', async (req, res) => {
   }
 });
 
-app.patch('/api/reservations/payment', async (req, res) => {
+app.post('/api/reservations/payment', async (req, res) => {
   const { reservationId, referenceCode, gcashNumber } = req.body;
 
   if (!reservationId || !referenceCode || !gcashNumber) {
-    return res.status(400).json({ success: false, message: 'Missing reservationId, referenceCode, or gcashNumber' });
+    return res.status(400).json({ success: false, message: 'Missing reservationId or referenceCode' });
   }
 
   try {
+    // Update the reservationtbl with the GCash payment details
     const result = await pool.query(
       `UPDATE reservationtbl
        SET referencecode = $1, gcashnumber = $2
@@ -382,7 +383,7 @@ app.patch('/api/reservations/payment', async (req, res) => {
     );
 
     if (result.rowCount === 0) {
-      console.error('Reservation not found for ID:', reservationId);
+      // No rows were updated
       return res.status(404).json({ success: false, message: 'Reservation not found' });
     }
 
@@ -392,6 +393,8 @@ app.patch('/api/reservations/payment', async (req, res) => {
     res.status(500).json({ success: false, message: 'Error inserting payment details' });
   }
 });
+
+
 
 // delete menu items
 
@@ -1430,7 +1433,7 @@ app.post('/api/create-order', async (req, res) => {
   }
 });
 
-app.patch('/api/orders/:orderid/status', async (req, res) => {
+app.post('/api/orders/:orderid/status', async (req, res) => {
   const { orderid } = req.params; // Extract order ID from URL
   const { status } = req.body;    // Extract new status (e.g., 'Complete') from the request body
 
@@ -1509,9 +1512,6 @@ app.post('/api/reservation-gcash-checkout', async (req, res) => {
 app.post('/api/create-reservation', async (req, res) => {
   const reservations = req.body; // The payload array from the frontend
   const totalAmount = reservations[reservations.length - 1]?.amount || 0;
-  const formattedDate = reservations[0].reservationDate.replace(/-/g, ""); // Remove dashes from date
-  const reservation_id = parseInt(`${formattedDate}${reservations[0].reservationId}`, 10);
-
 
   try {
       // Loop through each reservation item in the payload
@@ -1533,7 +1533,7 @@ app.post('/api/create-reservation', async (req, res) => {
               `INSERT INTO reservationtbl (reservationid, customerid, numberofguests, reservationdate, reservationtime, branch, amount)
                VALUES ($1, $2, $3, $4, $5, $6, $7)
                ON CONFLICT (reservationid) DO NOTHING`, // Prevent duplicate reservations
-              [reservation_id, customerid, numberOfGuests, reservationDate, reservationTime, branch, totalAmount]
+              [reservationId, customerid, numberOfGuests, reservationDate, reservationTime, branch, amount]
           );
 
           // Insert item details into transactions table
