@@ -33,7 +33,7 @@ const OrderItem = ({ orderid, items = [] }) => {
       >
         <div className="emp-order-header-info">
           <h3>Order #{orderid}</h3>
-          <span className="emp-order-date">23 Feb 2021, 07:28 PM</span>
+          <span className="emp-order-date">{date}</span>
         </div>
         <div className="emp-user-icon">😊</div>
       </div>
