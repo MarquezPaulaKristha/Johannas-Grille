@@ -32,7 +32,7 @@ const OrderItem = ({ orderid, items = [] }) => {
         onClick={() => setIsExpanded(!isExpanded)} // Toggle visibility
       >
         <div className="emp-order-header-info">
-          <h3>Order #{orderid.slice(-5)}</h3>
+          <h3>Order #{orderid}</h3>
           <span className="emp-order-date">23 Feb 2021, 07:28 PM</span>
         </div>
         <div className="emp-user-icon">😊</div>
