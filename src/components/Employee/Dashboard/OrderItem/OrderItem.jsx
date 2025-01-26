@@ -9,18 +9,20 @@ const OrderItem = ({ orderid, items = [] }) => {
     .reduce((total, item) => total + parseFloat(item.price) * item.quantity, 0)
     .toFixed(2);
 
-  const handleCompleteOrder = async () => {
-    try {
-      await axios.patch(
-        `https://johannas-grille.onrender.com/api/orders/${orderid}/status`,
-        { status: "Complete" }
-      );
-      window.location.reload();
-    } catch (error) {
-      console.error("Error completing order:", error);
-      alert("Failed to complete the order");
-    }
-  };
+    const handleCompleteOrder = async () => {
+      try {
+        console.log(`Attempting to update status for order ${orderid}`);
+        const response = await axios.post(
+          `https://johannas-grille.onrender.com/api/orders/${orderid}/status`,
+          { status: "Complete" }
+        );
+        console.log("Response:", response);
+        window.location.reload();
+      } catch (error) {
+        console.error("Error completing order:", error);
+        alert("Failed to complete the order");
+      }
+    };    
 
   return (
     <div className="emp-order-card">

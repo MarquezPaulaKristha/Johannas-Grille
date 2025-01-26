@@ -1434,32 +1434,30 @@ app.post('/api/create-order', async (req, res) => {
 });
 
 app.post('/api/orders/:orderid/status', async (req, res) => {
-  const { orderid } = req.params; // Extract order ID from URL
-  const { status } = req.body;    // Extract new status (e.g., 'Complete') from the request body
+  console.log(`Updating status for orderid: ${req.params.orderid}`);
+  const { orderid } = req.params;
+  const { status } = req.body;
+  console.log(`Status received: ${status}`);
 
   if (!status || status !== 'Complete') {
     return res.status(400).json({ error: 'Invalid status or missing status' });
   }
 
   try {
-    // Update the order status in the database
     const result = await pool.query(
       'UPDATE orderstbl SET status = $1 WHERE orderid = $2 RETURNING *',
-      [status, orderid] // Set the new status and use the order ID to locate the order
+      [status, orderid]
     );
-
-    // If no rows were affected, the order ID was not found
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'Order not found' });
     }
-
-    // Successfully updated, return the updated order
     res.status(200).json({ message: 'Order updated successfully', order: result.rows[0] });
   } catch (error) {
     console.error('Error updating order status:', error);
     res.status(500).json({ error: 'Failed to update order status' });
   }
 });
+
 
 app.post('/api/reservation-gcash-checkout', async (req, res) => {
   const { lineItems } = req.body;
