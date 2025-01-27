@@ -16,8 +16,6 @@ const ProductCart = ({ orderId }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   // Update quantity handler
-  // Update quantity handler
-  // Update quantity handler
 const updateQuantity = (id, change) => {
   setCartItems(prevItems => {
     // If the quantity is 1 and we try to decrement it, remove the item from the cart

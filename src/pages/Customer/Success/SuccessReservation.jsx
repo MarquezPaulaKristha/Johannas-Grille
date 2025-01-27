@@ -16,15 +16,15 @@ function SuccessReservationPage() {
   const handleConfirmPayment = async () => {
     if (hasCalledPayment.current) return;
     hasCalledPayment.current = true;
-
+  
     try {
       const response = await axios.post("https://johannas-grille.onrender.com/api/create-reservation", payloadDetails, {
         headers: { "Content-Type": "application/json" },
       });
-
+  
       if (response.status === 200) {
         // Successfully created reservation, now trigger the receipt
-        setReservationId(response.data.reservation_id); // Assuming response has reservationId
+        setReservationId(response.data.reservation_id); // Use reservation_id from the response
         // Step 2: Proceed to show receipt
         setIsReceiptVisible(true);
       }
@@ -32,6 +32,7 @@ function SuccessReservationPage() {
       alert("Failed to create reservation. Please try again.");
     }
   };
+  
 
   useEffect(() => {
     handleConfirmPayment();

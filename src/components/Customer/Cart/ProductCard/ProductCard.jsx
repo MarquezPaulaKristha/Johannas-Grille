@@ -1,14 +1,53 @@
 import React, { useState, useEffect } from 'react';
 import './ProductCard.css';
 import { useProvider } from '../../../../global_variable/Provider';
-import Cart from '../../../../pages/Customer/ItemPopup/ItemPopup'; // Import the Cart component
 
-const FoodItem = ({ id, name, price, image, orderId }) => {
+const FoodItem = ({ id, name, price, image, onAddToOrder, orderId }) => {
   const { customer, cartItems, setCartItems } = useProvider();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [menuItems, setMenuItems] = useState([]);
-  const [showCartPopup, setShowCartPopup] = useState(false); // To control the popup visibility
+
+  const handleAddToOrder = async () => {
+    if (!customer) {
+      alert(`Please sign in first!`);
+      return;
+    }
+  
+    const newCartItem = {
+      orderid: orderId,
+      menuitemid: id,
+      name: name, 
+      quantity: 1,
+      price: price,
+    };
+  
+    setLoading(true);
+    setError(null);
+  
+    try {
+      // Check if the item is already in the cart
+      const existingItem = cartItems.find(item => item.menuitemid === id);
+      if (existingItem) {
+        // Update quantity for the existing item
+        setCartItems(cartItems.map(item =>
+          item.menuitemid === id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        ));
+      } else {
+        // Add new item to the cart
+        setCartItems([...cartItems, newCartItem]);
+      }
+  
+      alert(`${name} has been added to your cart!`);
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      setError('Failed to add item to cart. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Fetch menu items data on component mount
   const fetchMenuItems = async () => {
@@ -33,10 +72,14 @@ const FoodItem = ({ id, name, price, image, orderId }) => {
     fetchMenuItems();
   }, []);
 
+  // useEffect(() => {
+  //   window.location.reload();
+  // }, [customer]);
+
   return (
     <div className="food-card">
       <div className="food-card-img-container">
-        <img className="food-card-image" src={image} alt={name} loading="lazy" />
+        <img className="food-card-image" src={image} alt={name} loading="lazy"/>
       </div>
       <div className="food-card-info">
         <div className="food-card-name-rating">
@@ -45,13 +88,10 @@ const FoodItem = ({ id, name, price, image, orderId }) => {
         </div>
         <button 
           className="btn-cart" 
-          onClick={() => setShowCartPopup(true)}>Add to Cart
+          onClick={handleAddToOrder}>Add to Cart
         </button>
         {error && <p className="error-message">{error}</p>}
       </div>
-
-      {/* Show the Cart popup if showCartPopup is true */}
-      {showCartPopup && <Cart name={name} price={price} orderId={orderId} setShowCartPopup={setShowCartPopup} />}
     </div>
   );
 };
