@@ -16,14 +16,20 @@ const ProductCart = ({ orderId }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   // Update quantity handler
+  // Update quantity handler
+  // Update quantity handler
   const updateQuantity = (id, change) => {
-    setCartItems(prevItems =>
-      prevItems.map(item =>
+    setCartItems(prevItems => {
+      // If the quantity is 1 and we try to decrement it, remove the item from the cart
+      const updatedItems = prevItems.map(item =>
         item.menuitemid === id
-          ? { ...item, quantity: Math.max(1, item.quantity + change) }
+          ? { ...item, quantity: item.quantity === 1 && change === -1 ? 0 : Math.max(1, item.quantity + change) }
           : item
-      )
-    );
+      );
+
+      // Remove items with quantity 0 (after decrementing)
+      return updatedItems.filter(item => item.quantity > 0);
+    });
   };
 
   // Dropdown toggle
