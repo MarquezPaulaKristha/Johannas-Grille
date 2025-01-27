@@ -2,27 +2,27 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./OrderItem.css";
 
-const OrderItem = ({ orderid, date, items = [] }) => {
+const OrderItem = ({ orderid, curdate, items = [] }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const totalAmount = items
     .reduce((total, item) => total + parseFloat(item.price) * item.quantity, 0)
     .toFixed(2);
 
-    const handleCompleteOrder = async () => {
-      try {
-        console.log(`Attempting to update status for order ${orderid}`);
-        const response = await axios.post(
-          `https://johannas-grille.onrender.com/api/orders/${orderid}/status`,
-          { status: "Complete" }
-        );
-        console.log("Response:", response);
-        window.location.reload();
-      } catch (error) {
-        console.error("Error completing order:", error);
-        alert("Failed to complete the order");
-      }
-    };    
+  const handleCompleteOrder = async () => {
+    try {
+      console.log(`Attempting to update status for order ${orderid}`);
+      const response = await axios.post(
+        `https://johannas-grille.onrender.com/api/orders/${orderid}/status`,
+        { status: "Complete" }
+      );
+      console.log("Response:", response);
+      window.location.reload();
+    } catch (error) {
+      console.error("Error completing order:", error);
+      alert("Failed to complete the order");
+    }
+  };
 
   return (
     <div className="emp-order-card">
@@ -32,8 +32,9 @@ const OrderItem = ({ orderid, date, items = [] }) => {
         onClick={() => setIsExpanded(!isExpanded)} // Toggle visibility
       >
         <div className="emp-order-header-info">
-          <h3>Order #{orderid}</h3>
-          <span className="emp-order-date">{date}</span>
+          {/* Display last 5 digits of orderid in the UI */}
+          <h3>Order #{orderid.slice(-5)}</h3>
+          <span className="emp-order-date">{curdate}</span>
         </div>
         <div className="emp-user-icon">😊</div>
       </div>

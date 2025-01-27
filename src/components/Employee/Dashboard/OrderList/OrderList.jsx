@@ -38,8 +38,9 @@ const OrderList = () => {
                 groupedOrders[orderType].map(order => (
                   <OrderItem
                     key={order.orderid}
-                    orderid={order.orderid.slice(-5)}
+                    orderid={order.orderid}
                     items={order.items} // Assuming the backend already groups items
+                    curdate={order.date}
                   />
                 ))
               ) : (

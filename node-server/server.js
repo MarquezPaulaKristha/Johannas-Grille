@@ -576,11 +576,12 @@ app.delete("/api/employees/:id", async (req, res) => {
 
 app.get('/api/employee-orders', async (req, res) => {
   try {
-
+    // Modify the query to include the 'date' field from 'orderstbl'
     const result = await pool.query(`
       SELECT 
         o.orderid,
         o.ordertype,
+        TO_CHAR(o.date, 'YYYY-MM-DD') AS date,
         oi.menuitemid, 
         oi.quantity, 
         m.name, 
@@ -601,6 +602,7 @@ app.get('/api/employee-orders', async (req, res) => {
         acc[item.orderid] = {
           orderid: item.orderid,
           ordertype: item.ordertype,
+          date: item.date,  // Include the date in the grouped result
           items: [] // Initialize the items array
         };
       }
@@ -616,12 +618,13 @@ app.get('/api/employee-orders', async (req, res) => {
     // Convert the grouped orders object to an array
     const ordersArray = Object.values(groupedOrders);
 
-    res.status(200).json(ordersArray); // Send the grouped orders
+    res.status(200).json(ordersArray); // Send the grouped orders with date
   } catch (error) {
     console.error('Error fetching orders:', error);
     res.status(500).json({ error: 'Failed to fetch orders' });
   }
 });
+
 
 app.get('/api/reservations', async (req, res) => {
   try {
