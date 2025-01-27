@@ -1536,7 +1536,7 @@ app.post('/api/create-reservation', async (req, res) => {
               `INSERT INTO reservationtbl (reservationid, customerid, numberofguests, reservationdate, reservationtime, branch, amount)
                VALUES ($1, $2, $3, $4, $5, $6, $7)
                ON CONFLICT (reservationid) DO NOTHING`, // Prevent duplicate reservations
-              [reservationId, customerid, numberOfGuests, reservationDate, reservationTime, branch, totalAmount]
+              [reservation_id, customerid, numberOfGuests, reservationDate, reservationTime, branch, totalAmount]
           );
 
           // Insert item details into transactions table
