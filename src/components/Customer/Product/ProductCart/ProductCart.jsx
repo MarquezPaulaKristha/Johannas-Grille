@@ -16,26 +16,15 @@ const ProductCart = ({ orderId }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   // Update quantity handler
-  // Update quantity handler
-  // Update quantity handler
-  // Update quantity handler
-const updateQuantity = (id, change) => {
-  setCartItems(prevItems => {
-    const updatedItems = prevItems.map(item => {
-      // Ensure that the ID is an integer
-      const menuItemId = parseInt(item.menuitemid, 10);
-
-      // Check for valid menuItemId and handle quantity change
-      return menuItemId === id
-        ? { ...item, quantity: item.quantity === 1 && change === -1 ? 0 : Math.max(1, item.quantity + change) }
-        : item;
-    });
-
-    // Remove items with quantity 0
-    return updatedItems.filter(item => item.quantity > 0);
-  });
-};
-
+  const updateQuantity = (id, change) => {
+    setCartItems(prevItems =>
+      prevItems.map(item =>
+        item.menuitemid === id
+          ? { ...item, quantity: Math.max(1, item.quantity + change) }
+          : item
+      )
+    );
+  };
 
   // Dropdown toggle
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
