@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './HeaderProfile.css'; // Import the CSS
-import { FaUser } from 'react-icons/fa'; // Import an icon from react-icons (or any other icon library)
+import './HeaderProfile.css';
+import { FaUser } from 'react-icons/fa'; 
 
 function ProfileHeader({ text }) {
-  const [image, setImage] = useState('');
+  const [image, setImage] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const navigate = useNavigate();
 
-  // Toggles the dropdown menu
+  // Toggle dropdown
   const toggleDropdown = () => {
     setIsDropdownOpen(prev => !prev);
   };
 
-  // Handle clicks outside of the dropdown to close it
+  // Close dropdown when clicking outside
   const handleClickOutside = (event) => {
-    if (!event.target.closest('.dropdown') && isDropdownOpen) {
+    if (!event.target.closest('.emp-dropdown') && isDropdownOpen) {
       setIsDropdownOpen(false);
     }
   };
@@ -27,23 +27,29 @@ function ProfileHeader({ text }) {
     };
   }, [isDropdownOpen]);
 
-  // Handle logout by clearing the session storage
+  // Handle logout
   const handleLogout = () => {
-    sessionStorage.clear(); // Clear session storage on logout
-    navigate('/admin/login'); // Redirect to login page
+    sessionStorage.clear();
+    setTimeout(() => {
+      navigate('/admin/login'); // Ensure redirect works properly
+      window.location.reload();
+    }, 100);
   };
 
   useEffect(() => {
     const storedImage = sessionStorage.getItem('image');
-    console.log('Image URL:', storedImage); // Log the image URL for debugging
+    console.log('Retrieved Image from session:', storedImage); // Debugging
 
-    // Prepend base URL if necessary
-    const baseURL = 'https://johannas-grille.onrender.com';
-    setImage(storedImage ? `${baseURL}${storedImage}` : '');
+    if (storedImage && storedImage !== 'null' && storedImage !== 'undefined') {
+      const baseURL = 'https://johannas-grille.onrender.com';
+      setImage(`${baseURL}${storedImage}`);
+    } else {
+      setImage(null); // Explicitly set null if no image exists
+    }
+
     const username = sessionStorage.getItem('username');
     const usertype = sessionStorage.getItem('usertype');
 
-    // If no user is logged in, redirect to login page
     if (!username || !usertype) {
       navigate('/admin/login');
     }
@@ -60,13 +66,13 @@ function ProfileHeader({ text }) {
           <div className="emp-role">{sessionStorage.getItem('usertype') || 'Employee'}</div>
         </div>
         <div className="emp-dropdown">
-          <i className="emp-profile-image" onClick={toggleDropdown} aria-expanded={isDropdownOpen}>
+          <div className="emp-profile-image" onClick={toggleDropdown} aria-expanded={isDropdownOpen}>
             {image ? (
-              <img src={image} alt="Profile" className="employee-img" />
+              <img src={image} alt="Profile" className="employee-img" onError={() => setImage(null)} />
             ) : (
-              <FaUser Circle className="placeholder-icon" /> // Display the icon if image is null
+              <FaUser className="placeholder-icon" size={30} /> 
             )}
-          </i>
+          </div>
           {isDropdownOpen && (
             <div className="emp-dropdown-content">
               <ul>

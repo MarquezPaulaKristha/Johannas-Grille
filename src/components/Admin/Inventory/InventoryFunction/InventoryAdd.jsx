@@ -41,7 +41,7 @@ const InventoryAdd = ({ productId, quantity, invid, onClose, onSave, name }) => 
       if (response.ok) {
         const result = await response.json();
         console.log('Inventory updated:', result);
-        if (onSave) onSave(result); // Callback to parent
+        if (onSave) onSave(result); // Callback to parent to update the quantity
         onClose(); // Close the modal
       } else {
         console.error('Error updating inventory:', response.statusText);

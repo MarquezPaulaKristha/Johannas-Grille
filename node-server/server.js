@@ -29,7 +29,7 @@ const pool = new Pool({
   database: process.env.DB_DATABASE,
   password: process.env.DB_PASSWORD,
   port: process.env.DB_PORT || 5433, // Default to 5433 if not specified
-  ssl: {rejectUnauthorized: false },
+  ssl: { rejectUnauthorized: false },
 });
 
 // const pool = new Pool({
@@ -106,14 +106,14 @@ app.post('/api/customer/login', async (req, res) => {
     }
 
     const token = jwt.sign({ id: user.customerid, username: user.username }, SECRET_KEY, { expiresIn: '1h' });
-    res.json({ 
-      success: true, 
-      message: 'Login successful', 
+    res.json({
+      success: true,
+      message: 'Login successful',
       token,
       customerid: user.customerid,
-      firstname: user.firstname, 
-      lastname: user.lastname, 
-      email: user.email, 
+      firstname: user.firstname,
+      lastname: user.lastname,
+      email: user.email,
       image: user.image_url,
     });
   } catch (error) {
@@ -170,16 +170,16 @@ app.post('/user/login', async (req, res) => {
     }
 
     // Send back necessary user details
-    res.status(200).json({ 
-      success: true, 
+    res.status(200).json({
+      success: true,
       customerid: user.customerid,
-      firstname: user.firstname, 
-      lastname: user.lastname, 
-      usertype: user.usertype, 
-      email: user.email, 
-      image: user.image_url, 
-      branch: user.branch 
-    });   
+      firstname: user.firstname,
+      lastname: user.lastname,
+      usertype: user.usertype,
+      email: user.email,
+      image: user.image_url,
+      branch: user.branch
+    });
   } catch (err) {
     console.error('Error during login:', err);
     res.status(500).json({ success: false, message: 'Server error' }); // Handle server errors
@@ -350,19 +350,19 @@ app.post('/api/reservations/items', async (req, res) => {
   const { reservationDetails, items } = req.body;
 
   try {
-      // Insert selected items into reservation_item table
-      for (const { reservationId, itemId, qty } of items) {
-          await pool.query(
-              `INSERT INTO reservationitemtbl (reservationid, menuitemid, qty)
+    // Insert selected items into reservation_item table
+    for (const { reservationId, itemId, qty } of items) {
+      await pool.query(
+        `INSERT INTO reservationitemtbl (reservationid, menuitemid, qty)
                VALUES ($1, $2, $3)`,
-              [reservationId, itemId, qty]
-          );
-      }
+        [reservationId, itemId, qty]
+      );
+    }
 
-      res.json({ success: true, message: 'Items confirmed' });
+    res.json({ success: true, message: 'Items confirmed' });
   } catch (err) {
-      console.error('Error inserting reservation items:', err);
-      res.status(500).send('Error inserting reservation items');
+    console.error('Error inserting reservation items:', err);
+    res.status(500).send('Error inserting reservation items');
   }
 });
 
@@ -462,15 +462,15 @@ app.get('/api/employees', async (req, res) => {
 app.get('/api/employees/:id', async (req, res) => {
   const { id } = req.params;
   try {
-      const result = await pool.query('SELECT * FROM usertbl WHERE userid = $1', [id]);
-      if (result.rows.length > 0) {
-          res.json(result.rows[0]); // Return the employee details
-      } else {
-          res.status(404).send('Employee not found');
-      }
+    const result = await pool.query('SELECT * FROM usertbl WHERE userid = $1', [id]);
+    if (result.rows.length > 0) {
+      res.json(result.rows[0]); // Return the employee details
+    } else {
+      res.status(404).send('Employee not found');
+    }
   } catch (err) {
-      console.error('Error fetching employee details:', err.message);
-      res.status(500).send('Server error');
+    console.error('Error fetching employee details:', err.message);
+    res.status(500).send('Server error');
   }
 });
 
@@ -483,32 +483,32 @@ app.put('/api/employees/:id', upload.single('image'), async (req, res) => {
   const image_url = req.file ? `/uploads/${req.file.filename}` : null;
 
   try {
-      let query = 'UPDATE usertbl SET firstname = $1, lastname = $2, email = $3, username = $4, branch = $5';
-      let values = [firstname, lastname, email, username, branch];
+    let query = 'UPDATE usertbl SET firstname = $1, lastname = $2, email = $3, username = $4, branch = $5';
+    let values = [firstname, lastname, email, username, branch];
 
-      if (image_url) {
-          query += ', image_url = $6 WHERE userid = $7 RETURNING *';
-          values.push(image_url, id);
-      }
-      query += ' WHERE userid = $6 RETURNING *'; // Use $7 for id
-      values.push(id);
+    if (image_url) {
+      query += ', image_url = $6 WHERE userid = $7 RETURNING *';
+      values.push(image_url, id);
+    }
+    query += ' WHERE userid = $6 RETURNING *'; // Use $7 for id
+    values.push(id);
 
-      const result = await pool.query(query, values);
-      if (result.rows.length > 0) {
-          res.json(result.rows[0]); // Return the updated item
-      } else {
-          res.status(404).send('Employee not found');
-      }
+    const result = await pool.query(query, values);
+    if (result.rows.length > 0) {
+      res.json(result.rows[0]); // Return the updated item
+    } else {
+      res.status(404).send('Employee not found');
+    }
   } catch (err) {
-      console.error('Error updating employee details:', err.message);
-      res.status(500).send('Server error');
+    console.error('Error updating employee details:', err.message);
+    res.status(500).send('Server error');
   }
 });
 
 
 //add employee
 app.post("/api/employeeadd", upload.single('image'), async (req, res) => {
-  const {usertype, firstname, lastname, email, username, password, branch} = req.body;
+  const { usertype, firstname, lastname, email, username, password, branch } = req.body;
   const image_url = req.file ? `/uploads/${req.file.filename}` : null;
 
   try {
@@ -574,9 +574,8 @@ app.delete("/api/employees/:id", async (req, res) => {
   }
 });
 
-app.get('/api/employee-orders', async (req, res) => {
+app.get("/api/employee-orders", async (req, res) => {
   try {
-    // Modify the query to include the 'date' field from 'orderstbl'
     const result = await pool.query(`
       SELECT 
         o.orderid,
@@ -584,47 +583,50 @@ app.get('/api/employee-orders', async (req, res) => {
         TO_CHAR(o.date, 'YYYY-MM-DD') AS date,
         oi.menuitemid, 
         oi.quantity, 
-        m.name, 
-        m.price
+        m.name AS item_name, 
+        m.price,
+        c.firstname || ' ' || c.lastname AS customer_name
       FROM 
         orderstbl o
       JOIN 
         orderitemtbl oi ON o.orderid = oi.orderid
       JOIN 
-        menuitemtbl m ON oi.menuitemid = m.menuitemid
+        menu_items m ON oi.menuitemid = m.menuitemid
+      JOIN 
+        customertbl c ON o.customerid = c.customerid
       WHERE 
-        o.status = 'Pending' -- Ensure the orders are 'Pending'
+        o.status = 'Pending';
     `);
-    
-    // Group the items by orderid
+
+    // Debugging log
+    console.log("Fetched orders from DB:", result.rows);
+
+    // Group orders by orderid
     const groupedOrders = result.rows.reduce((acc, item) => {
       if (!acc[item.orderid]) {
         acc[item.orderid] = {
           orderid: item.orderid,
           ordertype: item.ordertype,
-          date: item.date,  // Include the date in the grouped result
-          items: [] // Initialize the items array
+          date: item.date,
+          customer_name: item.customer_name,
+          items: [],
         };
       }
-      // Push the item details into the items array
       acc[item.orderid].items.push({
-        name: item.name,
+        name: item.item_name,
         price: item.price,
-        quantity: item.quantity
+        quantity: item.quantity,
       });
       return acc;
     }, {});
 
-    // Convert the grouped orders object to an array
     const ordersArray = Object.values(groupedOrders);
-
-    res.status(200).json(ordersArray); // Send the grouped orders with date
+    res.status(200).json(ordersArray);
   } catch (error) {
-    console.error('Error fetching orders:', error);
-    res.status(500).json({ error: 'Failed to fetch orders' });
+    console.log("Fetched orders from DB:", JSON.stringify(result.rows, null, 2));
+    res.status(500).json({ error: "Failed to fetch orders" });
   }
 });
-
 
 app.get('/api/reservations', async (req, res) => {
   try {
@@ -653,7 +655,7 @@ app.get('/api/reservations/:id', async (req, res) => {
 
 
 app.post("/api/reservations", async (req, res) => {
-  const {numberofguests, reservationdate, reservationtime, branch} = req.body;
+  const { numberofguests, reservationdate, reservationtime, branch } = req.body;
 
   try {
     const result = await pool.query(
@@ -669,11 +671,11 @@ app.post("/api/reservations", async (req, res) => {
 
 app.get('/api/menu-items', async (req, res) => {
   try {
-      const result = await pool.query('SELECT * FROM reservationmenutbl');
-      res.json(result.rows);
+    const result = await pool.query('SELECT * FROM reservationmenutbl');
+    res.json(result.rows);
   } catch (error) {
-      console.error('Error fetching menu items:', error);
-      res.status(500).send('Server Error');
+    console.error('Error fetching menu items:', error);
+    res.status(500).send('Server Error');
   }
 });
 
@@ -1147,16 +1149,16 @@ app.get('/analytics', async (req, res) => {
 
 app.get('/api/top-items', async (req, res) => {
   try {
-      const month = parseInt(req.query.month, 10);
-      const year = req.query.year ? parseInt(req.query.year) : null;
-      const limit = 5;
+    const month = parseInt(req.query.month, 10);
+    const year = req.query.year ? parseInt(req.query.year) : null;
+    const limit = 5;
 
-      if (!month || !year) {
-          return res.status(400).json({ message: 'Month and year are required' });
-      }
+    if (!month || !year) {
+      return res.status(400).json({ message: 'Month and year are required' });
+    }
 
-      const result = await pool.query(
-          `
+    const result = await pool.query(
+      `
           SELECT 
               i.menuitemid, 
               i.name,
@@ -1171,13 +1173,13 @@ app.get('/api/top-items', async (req, res) => {
           ORDER BY percentValues DESC
           LIMIT $3;
           `,
-          [month, year, limit || 5] 
-      );
+      [month, year, limit || 5]
+    );
 
-      res.status(200).json(result.rows);
+    res.status(200).json(result.rows);
   } catch (error) {
-      console.error('Error fetching top items:', error);
-      res.status(500).json({ message: 'Error fetching top items' });
+    console.error('Error fetching top items:', error);
+    res.status(500).json({ message: 'Error fetching top items' });
   }
 });
 
@@ -1307,47 +1309,47 @@ app.post('/api/gcash-checkout', async (req, res) => {
   const { lineItems } = req.body;
 
   const formattedLineItems = lineItems.map((item) => {
-      return {
-          currency: 'PHP',
-          amount: Math.round(item.price * 100), 
-          name: item.name,
-          quantity: item.quantity,
-      };
+    return {
+      currency: 'PHP',
+      amount: Math.round(item.price * 100),
+      name: item.name,
+      quantity: item.quantity,
+    };
   });
 
   try {
-      const response = await axios.post(
-          'https://api.paymongo.com/v1/checkout_sessions',
-          {
-              data: {
-                  attributes: {
-                      send_email_receipt: false,
-                      show_line_items: true,
-                      line_items: formattedLineItems, 
-                      payment_method_types: ['gcash'],
-                      success_url: 'https://johannasgrille.onrender.com/employee/success',
-                      cancel_url: 'https://johannasgrille.onrender.com/employee/order',
-                  },
-              },
+    const response = await axios.post(
+      'https://api.paymongo.com/v1/checkout_sessions',
+      {
+        data: {
+          attributes: {
+            send_email_receipt: false,
+            show_line_items: true,
+            line_items: formattedLineItems,
+            payment_method_types: ['gcash'],
+            success_url: 'https://johannasgrille.onrender.com/employee/success',
+            cancel_url: 'https://johannasgrille.onrender.com/employee/order',
           },
-          {
-              headers: {
-                  accept: 'application/json',
-                  'Content-Type': 'application/json',
-                  Authorization: `Basic ${Buffer.from(PAYMONGO_SECRET_KEY).toString('base64')}`, 
-              },
-          }
-      );
-
-      const checkoutUrl = response.data.data.attributes.checkout_url;
-
-      if (!checkoutUrl) {
-          return res.status(500).json({ error: 'Checkout URL not found in response' });
+        },
+      },
+      {
+        headers: {
+          accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Basic ${Buffer.from(PAYMONGO_SECRET_KEY).toString('base64')}`,
+        },
       }
-      res.status(200).json({ url: checkoutUrl });
+    );
+
+    const checkoutUrl = response.data.data.attributes.checkout_url;
+
+    if (!checkoutUrl) {
+      return res.status(500).json({ error: 'Checkout URL not found in response' });
+    }
+    res.status(200).json({ url: checkoutUrl });
   } catch (error) {
-      console.error('Error creating checkout session:', error.response ? error.response.data : error.message);
-      res.status(500).json({ error: 'Failed to create checkout session', details: error.response ? error.response.data : error.message });
+    console.error('Error creating checkout session:', error.response ? error.response.data : error.message);
+    res.status(500).json({ error: 'Failed to create checkout session', details: error.response ? error.response.data : error.message });
   }
 });
 
@@ -1355,47 +1357,47 @@ app.post('/api/customer-gcash-checkout', async (req, res) => {
   const { lineItems } = req.body;
 
   const formattedLineItems = lineItems.map((item) => {
-      return {
-          currency: 'PHP',
-          amount: Math.round(item.price * 100), 
-          name: item.name,
-          quantity: item.quantity,
-      };
+    return {
+      currency: 'PHP',
+      amount: Math.round(item.price * 100),
+      name: item.name,
+      quantity: item.quantity,
+    };
   });
 
   try {
-      const response = await axios.post(
-          'https://api.paymongo.com/v1/checkout_sessions',
-          {
-              data: {
-                  attributes: {
-                      send_email_receipt: false,
-                      show_line_items: true,
-                      line_items: formattedLineItems, 
-                      payment_method_types: ['gcash'],
-                      success_url: 'https://johannasgrille.onrender.com/success',
-                      cancel_url: 'https://johannasgrille.onrender.com/',
-                  },
-              },
+    const response = await axios.post(
+      'https://api.paymongo.com/v1/checkout_sessions',
+      {
+        data: {
+          attributes: {
+            send_email_receipt: false,
+            show_line_items: true,
+            line_items: formattedLineItems,
+            payment_method_types: ['gcash'],
+            success_url: 'https://johannasgrille.onrender.com/success',
+            cancel_url: 'https://johannasgrille.onrender.com/',
           },
-          {
-              headers: {
-                  accept: 'application/json',
-                  'Content-Type': 'application/json',
-                  Authorization: `Basic ${Buffer.from(PAYMONGO_SECRET_KEY).toString('base64')}`, 
-              },
-          }
-      );
-
-      const checkoutUrl = response.data.data.attributes.checkout_url;
-
-      if (!checkoutUrl) {
-          return res.status(500).json({ error: 'Checkout URL not found in response' });
+        },
+      },
+      {
+        headers: {
+          accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Basic ${Buffer.from(PAYMONGO_SECRET_KEY).toString('base64')}`,
+        },
       }
-      res.status(200).json({ url: checkoutUrl });
+    );
+
+    const checkoutUrl = response.data.data.attributes.checkout_url;
+
+    if (!checkoutUrl) {
+      return res.status(500).json({ error: 'Checkout URL not found in response' });
+    }
+    res.status(200).json({ url: checkoutUrl });
   } catch (error) {
-      console.error('Error creating checkout session:', error.response ? error.response.data : error.message);
-      res.status(500).json({ error: 'Failed to create checkout session', details: error.response ? error.response.data : error.message });
+    console.error('Error creating checkout session:', error.response ? error.response.data : error.message);
+    res.status(500).json({ error: 'Failed to create checkout session', details: error.response ? error.response.data : error.message });
   }
 });
 
@@ -1424,8 +1426,8 @@ app.post('/api/create-order', async (req, res) => {
 
     for (let item of orderItems) {
       await pool.query(
-          'UPDATE inventorytbl SET quantity = quantity - $1 WHERE menuitemid = $2 AND branch = $3',
-          [item.order_quantity, item.menuitemid, selectedBranch]
+        'UPDATE inventorytbl SET quantity = quantity - $1 WHERE menuitemid = $2 AND branch = $3',
+        [item.order_quantity, item.menuitemid, selectedBranch]
       );
     }
 
@@ -1466,47 +1468,47 @@ app.post('/api/reservation-gcash-checkout', async (req, res) => {
   const { lineItems } = req.body;
 
   const formattedLineItems = lineItems.map((item) => {
-      return {
-          currency: 'PHP',
-          amount: Math.round(item.price * 100), 
-          name: item.name,
-          quantity: item.quantity,
-      };
+    return {
+      currency: 'PHP',
+      amount: Math.round(item.price * 100),
+      name: item.name,
+      quantity: item.quantity,
+    };
   });
 
   try {
-      const response = await axios.post(
-          'https://api.paymongo.com/v1/checkout_sessions',
-          {
-              data: {
-                  attributes: {
-                      send_email_receipt: false,
-                      show_line_items: true,
-                      line_items: formattedLineItems, 
-                      payment_method_types: ['gcash'],
-                      success_url: 'https://johannasgrille.onrender.com/success-reservation',
-                      cancel_url: 'https://johannasgrille.onrender.com/',
-                  },
-              },
+    const response = await axios.post(
+      'https://api.paymongo.com/v1/checkout_sessions',
+      {
+        data: {
+          attributes: {
+            send_email_receipt: false,
+            show_line_items: true,
+            line_items: formattedLineItems,
+            payment_method_types: ['gcash'],
+            success_url: 'https://johannasgrille.onrender.com/success-reservation',
+            cancel_url: 'https://johannasgrille.onrender.com/',
           },
-          {
-              headers: {
-                  accept: 'application/json',
-                  'Content-Type': 'application/json',
-                  Authorization: `Basic ${Buffer.from(PAYMONGO_SECRET_KEY).toString('base64')}`, 
-              },
-          }
-      );
-
-      const checkoutUrl = response.data.data.attributes.checkout_url;
-
-      if (!checkoutUrl) {
-          return res.status(500).json({ error: 'Checkout URL not found in response' });
+        },
+      },
+      {
+        headers: {
+          accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Basic ${Buffer.from(PAYMONGO_SECRET_KEY).toString('base64')}`,
+        },
       }
-      res.status(200).json({ url: checkoutUrl });
+    );
+
+    const checkoutUrl = response.data.data.attributes.checkout_url;
+
+    if (!checkoutUrl) {
+      return res.status(500).json({ error: 'Checkout URL not found in response' });
+    }
+    res.status(200).json({ url: checkoutUrl });
   } catch (error) {
-      console.error('Error creating checkout session:', error.response ? error.response.data : error.message);
-      res.status(500).json({ error: 'Failed to create checkout session', details: error.response ? error.response.data : error.message });
+    console.error('Error creating checkout session:', error.response ? error.response.data : error.message);
+    res.status(500).json({ error: 'Failed to create checkout session', details: error.response ? error.response.data : error.message });
   }
 });
 
@@ -1517,55 +1519,55 @@ app.post('/api/create-reservation', async (req, res) => {
   const reservation_id = parseInt(`${formattedDate}${reservations[0].reservationId}`, 10);
 
   try {
-      // Loop through each reservation item in the payload
-      for (let reservation of reservations) {
-          const {
-              reservationId,
-              customerid,
-              numberOfGuests,
-              reservationDate,
-              reservationTime,
-              branch,
-              amount,
-              menuItemId,
-              quantity,
-          } = reservation;
+    // Loop through each reservation item in the payload
+    for (let reservation of reservations) {
+      const {
+        reservationId,
+        customerid,
+        numberOfGuests,
+        reservationDate,
+        reservationTime,
+        branch,
+        amount,
+        menuItemId,
+        quantity,
+      } = reservation;
 
-          // Insert into reservation table (only if new reservation)
-          await pool.query(
-              `INSERT INTO reservationtbl (reservationid, customerid, numberofguests, reservationdate, reservationtime, branch, amount)
+      // Insert into reservation table (only if new reservation)
+      await pool.query(
+        `INSERT INTO reservationtbl (reservationid, customerid, numberofguests, reservationdate, reservationtime, branch, amount)
                VALUES ($1, $2, $3, $4, $5, $6, $7)
                ON CONFLICT (reservationid) DO NOTHING`, // Prevent duplicate reservations
-              [reservation_id, customerid, numberOfGuests, reservationDate, reservationTime, branch, totalAmount]
-          );
+        [reservation_id, customerid, numberOfGuests, reservationDate, reservationTime, branch, totalAmount]
+      );
 
-          // Insert item details into transactions table
-          await pool.query(
-              `INSERT INTO reservationitemtbl (reservationid, menuitemid, qty)
+      // Insert item details into transactions table
+      await pool.query(
+        `INSERT INTO reservationitemtbl (reservationid, menuitemid, qty)
                VALUES ($1, $2, $3)`,
-              [reservation_id, menuItemId, quantity]
-          );
+        [reservation_id, menuItemId, quantity]
+      );
 
-          // Update inventory stock
-          // await pool.query(
-          //     `UPDATE inventory SET quality_stocks = quality_stocks - $1 WHERE item_id = $2`,
-          //     [quantity, menuItemId]
-          // );
-      }
+      // Update inventory stock
+      // await pool.query(
+      //     `UPDATE inventory SET quality_stocks = quality_stocks - $1 WHERE item_id = $2`,
+      //     [quantity, menuItemId]
+      // );
+    }
 
-      res.status(200).json({ 
-        message: 'Reservations created successfully', 
-        reservation_id 
-      });
+    res.status(200).json({
+      message: 'Reservations created successfully',
+      reservation_id
+    });
   } catch (err) {
-      console.error(err.message);
-      res.status(500).json({ message: 'Server error' });
+    console.error(err.message);
+    res.status(500).json({ message: 'Server error' });
   }
 });
 
 app.get('/api/reservation-items/:reservationId', async (req, res) => {
   const reservationId = req.params.reservationId;
-  
+
   try {
     const reservationQuery = `
       SELECT 
@@ -1599,7 +1601,7 @@ app.get('/api/reservation-items/:reservationId', async (req, res) => {
 
 app.get('/api/customer/transaction-details/:customerid', async (req, res) => {
   const customer_id = req.params.customerid;
-  
+
   try {
     const transactionQuery = `
       SELECT 
@@ -1627,7 +1629,7 @@ app.get('/api/customer/transaction-details/:customerid', async (req, res) => {
 
 app.get('/api/customer/reservation-details/:customerid', async (req, res) => {
   const customer_id = req.params.customerid;
-  
+
   try {
     const reservationQuery = `
       SELECT 

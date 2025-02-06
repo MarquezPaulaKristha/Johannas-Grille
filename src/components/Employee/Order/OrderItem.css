@@ -46,7 +46,7 @@
   .emp-quantity-controls {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: flex-end;
   }
   
   .emp-quantity-controls button {
@@ -59,6 +59,6 @@
   }
   
   .emp-quantity-controls span {
-    padding: 0 0.5rem;
+    padding: 0 0.5rem;  
   }
   

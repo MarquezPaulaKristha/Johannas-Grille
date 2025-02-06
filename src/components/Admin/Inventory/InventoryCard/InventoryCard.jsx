@@ -7,6 +7,7 @@ import { IoIosSend, IoMdAddCircle } from 'react-icons/io';
 const InventoryCard = ({ id, name, price, category, quantity, image, invid, branch }) => {
   const [showEditPopup, setShowEditPopup] = useState(false);
   const [showSendPopup, setShowSendPopup] = useState(false);
+  const [currentQuantity, setCurrentQuantity] = useState(quantity); // Local state for quantity
 
   const handleEditClick = () => setShowEditPopup(true);
   const handleSendClick = () => setShowSendPopup(true);
@@ -14,9 +15,14 @@ const InventoryCard = ({ id, name, price, category, quantity, image, invid, bran
   const handleCloseEditPopup = () => setShowEditPopup(false);
   const handleCloseSendPopup = () => setShowSendPopup(false);
 
+  // Handle the updated quantity from InventoryAdd
+  const handleSave = (updatedInventory) => {
+    setCurrentQuantity(updatedInventory.quantity); // Update the quantity state
+  };
+
   const handleConfirmSend = async (quantityToSend) => {
-    console.log('Sending Product ID:', id); // Debugging to ensure ID exists
-    console.log('Sending Inventory ID:', invid); // Debugging to ensure inventory ID exists
+    console.log('Sending Product ID:', id);
+    console.log('Sending Inventory ID:', invid);
     try {
       const response = await fetch('https://johannas-grille.onrender.com/api/send-inventory', {
         method: 'POST',
@@ -24,10 +30,10 @@ const InventoryCard = ({ id, name, price, category, quantity, image, invid, bran
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          productId: id, // Ensure this matches the backend
-          invid: invid, // Ensure this matches the backend
+          productId: id,
+          invid: invid,
           quantityToSend: parseInt(quantityToSend, 10),
-          branch: branch, // Current branch
+          branch: branch,
         }),
       });
 
@@ -35,7 +41,7 @@ const InventoryCard = ({ id, name, price, category, quantity, image, invid, bran
         const data = await response.json();
         console.log('Inventory sent successfully:', data);
         alert('Inventory sent successfully!');
-        handleCloseSendPopup(); // Close the popup
+        handleCloseSendPopup();
       } else {
         const errorData = await response.json();
         console.error('Failed to send inventory:', errorData);
@@ -47,18 +53,20 @@ const InventoryCard = ({ id, name, price, category, quantity, image, invid, bran
     }
   };
 
+  // Determine the background color based on quantity
+  const cardStyle = {
+    backgroundColor: currentQuantity === 0 ? 'red' : currentQuantity === 5 ? 'yellow' : 'white',
+  };
+
   return (
-    <div className="ad-inv-item-food-card">
-      <div className="ad-inv-item-food-card-img-container">
-        <img className="ad-inv-item-food-card-image" src={image} alt={name} />
-      </div>
+    <div className="ad-inv-item-food-card" style={cardStyle}>
       <div className="ad-inv-item-food-card-info">
         <div className="ad-inv-item-food-card-name-rating">
           <p>{name}</p>
         </div>
       </div>
       <div className="edit-delete-container">
-        <p>{quantity} pcs</p>
+        <p>{currentQuantity} pcs</p>
         <div className="ad-inv-buttons">
           <button className="ad-inv-item-btn-cart" onClick={handleEditClick}>
             <IoMdAddCircle size={25} />
@@ -71,10 +79,11 @@ const InventoryCard = ({ id, name, price, category, quantity, image, invid, bran
       {showEditPopup && (
         <InventoryAdd
           productId={id}
-          name={name}
-          quantity={quantity}
+          quantity={currentQuantity}
           invid={invid}
           onClose={handleCloseEditPopup}
+          onSave={handleSave} // Pass the onSave callback to update the parent
+          name={name}
         />
       )}
       {showSendPopup && (

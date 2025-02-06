@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./OrderItem.css";
 
-const OrderItem = ({ orderid, curdate, items = [] }) => {
+const OrderItem = ({ orderid, curdate, items = [], customerName }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const totalAmount = items
@@ -26,20 +26,18 @@ const OrderItem = ({ orderid, curdate, items = [] }) => {
 
   return (
     <div className="emp-order-card">
-      {/* Header section is always visible */}
       <div
         className="emp-order-header"
-        onClick={() => setIsExpanded(!isExpanded)} // Toggle visibility
+        onClick={() => setIsExpanded(!isExpanded)}
       >
         <div className="emp-order-header-info">
-          {/* Display last 5 digits of orderid in the UI */}
           <h3>Order #{orderid.slice(-5)}</h3>
           <span className="emp-order-date">{curdate}</span>
+          <h4>{customerName}</h4>
         </div>
         <div className="emp-user-icon">😊</div>
       </div>
 
-      {/* Rest of the content is conditionally displayed */}
       {isExpanded && (
         <>
           <div className="emp-order-items">

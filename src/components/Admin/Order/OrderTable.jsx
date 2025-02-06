@@ -1,6 +1,4 @@
 import React from "react";
-import { MdDeleteOutline } from "react-icons/md";
-import { RiEditLine } from "react-icons/ri";
 
 const TABLE_HEADS = [
   "OrderID",
@@ -10,10 +8,27 @@ const TABLE_HEADS = [
   "Status",
   "Total Amount",
   "Time",
-  "Action",
 ];
 
-const OrderTable = ({ orders, handleEdit, handleDelete }) => {
+const OrderTable = ({ orders }) => {
+  // Sorting orders by date and time in descending order (most recent first)
+  const sortedOrders = [...orders].sort((a, b) => {
+    const dateA = new Date(a.date);
+    const dateB = new Date(b.date);
+
+    if (dateA.getTime() !== dateB.getTime()) {
+      return dateB - dateA; // Sort by date first (descending)
+    }
+
+    // Convert time to minutes for correct sorting
+    const timeToMinutes = (time) => {
+      const [hours, minutes] = time.split(":").map(Number);
+      return hours * 60 + minutes; // Convert to total minutes
+    };
+
+    return timeToMinutes(b.time) - timeToMinutes(a.time); // Sort by time (descending)
+  });
+
   return (
     <div className="or-data-table-diagram">
       <table>
@@ -25,7 +40,7 @@ const OrderTable = ({ orders, handleEdit, handleDelete }) => {
           </tr>
         </thead>
         <tbody>
-          {orders.map((dataItem) => {
+          {sortedOrders.map((dataItem) => {
             const formattedDate = new Date(dataItem.date).toLocaleDateString("en-US", {
               year: "numeric",
               month: "long",
@@ -51,16 +66,6 @@ const OrderTable = ({ orders, handleEdit, handleDelete }) => {
                 </td>
                 <td>P{dataItem.totalamount}</td>
                 <td>{formattedTime}</td>
-                <td className="or-dt-cell-action">
-                  {/* <div className="edit-delete-container">
-                    <button className="item-btn-cart" onClick={() => handleEdit(dataItem)}>
-                      <RiEditLine size={25} />
-                    </button>
-                    <button className="item-btn-cart" onClick={() => handleDelete(dataItem.orderid)}>
-                      <MdDeleteOutline size={25} />
-                    </button>
-                  </div> */}
-                </td>
               </tr>
             );
           })}

@@ -8,7 +8,8 @@
     background: #fff;
     max-width: 100%; /* Ensure it doesn't exceed the container's width */
     width: 100%;
-    box-sizing: border-box;
+    height: 150px;
+    border-radius: 10%;
 }
 
 .ad-inv-item-food-card-img-container {

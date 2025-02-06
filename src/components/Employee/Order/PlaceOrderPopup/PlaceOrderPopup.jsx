@@ -75,10 +75,10 @@ const PlaceOrderPopup = ({ onCancel }) => {
                             <div className="orderitems">
                                 <div className="orderitem-info">
                                 <h4>{item.name}</h4>
-                                <p>Qty: {item.quantity}</p> 
                                 </div>
                                 <div className="orderitem-price">
                                     <p>Price: P{Number(item.price) ? Number(item.price).toFixed(2) : 'N/A'}</p>
+                                    <p>Qty: {item.quantity}</p> 
                                 </div>
                             </div>
                         </li>
@@ -87,6 +87,7 @@ const PlaceOrderPopup = ({ onCancel }) => {
                 <p>Order Type: <strong>{orderType}</strong></p>
                 <p>Total Items: <strong>{orderItems.length}</strong></p>
                 <p>Total Price: <strong>P{totalPrice.toFixed(2)}</strong></p>
+                <p>Change: <strong>P{change.toFixed(2)}</strong></p>
                 <div className="emp-table-number">
                     <label>
                         Table No.
@@ -96,8 +97,6 @@ const PlaceOrderPopup = ({ onCancel }) => {
                             onChange={(e) => setTableNumber(e.target.value)}  // Update state on input change
                         />
                     </label>
-                </div>
-                <div className="payment-section">
                     <label>
                         Amount Received:
                         <input
@@ -109,7 +108,6 @@ const PlaceOrderPopup = ({ onCancel }) => {
                             placeholder="Enter amount"
                         />
                     </label>
-                    <p>Change: <strong>P{change.toFixed(2)}</strong></p>
                 </div>
                 <div className="place-order-buttons">
                     <button

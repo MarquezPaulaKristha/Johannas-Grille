@@ -56,7 +56,7 @@ const OrderDataRange = ({ dateRange, setDateRange, setIsDateAvailable }) => {
         >
           <MdOutlineMenu size={24} />
         </button>
-        <h2 className="area-top-title"> Dashboard</h2>
+        <h2 className="area-top-title">Latest Orders</h2>
       </div>
       <div className="area-top-r">
         <div

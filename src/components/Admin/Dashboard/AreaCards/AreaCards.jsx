@@ -28,14 +28,6 @@ const AreaCards = () => {
           value: "18.2K",
         }}
       />
-      <AreaCard
-        colors={["#e4e8ef", "#BF83FF"]}
-        percentFillValue={40}
-        cardInfo={{
-          title: "New Customers",
-          value: "8.2K",
-        }}
-      />
     </section>
   );
 };

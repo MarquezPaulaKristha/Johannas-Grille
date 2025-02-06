@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import AreaTop from "../../../components/Admin/Dashboard/AreaTop/AreaTop";
 import AreaCards from "../../../components/Admin/Dashboard/AreaCards/AreaCards";
 import AreaCharts from "../../../components/Admin/Dashboard/AreaCharts/AreaCharts";
-import OrderTable from "../../../components/Admin/Order/OrderTable";
 import Header from "../../../components/Admin/Header/Header";
 import Sidebar from "../../../components/Admin/Sidebar/Sidebar";
 import './Dashboard.css';
@@ -28,15 +27,12 @@ const Dashboard = () => {
 
   return (
     <main>
-      {/* left of page */}
       <Sidebar />
-      {/* right side/content of the page */}
       <div className="content-wrapper">
         <Header />
         <AreaTop />
         <AreaCards />
         <AreaCharts />
-        <OrderTable orders={orders} />
       </div>
     </main>
   );

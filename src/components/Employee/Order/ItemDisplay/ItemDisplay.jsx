@@ -4,7 +4,7 @@ import Item from '../Item/Item';
 import { useProvider } from '../../../../global_variable/Provider';
 
 const ItemDisplay = ({ category, items, orderId }) => {
-  const { foodList, setFoodList, selectedEmployeeBranch, setSelectedEmployeeBranch }  = useProvider();
+  const { foodList, setFoodList, selectedEmployeeBranch } = useProvider();
 
   const fetchData = async () => {
     try {
@@ -24,34 +24,10 @@ const ItemDisplay = ({ category, items, orderId }) => {
     fetchData();
   }, [selectedEmployeeBranch]);
 
-
-  // Group items by base name and create variants with unique IDs
-  const groupedItems = React.useMemo(() => {
-    const groups = new Map();
-
-    foodList.forEach(item => {
-      const match = item.name.match(/^(.*?)\s*\((.*?)\)$/);
-      if (match) {
-        const baseName = match[1].trim();
-        const variant = match[2].trim();
-        const variantId = `${item.menuitemid}-${variant}`;  // Create a unique ID for the variant
-
-        if (!groups.has(baseName)) {
-          groups.set(baseName, { ...item, name: baseName, variants: [] });
-        }
-        groups.get(baseName).variants.push({ variant, id: variantId });  // Include the variant's unique ID
-      } else {
-        groups.set(item.name, { ...item, variants: [{ variant: 'Regular', id: item.menuitemid }] });
-      }
-    });
-
-    return Array.from(groups.values());
-  }, [foodList]);
-
   return (
     <div className="em-order-item-food-display" id="food-display">
       <div className="em-order-item-food-display-list">
-        {groupedItems.map((item) => {
+        {foodList.map((item) => {
           // Check if the item category matches
           if (category === "All" || category === item.category) {
             return (
@@ -61,8 +37,6 @@ const ItemDisplay = ({ category, items, orderId }) => {
                 id={item.menuitemid}  // Pass the base item ID
                 name={item.name}
                 price={item.price}
-                image={`https://johannas-grille.onrender.com${item.image_url}`} // Use the correct field for the image URL
-                variants={item.variants} // Pass the variants to the Item component
               />
             );
           }
