@@ -129,7 +129,7 @@ const Orders = () => {
 
                 return (
                   <tr key={dataItem.reservationid}>
-                    <td>{dataItem.reservationid}</td>
+                    <td>{dataItem.reservationid.slice(-5)}</td>
                     <td>{dataItem.customerid}</td>
                     <td>{dataItem.numberofguests}</td>
                     <td>{formattedDate}</td>

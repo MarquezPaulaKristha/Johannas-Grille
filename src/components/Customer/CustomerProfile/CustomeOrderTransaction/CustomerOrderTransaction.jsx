@@ -60,7 +60,7 @@ const CustomerOrderTransaction = () => {
         {groupedTransactions.map((transaction) => (
           <div className="transaction-card" key={transaction.orderid}>
             <div className="transaction-card-header">
-              <h2>Order No: {transaction.orderid}</h2>
+              <h2>Order No: {transaction.orderid.slice(-5)}</h2>
             </div>
             <div className="transaction-card-content">
               <h3>Items:</h3>

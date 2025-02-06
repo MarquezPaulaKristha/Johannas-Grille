@@ -10,26 +10,33 @@ import { useProvider } from "../../../../global_variable/Provider";
 const ProductCart = ({ orderId }) => {
   const { selectedBranch, setSelectedBranch, cartItems, setCartItems, pickupDate, setPickupDate, pickupHour, setPickupHour } = useProvider();
   const [isVisible, setIsVisible] = useState(true);
-  const [orderItems, setOrderItems] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [showOrder, setShowOrder] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
+  // Get today's date in YYYY-MM-DD format
+  const getCurrentDate = () => {
+    const today = new Date();
+    return today.toISOString().split("T")[0];
+  };
+
+  // Set default pickup date when component mounts
+  useEffect(() => {
+    if (!pickupDate) {
+      setPickupDate(getCurrentDate());
+    }
+  }, [pickupDate, setPickupDate]);
+
   // Update quantity handler
-const updateQuantity = (id, change) => {
-  setCartItems(prevItems => {
-    // If the quantity is 1 and we try to decrement it, remove the item from the cart
-    const updatedItems = prevItems.map(item =>
-      item.menuitemid === id
-        ? { ...item, quantity: item.quantity === 1 && change === -1 ? 0 : Math.max(1, item.quantity + change) }
-        : item
-    );
-
-    // Remove items with quantity 0 (after decrementing)
-    return updatedItems.filter(item => item.quantity > 0);
-  });
-};
-
+  const updateQuantity = (id, change) => {
+    setCartItems(prevItems => {
+      const updatedItems = prevItems.map(item =>
+        item.menuitemid === id
+          ? { ...item, quantity: Math.max(1, item.quantity + change) }
+          : item
+      );
+      return updatedItems.filter(item => item.quantity > 0);
+    });
+  };
 
   // Dropdown toggle
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
@@ -84,8 +91,9 @@ const updateQuantity = (id, change) => {
           {cartItems.length > 0 ? (
             cartItems.map(item => (
               <ProductItem
-                key={item.orderid}
+                key={item.menuitemid}
                 item={item}
+                image={`https://johannas-grille.onrender.com${item.image_url}`}
                 increaseQuantity={() => updateQuantity(item.menuitemid, 1)}
                 decreaseQuantity={() => updateQuantity(item.menuitemid, -1)}
               />
@@ -102,6 +110,7 @@ const updateQuantity = (id, change) => {
               type="date"
               id="pickupDate"
               value={pickupDate}
+              min={getCurrentDate()} // Prevent selecting past dates
               onChange={e => setPickupDate(e.target.value)}
             />
             <label htmlFor="pickupHour">Pick-up Time:</label>
@@ -110,10 +119,27 @@ const updateQuantity = (id, change) => {
               value={pickupHour}
               onChange={e => setPickupHour(e.target.value)}
             >
+              <option value="09:00">9:00 AM</option>
+              <option value="09:30">9:30 AM</option>
+              <option value="10:00">10:00 AM</option>
+              <option value="10:30">10:30 AM</option>
+              <option value="11:00">11:00 AM</option>
+              <option value="11:30">11:30 AM</option>
               <option value="12:00">12:00 PM</option>
               <option value="12:30">12:30 PM</option>
-              <option value="1:00">1:00 PM</option>
-              <option value="1:30">1:30 PM</option>
+              <option value="13:00">1:00 PM</option>
+              <option value="13:30">1:30 PM</option>
+              <option value="14:00">2:00 PM</option>
+              <option value="14:30">2:30 PM</option>
+              <option value="15:00">3:00 PM</option>
+              <option value="15:30">3:30 PM</option>
+              <option value="16:00">4:00 PM</option>
+              <option value="16:30">4:30 PM</option>
+              <option value="17:00">5:00 PM</option>
+              <option value="17:30">5:30 PM</option>
+              <option value="18:00">6:00 PM</option>
+              <option value="18:30">6:30 PM</option>
+              <option value="19:00">7:00 PM</option>
             </select>
           </div>
 

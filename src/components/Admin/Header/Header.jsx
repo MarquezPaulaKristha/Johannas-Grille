@@ -31,7 +31,7 @@ function Header({ text }) {
   // Handle logout by clearing the session storage
   const handleLogout = () => {
     sessionStorage.clear(); // Clear session storage on logout
-    navigate('/admin/login'); // Redirect to login page
+    navigate('/login'); // Redirect to login page
   };
 
   useEffect(() => {

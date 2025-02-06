@@ -1,16 +1,11 @@
 import React from "react";
 import "./ProductItem.css";
 
-const ProductItem = ({ item, increaseQuantity, decreaseQuantity }) => {
+const ProductItem = ({ item, image, increaseQuantity, decreaseQuantity }) => {
   const price = parseFloat(item.price) || 0;
 
   return (
     <div className="addtocart-items">
-      <img
-        src={item.image_url}
-        alt={item.name}
-        className="addtocart-item-image"
-      />
       <div className="addtocart-item-details">
         <p className="addtocart-item-name">
           {item.name} <br />

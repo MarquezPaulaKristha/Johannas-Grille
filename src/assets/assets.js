@@ -46,6 +46,7 @@ import cat_3 from './house.png'
 import cat_4 from './party.png'
 import cat_5 from './dessert.png'
 import cat_6 from './drink.png'
+import cat_7 from './add.png'
 
 export const assets = {
     logo,
@@ -99,7 +100,7 @@ export const menu_list = [
 
     {
         menu_name: "Add",
-        menu_image: cat_6
+        menu_image: cat_7
     },
 ]
 
