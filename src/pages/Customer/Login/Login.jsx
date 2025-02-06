@@ -78,7 +78,7 @@ const LoginPopUp = () => {
     <div className='login-popup'>
       <div className="login-popup-content">
         <div className="login-popup-left">
-          <h2>Create Account for Reservation</h2>
+          <h2>Create Account for Order and Reservation</h2>
           {currState === "Login" ? (
             <p>Create a new account? <span onClick={() => setCurrState("Sign Up")}>Sign Up</span></p>
           ) : (
