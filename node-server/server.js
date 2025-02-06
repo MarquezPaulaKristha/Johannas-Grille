@@ -1581,6 +1581,7 @@ app.get('/api/reservation-items/:reservationId', async (req, res) => {
         ri.qty, 
         rm.item_name, 
         rm.side_dish
+        rm.menu_name
       FROM 
         reservationitemtbl ri
       JOIN 
@@ -1592,6 +1593,7 @@ app.get('/api/reservation-items/:reservationId', async (req, res) => {
         WHERE ri.reservationid = $1
     `
     const result = await pool.query(reservationQuery, [reservationId])
+    console.log("Reservation API Response:", result.rows);
     res.status(200).json(result.rows)
   } catch (err) {
     console.error(err.message);

@@ -60,9 +60,9 @@ const Menu = ({ category, setCategory }) => {
     <div className="em-product-menu">
       <h1>Product</h1>
 
-      <button className="em-add-product-button" onClick={() => setShowPopup(true)}>
+      {/* <button className="em-add-product-button" onClick={() => setShowPopup(true)}>
         Add Products
-      </button>
+      </button> */}
 
       {showPopup && (
         <div className="em-popup-form">

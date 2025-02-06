@@ -62,6 +62,11 @@
     color: #333;
 }
 
+.orderitem-info {
+   display: flex;
+   gap: 10px;
+}
+
 .orderitem-price p {
     font-size: 14px;
     color: #777;
@@ -71,6 +76,7 @@
 .payment-section {
     margin-bottom: 20px;
     display: flex;
+    gap: 10px;
 }
 
 label {
@@ -81,7 +87,7 @@ label {
     font-weight: 600;
 }
 
-input[type="number"] {
+input[type="number"], [type="text"] {
     width: 100%;
     padding: 14px 18px;
     font-size: 16px;
@@ -93,7 +99,7 @@ input[type="number"] {
     transition: all 0.3s ease;
 }
 
-input[type="number"]:focus {
+input[type="number"], [type="text"]:focus {
     border-color: #4CAF50;
     background: #fff;
     outline: none;

@@ -74,11 +74,11 @@ const PlaceOrderPopup = ({ onCancel }) => {
                         <li key={item.menuitemid}>
                             <div className="orderitems">
                                 <div className="orderitem-info">
+                                <h4>{item.quantity}x</h4> 
                                 <h4>{item.name}</h4>
                                 </div>
                                 <div className="orderitem-price">
                                     <p>Price: P{Number(item.price) ? Number(item.price).toFixed(2) : 'N/A'}</p>
-                                    <p>Qty: {item.quantity}</p> 
                                 </div>
                             </div>
                         </li>
@@ -90,9 +90,9 @@ const PlaceOrderPopup = ({ onCancel }) => {
                 <p>Change: <strong>P{change.toFixed(2)}</strong></p>
                 <div className="emp-table-number">
                     <label>
-                        Table No.
+                        Name:
                         <input
-                            type="number"
+                            type="text"
                             value={tableNumber}  // Bind input value to state
                             onChange={(e) => setTableNumber(e.target.value)}  // Update state on input change
                         />

@@ -46,11 +46,32 @@ const Orders = () => {
   const totalPages = Math.ceil(reservation.length / itemsPerPage);
 
   const handleOpen = (reservation) => {
+    console.log("Fetching reservation items for:", reservation.reservationid);
+
     fetch(`https://johannas-grille.onrender.com/api/reservation-items/${reservation.reservationid}`)
       .then((response) => response.json())
-      .then((data) => setReservationItems(data))
+      .then((data) => {
+        console.log("Fetched reservation items:", data); // Debugging
+
+        if (data.length > 0) {
+          const firstItem = data[0]; // Get customer details from the first row
+
+          setCurrentItem({
+            ...reservation,
+            firstname: firstItem.firstname || "N/A",
+            lastname: firstItem.lastname || "N/A",
+            phonenumber: firstItem.phonenumber || "N/A",
+            email: firstItem.email || "N/A",
+            address: firstItem.address || "N/A"
+          });
+
+          setReservationItems(data);
+          setIsReservationPopupOpen(true);
+        } else {
+          console.error("No reservation items found for this reservation.");
+        }
+      })
       .catch((error) => console.error("Error fetching reservation data:", error));
-    setIsReservationPopupOpen(true);
   };
 
   const handleEdit = (reservation) => {
@@ -150,6 +171,64 @@ const Orders = () => {
           </table>
         </div>
       </section>
+
+      {isReservationPopupOpen && currentItem && (
+        <div className="popup-overlay">
+          <div className="popup-form">
+            <h2>Reservation Details</h2>
+            <p><strong>Name:</strong> {currentItem.firstname} {currentItem.lastname}</p>
+            <p><strong>Phone:</strong> {currentItem.phonenumber}</p>
+            <p><strong>Email:</strong> {currentItem.email}</p>
+            <p><strong>Address:</strong> {currentItem.address}</p>
+
+            {/* Group reservation items by package (if applicable) */}
+            {reservationItems.length > 0 ? (
+              (() => {
+                // Identify package based on the menuitemid
+                let packageName = "Uncategorized"; // Default if no matching ID is found
+
+                const menuItemIds = reservationItems.map(item => item.menuitemid);
+
+                if (menuItemIds.includes(1)) {
+                  packageName = "Menu A";
+                } else if (menuItemIds.includes(14)) {
+                  packageName = "Menu B";
+                } else if (menuItemIds.includes(35)) {
+                  packageName = "Menu C";
+                } else if (menuItemIds.includes(59)) {
+                  packageName = "Menu D";
+                }
+
+                return (
+                  <div>
+                    <h3>{packageName}</h3>
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Item</th>
+                          <th>Quantity</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {reservationItems.map((item, index) => (
+                          <tr key={index}>
+                            <td>{item.item_name}</td>
+                            <td>{item.qty}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                );
+              })()
+            ) : (
+              <p>No items found for this reservation.</p>
+            )}
+            <button className="cancel-btn" onClick={closeTablePopup}>Close</button>
+          </div>
+        </div>
+      )}
+
 
       {/* Edit, Delete, and Reservation Popups here */}
       {isEditPopupOpen && (
