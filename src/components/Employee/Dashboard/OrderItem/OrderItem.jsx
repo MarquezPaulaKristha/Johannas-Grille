@@ -32,8 +32,8 @@ const OrderItem = ({ orderid, curdate, items = [], customerName }) => {
       >
         <div className="emp-order-header-info">
           <h3>Order #{orderid.slice(-5)}</h3>
-          <span className="emp-order-date">{curdate}</span>
           <h4>{customerName}</h4>
+          <span className="emp-order-date">{curdate}</span>
         </div>
         <div className="emp-user-icon">😊</div>
       </div>
