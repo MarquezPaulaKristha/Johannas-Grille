@@ -591,7 +591,7 @@ app.get("/api/employee-orders", async (req, res) => {
       JOIN 
         orderitemtbl oi ON o.orderid = oi.orderid
       JOIN 
-        menu_items m ON oi.menuitemid = m.menuitemid
+        menuitemtbl m ON oi.menuitemid = m.menuitemid
       JOIN 
         customertbl c ON o.customerid = c.customerid
       WHERE 
