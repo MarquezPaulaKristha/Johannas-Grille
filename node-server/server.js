@@ -623,7 +623,7 @@ app.get("/api/employee-orders", async (req, res) => {
     const ordersArray = Object.values(groupedOrders);
     res.status(200).json(ordersArray);
   } catch (error) {
-    console.log("Fetched orders from DB:", JSON.stringify(result.rows, null, 2));
+    console.error("Error fetching orders:", error);
     res.status(500).json({ error: "Failed to fetch orders" });
   }
 });
