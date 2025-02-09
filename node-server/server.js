@@ -1580,7 +1580,7 @@ app.get('/api/reservation-items/:reservationId', async (req, res) => {
         ri.menuitemid, 
         ri.qty, 
         rm.item_name, 
-        rm.side_dish
+        rm.side_dish,
         rm.menu_name
       FROM 
         reservationitemtbl ri
