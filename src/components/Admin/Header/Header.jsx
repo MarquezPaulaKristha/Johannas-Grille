@@ -1,11 +1,10 @@
-
 import React, { useState, useEffect } from 'react';
 import { CgProfile } from "react-icons/cg";
 import { useNavigate } from 'react-router-dom';
 import './Header.css'; // Import the CSS
 
 function Header({ text }) {
-  const [image, setImage] = useState('');
+  const [image, setImage] = useState(null); // Initialize as null to handle missing image more explicitly
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -31,22 +30,27 @@ function Header({ text }) {
   // Handle logout by clearing the session storage
   const handleLogout = () => {
     sessionStorage.clear(); // Clear session storage on logout
-    navigate('/login'); // Redirect to login page
+    navigate('/admin/login'); // Redirect to login page
   };
 
   useEffect(() => {
     const storedImage = sessionStorage.getItem('image');
-    console.log('Image URL:', storedImage); // Log the image URL for debugging
+    console.log('Stored Image:', storedImage); // Log for debugging
 
-    // Prepend base URL if necessary
-    const baseURL = 'https://johannas-grille.onrender.com';
-    setImage(storedImage ? `${baseURL}${storedImage}` : '');
+    // Only update image if we have a valid value
+    if (storedImage && storedImage.trim() !== '') {
+      const baseURL = 'https://johannas-grille.onrender.com'; // Add base URL if needed
+      setImage(`${baseURL}${storedImage}`);
+    } else {
+      setImage(null); // Explicitly set to null if no valid image
+    }
+
     const username = sessionStorage.getItem('username');
     const usertype = sessionStorage.getItem('usertype');
 
     // If no user is logged in, redirect to login page
     if (!username || !usertype) {
-      navigate('/admin');
+      navigate('/admin/login');
     }
   }, [navigate]);
 

@@ -27,7 +27,11 @@ const EmployeeList = () => {
   const fetchEmployees = () => {
     fetch("https://johannas-grille.onrender.com/api/employees")
       .then((response) => response.json())
-      .then((data) => setEmployees(data))
+      .then((data) => {
+        // Sort employees by orderid in ascending order
+        const sortedData = data.sort((a, b) => a.userid - b.userid);
+        setEmployees(sortedData);
+      })
       .catch((error) => console.error("Error fetching employee data:", error));
   };
 

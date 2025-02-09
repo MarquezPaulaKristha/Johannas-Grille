@@ -77,7 +77,6 @@ const AdminReservationMenuList = ({ id, name, price, description, image, categor
     return (
         <div className="admin-reser-item-food-card">
             <div className="admin-reser-item-food-card-img-container">
-                <img className="admin-reser-item-food-card-image" src={foodImage} alt={foodName} />
             </div>
             <div className="admin-reser-item-food-card-info">
                 <div className="admin-reser-item-food-card-name-rating">
@@ -86,11 +85,9 @@ const AdminReservationMenuList = ({ id, name, price, description, image, categor
             </div>
             <div className="admin-reser-edit-delete-container">
                 <div className="admin-reser-edit-btn">
-                    {/* Edit Icon Button */}
                     <button className="admin-reser-item-btn-cart" /*onClick={handleEditClick}*/>
                         <RiEditLine size={25} />
                     </button>
-                    {/* Delete Icon Button */}
                     <button className="admin-reser-item-btn-cart" /*onClick={handleDeleteClick}*/>
                         <MdDeleteOutline size={25} />
                     </button>

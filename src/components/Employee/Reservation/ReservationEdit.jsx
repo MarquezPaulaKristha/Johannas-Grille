@@ -11,12 +11,12 @@ const OrderAction = ({ onOpen, onEdit, onDelete }) => {
       <button className="open-btn" onClick={onOpen}>
         <AiOutlineExport size={24} />
       </button>
-      <button className="edit-btn" onClick={onEdit}>
+      {/* <button className="edit-btn" onClick={onEdit}>
         <RiEditLine size={24} />
       </button>
       <button className="delete-btn" onClick={onDelete}>
         <MdDeleteOutline size={24} />
-      </button>
+      </button> */}
     </div>
   );
 };

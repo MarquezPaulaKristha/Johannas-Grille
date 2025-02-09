@@ -54,8 +54,14 @@ const InventoryCard = ({ id, name, price, category, quantity, image, invid, bran
   };
 
   // Determine the background color based on quantity
+  // Determine the background color based on quantity
   const cardStyle = {
-    backgroundColor: currentQuantity === 0 ? 'red' : currentQuantity === 5 ? 'yellow' : 'white',
+    backgroundColor:
+      currentQuantity === 0
+        ? 'red'
+        : currentQuantity >= 1 && currentQuantity < 6
+          ? 'yellow'
+          : 'white',
   };
 
   return (

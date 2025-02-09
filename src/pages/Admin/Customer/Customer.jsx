@@ -11,23 +11,16 @@ const CustomerList = () => {
   const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [customers, setCustomer] = useState([]);
-  const [customer, setCustomers] = useState([]);
-
-  const fetchData = async () => {
-    try {
-      const response = await fetch('https://johannas-grille.onrender.com/api/menuitems'); // Adjust this to your API URL
-      const data = await response.json();
-      setCustomers(data); // Update state with fetched data
-      window.location.reload();
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
 
   const fetchCustomer = () => {
     fetch("https://johannas-grille.onrender.com/api/customer")
       .then((response) => response.json())
-      .then((data) => setCustomer(data))
+      .then((data) => {
+        // Filter and sort customers where customerid >= 1000
+        const sortedData = data.filter((customer) => customer.customerid >= 1000)
+          .sort((a, b) => a.customerid - b.customerid); // Sort by customerid in ascending order
+        setCustomer(sortedData);
+      })
       .catch((error) => console.error("Error fetching customer data:", error));
   };
 
@@ -72,7 +65,6 @@ const CustomerList = () => {
                     <th>Address</th>
                     <th>PhoneNumber</th>
                     <th>Email</th>
-                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -87,12 +79,7 @@ const CustomerList = () => {
                       <td className="or-dt-cell-action">
                         <div className="edit-delete-container">
                           <div className="edit-btn">
-                            <button className="item-btn-cart" onClick={() => handleEditClick(customer)}>
-                              <RiEditLine size={25} />
-                            </button>
-                            <button className="item-btn-cart" onClick={() => handleDeleteClick(customer)}>
-                              <MdDeleteOutline size={25} />
-                            </button>
+                              
                           </div>
                         </div>
                       </td>
