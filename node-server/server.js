@@ -1187,7 +1187,7 @@ app.get('/api/top-items', async (req, res) => {
 async function getOrderData() {
   try {
     const query = `
-      SELECT orderid, customerid, ordertype, date, totalamount, time
+      SELECT orderid, customerid, ordertype, date, totalamount, time, branch
       FROM orderstbl
     `;
     const result = await pool.query(query);
