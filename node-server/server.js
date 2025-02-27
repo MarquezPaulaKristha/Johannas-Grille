@@ -581,38 +581,36 @@ app.get("/api/employee-orders", async (req, res) => {
         o.orderid,
         o.ordertype,
         TO_CHAR(o.date, 'YYYY-MM-DD') AS date,
+        o.branch,  -- Ensure branch is included
         oi.menuitemid, 
         oi.quantity, 
         m.name AS item_name, 
         m.price,
-      CASE
-      WHEN 
-      o.customerid = 0 THEN o.customername -- Use customername from orderstbl for Take Out/Dine In
-      ELSE 
-      c.firstname || ' ' || c.lastname -- Use customertbl for Pick Up
-      END AS customer_name
-    FROM 
-      orderstbl o
-    LEFT JOIN 
-      orderitemtbl oi ON o.orderid = oi.orderid
-    LEFT JOIN 
-      menuitemtbl m ON oi.menuitemid = m.menuitemid
-    LEFT JOIN 
-      customertbl c ON o.customerid = c.customerid
-    WHERE 
-      LOWER(TRIM(o.status)) = 'pending';
+        CASE
+          WHEN o.customerid = 0 THEN o.customername
+          ELSE c.firstname || ' ' || c.lastname
+        END AS customer_name
+      FROM 
+        orderstbl o
+      LEFT JOIN 
+        orderitemtbl oi ON o.orderid = oi.orderid
+      LEFT JOIN 
+        menuitemtbl m ON oi.menuitemid = m.menuitemid
+      LEFT JOIN 
+        customertbl c ON o.customerid = c.customerid
+      WHERE 
+        LOWER(TRIM(o.status)) = 'pending';
     `);
 
-    // Debugging log
     console.log("Fetched orders from DB:", result.rows);
 
-    // Group orders by orderid
     const groupedOrders = result.rows.reduce((acc, item) => {
       if (!acc[item.orderid]) {
         acc[item.orderid] = {
           orderid: item.orderid,
           ordertype: item.ordertype,
           date: item.date,
+          branch: item.branch,  // Include branch in response
           customer_name: item.customer_name,
           items: [],
         };

@@ -3,7 +3,7 @@ import axios from "axios";
 import OrderItem from "../OrderItem/OrderItem";
 import "./OrderList.css";
 
-const OrderList = () => {
+const OrderList = ({ branch }) => {  // Accept branch as prop
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
@@ -13,27 +13,28 @@ const OrderList = () => {
           "https://johannas-grille.onrender.com/api/employee-orders"
         );
         console.log("Fetched orders:", response.data);
-  
-        // Ensure response.data is an array before updating state
+
         if (Array.isArray(response.data)) {
           setOrders(response.data);
         } else {
           console.error("Invalid API response format:", response.data);
-          setOrders([]); // Fallback to empty array
+          setOrders([]);
         }
       } catch (error) {
         console.error("Error fetching orders:", error);
       }
     };
-  
+
     fetchOrders();
   }, []);
-  
+
+  // Filter orders based on employee branch
+  const filteredOrders = orders.filter(order => order.branch === branch);
 
   const groupedOrders = {
-    "Dine In": orders.filter((order) => order.ordertype === "Dine In"),
-    "Take Out": orders.filter((order) => order.ordertype === "Take Out"),
-    Pickup: orders.filter((order) => order.ordertype === "Pickup"),
+    "Dine In": filteredOrders.filter((order) => order.ordertype === "Dine In"),
+    "Take Out": filteredOrders.filter((order) => order.ordertype === "Takeout"),
+    Pickup: filteredOrders.filter((order) => order.ordertype === "Pickup"),
   };
 
   return (
@@ -48,7 +49,7 @@ const OrderList = () => {
                   <OrderItem
                     key={order.orderid}
                     orderid={order.orderid}
-                    customerName={order.customer_name} // Pass customer name
+                    customerName={order.customer_name}
                     items={order.items}
                     curdate={order.date}
                   />
