@@ -1,11 +1,23 @@
 .content-area-charts {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.content-areacards {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.charts-container {
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 16px;
 }
 
 @media (max-width: 992px) {
-  .content-area-charts {
+  .charts-container {
     grid-template-columns: 100%;
   }
 }

@@ -4,7 +4,7 @@ import './PlaceOrderPopup.css';
 import { useProvider } from '../../../../global_variable/Provider';
 
 const PlaceOrderPopup = ({ onCancel }) => {
-    const { orderItems, setOrderItems, tableNumber, setTableNumber, orderType, setOrderType, selectedEmployeeBranch } = useProvider();
+    const { orderItems, setOrderItems, customername, setcustomername, orderType, setOrderType, selectedEmployeeBranch } = useProvider();
     const [receivedAmount, setReceivedAmount] = useState('');
     const totalPrice = orderItems.reduce(
         (total, item) => total + (Number(item.price) || 0) * (item.quantity || 0),
@@ -30,7 +30,7 @@ const PlaceOrderPopup = ({ onCancel }) => {
     const { currentDate, currentTime } = getCurrentDateTime();
 
     const handleConfirmPayment = async () => {
-        if (!tableNumber) {
+        if (!customername) {
             alert("Please enter a table number.");
             return;
         }
@@ -46,7 +46,7 @@ const PlaceOrderPopup = ({ onCancel }) => {
             ordertype: orderType,
             date: currentDate,
             time: currentTime,
-            tableno: tableNumber,
+            tableno: customername,
             status: "Pending",
             selectedBranch: selectedEmployeeBranch,
         };
@@ -55,7 +55,7 @@ const PlaceOrderPopup = ({ onCancel }) => {
             const response = await axios.post("https://johannas-grille.onrender.com/api/create-order", orderData);
             if (response.status === 200) {
                 setOrderItems([]);
-                setTableNumber("");
+                setcustomername("");
                 setOrderType("Dine In");
                 window.location.reload();
                 onCancel();
@@ -93,8 +93,8 @@ const PlaceOrderPopup = ({ onCancel }) => {
                         Name:
                         <input
                             type="text"
-                            value={tableNumber}  // Bind input value to state
-                            onChange={(e) => setTableNumber(e.target.value)}  // Update state on input change
+                            value={customername}  // Bind input value to state
+                            onChange={(e) => setcustomername(e.target.value)}  // Update state on input change
                         />
                     </label>
                     <label>
@@ -113,7 +113,7 @@ const PlaceOrderPopup = ({ onCancel }) => {
                     <button
                         className="confirm-button"
                         onClick={handleConfirmPayment}
-                        disabled={receivedAmount < totalPrice || (receivedAmount === '' && !tableNumber)}
+                        disabled={receivedAmount < totalPrice || (receivedAmount === '' && !customername)}
                     >
                         Confirm Order
                     </button>

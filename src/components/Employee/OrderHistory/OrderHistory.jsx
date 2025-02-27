@@ -10,10 +10,14 @@ const TABLE_HEADS = [
   "Date",
   "Status",
   "Total Amount",
-  "Time"
+  "Time",
+  "Branch"
 ];
 
-const OrderHistory = ({ orders, handleEdit, handleDelete }) => {
+const OrderHistory = ({ orders, handleEdit, handleDelete, userBranch }) => {
+  // Filter orders based on the user's branch
+  const filteredOrders = orders.filter(order => order.branch === userBranch);
+
   return (
     <div className="em-data-table-diagram">
       <table>
@@ -25,7 +29,7 @@ const OrderHistory = ({ orders, handleEdit, handleDelete }) => {
           </tr>
         </thead>
         <tbody>
-          {orders.map((dataItem) => {
+          {filteredOrders.map((dataItem) => {
             const formattedDate = new Date(dataItem.date).toLocaleDateString("en-US", {
               year: "numeric",
               month: "long",
@@ -51,16 +55,7 @@ const OrderHistory = ({ orders, handleEdit, handleDelete }) => {
                 </td>
                 <td>P{dataItem.totalamount}</td>
                 <td>{formattedTime}</td>
-                {/* <td className="em-dt-cell-action">
-                  <div className="edit-delete-container">
-                    <button className="item-btn-cart" onClick={() => handleEdit(dataItem)}>
-                      <RiEditLine size={25} />
-                    </button>
-                    <button className="item-btn-cart" onClick={() => handleDelete(dataItem.orderid)}>
-                      <MdDeleteOutline size={25} />
-                    </button>
-                  </div>
-                </td> */}
+                <td>{dataItem.branch}</td>
               </tr>
             );
           })}
@@ -69,5 +64,6 @@ const OrderHistory = ({ orders, handleEdit, handleDelete }) => {
     </div>
   );
 };
+
 
 export default OrderHistory;

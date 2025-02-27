@@ -43,6 +43,7 @@ const OrderList = () => {
                     customerName={order.customer_name} // Pass customer name
                     items={order.items}
                     curdate={order.date}
+                    branch={order.branch}
                   />
                 ))
               ) : (

@@ -32,7 +32,7 @@ const Product = () => {
             {/* left of page */}
             <Sidebar />
             {/* right side/content of the page */}
-            <div className="content-wrapper">
+            <div className="product-content-wrapper">
                 <Menu category={category} setCategory={setCategory} refreshItems={fetchItems} />
                 <ItemDisplay category={category} items={items}/>
                 {/* <AreaCharts />
