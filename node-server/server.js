@@ -1407,12 +1407,12 @@ app.post('/api/create-order', async (req, res) => {
   try {
     // Extract orderid from the first item in orderItems
     const formattedDate = date.replace(/-/g, ""); // Remove dashes from date
-    const orderid = parseInt(`${formattedDate}${orderItems[0].orderid}`, 10);
+    const orderid = parseInt(`${formattedDate}${orderItems[0].orderid}`, 10); 
 
     // Insert into Orders table with manually provided orderid
     await pool.query(
-      'INSERT INTO orderstbl (orderid, customerid, totalamount, ordertype, date, time, customername, status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
-      [orderid, customerid, totalamount, ordertype, date, time, customername, status]
+      'INSERT INTO orderstbl (orderid, customerid, totalamount, ordertype, date, time, customername, status, branch) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
+      [orderid, customerid, totalamount, ordertype, date, time, customername, status, selectedBranch] 
     );
 
     // Insert items into the orderitemtbl table
