@@ -1411,7 +1411,7 @@ app.post('/api/create-order', async (req, res) => {
 
     // Insert into Orders table with manually provided orderid
     await pool.query(
-      'INSERT INTO orderstbl (orderid, customerid, totalamount, ordertype, date, time, customername, status, branch) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
+      'INSERT INTO orderstbl (orderid, customerid, totalamount, ordertype, date, time, customername, status, branch) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)',
       [orderid, customerid, totalamount, ordertype, date, time, customername, status, selectedBranch] 
     );
 
