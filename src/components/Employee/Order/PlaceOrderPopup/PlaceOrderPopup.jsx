@@ -3,9 +3,10 @@ import axios from "axios";
 import "./PlaceOrderPopup.css";
 import { useProvider } from "../../../../global_variable/Provider";
 
-const PlaceOrderPopup = ({ onCancel }) => {
+const PlaceOrderPopup = ({ onCancel, branch }) => {
     const { orderItems, setOrderItems, customername, setcustomername, orderType, setOrderType, selectedEmployeeBranch } = useProvider();
     const [receivedAmount, setReceivedAmount] = useState("");
+    const activeBranch = branch || selectedEmployeeBranch;
 
     const totalPrice = orderItems.reduce(
         (total, item) => total + (Number(item.price) || 0) * (item.quantity || 0),
@@ -53,7 +54,7 @@ const PlaceOrderPopup = ({ onCancel }) => {
             time: currentTime,
             customername: customername,
             status: "Pending",
-            selectedBranch: selectedEmployeeBranch,
+            selectedBranch: activeBranch,
         };
 
         try {

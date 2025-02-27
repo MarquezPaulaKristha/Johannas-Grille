@@ -585,17 +585,22 @@ app.get("/api/employee-orders", async (req, res) => {
         oi.quantity, 
         m.name AS item_name, 
         m.price,
-        c.firstname || ' ' || c.lastname AS customer_name
-      FROM 
-        orderstbl o
-      JOIN 
-        orderitemtbl oi ON o.orderid = oi.orderid
-      JOIN 
-        menuitemtbl m ON oi.menuitemid = m.menuitemid
-      JOIN 
-        customertbl c ON o.customerid = c.customerid
-      WHERE 
-        o.status = 'Pending';
+      CASE
+      WHEN 
+      o.customerid = 0 THEN o.customername -- Use customername from orderstbl for Take Out/Dine In
+      ELSE 
+      c.firstname || ' ' || c.lastname -- Use customertbl for Pick Up
+      END AS customer_name
+    FROM 
+      orderstbl o
+    LEFT JOIN 
+      orderitemtbl oi ON o.orderid = oi.orderid
+    LEFT JOIN 
+      menuitemtbl m ON oi.menuitemid = m.menuitemid
+    LEFT JOIN 
+      customertbl c ON o.customerid = c.customerid
+    WHERE 
+      LOWER(TRIM(o.status)) = 'pending';
     `);
 
     // Debugging log
@@ -1403,16 +1408,16 @@ app.post('/api/customer-gcash-checkout', async (req, res) => {
 
 app.post('/api/create-order', async (req, res) => {
   const { customerid, orderItems, totalamount, ordertype, date, time, customername, status, selectedBranch } = req.body;
- 
+
   try {
     // Extract orderid from the first item in orderItems
     const formattedDate = date.replace(/-/g, ""); // Remove dashes from date
-    const orderid = parseInt(`${formattedDate}${orderItems[0].orderid}`, 10); 
+    const orderid = parseInt(`${formattedDate}${orderItems[0].orderid}`, 10);
 
     // Insert into Orders table with manually provided orderid
     await pool.query(
       'INSERT INTO orderstbl (orderid, customerid, totalamount, ordertype, date, time, customername, status, branch) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)',
-      [orderid, customerid, totalamount, ordertype, date, time, customername, status, selectedBranch] 
+      [orderid, customerid, totalamount, ordertype, date, time, customername, status, selectedBranch]
     );
 
     // Insert items into the orderitemtbl table
