@@ -14,7 +14,7 @@ import {
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-const AreaLineChart = ({ month, setMonth, year, setYear, startDate, setStartDate, endDate, setEndDate }) => {
+const AreaLineChart = ({ month, setMonth, year, setYear }) => {
   const [chartData, setChartData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -41,27 +41,16 @@ const AreaLineChart = ({ month, setMonth, year, setYear, startDate, setStartDate
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      setError('');
+    const fetchPredictionData = async () => {
+      try {
+        const response = await axios.get(
+          `https://johannas-grille.onrender.com/api/predict?month=${month}&year=${year}`
+        );
+        const predictions = response.data.predictions;
 
-      const predictions = await fetchPredictionData(startDate, endDate, branch);
-
-      if (predictions) {
-        const start = new Date(startDate);
-        const end = new Date(endDate);
-        const labels = [];
-        let currentDate = new Date(start);
-
-        while (currentDate <= end) {
-          labels.push(currentDate.getDate());
-          currentDate.setDate(currentDate.getDate() + 1);
-        }
-
-        const data = labels.map((day) => {
-          const prediction = predictions.find((entry) => new Date(entry.ds).getDate() === day);
-          return prediction ? prediction.peak_hour : null;
-        });
+       // Map the backend data to chart labels and datasets
+       const labels = predictions.map((entry) => entry.ds);
+       const data = predictions.map((entry) => entry.peak_hour);
 
         setChartData({
           labels,
@@ -76,53 +65,51 @@ const AreaLineChart = ({ month, setMonth, year, setYear, startDate, setStartDate
             },
           ],
         });
+        setLoading(false);
+      } catch (err) {
+        console.error('Error fetching prediction data:', err);
+        setError('Failed to fetch prediction data');
+        setLoading(false);
       }
 
       setLoading(false);
     };
 
-    fetchData();
-  }, [startDate, endDate, month, year, branch]); // Add branch to the dependency array
+    fetchPredictionData();
+  }, [month, year]); // Re-fetch data when month or year changes
 
   return (
     <div style={{ width: '80%', margin: '0 auto' }}>
       <h2>Peak Hours Analytics</h2>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
-        {/* Branch Filter */}
-        <label htmlFor="branch">Branch:</label>
-        <select
-          id="branch"
-          value={branch}
-          onChange={(e) => setBranch(e.target.value)}
-          style={{ padding: '5px', fontSize: '16px' }}
-        >
-          {branches.map((branchOption) => (
-            <option key={branchOption} value={branchOption}>
-              {branchOption}
-            </option>
-          ))}
-        </select>
+      <label htmlFor="month">Select Month:</label>
+      <select
+        id="month"
+        value={month}
+        onChange={(e) => setMonth(Number(e.target.value))}
+        style={{ padding: '5px', fontSize: '16px' }}
+      >
+        {Array.from({ length: 12 }, (_, i) => (
+          <option key={i + 1} value={i + 1}>
+            {new Date(0, i).toLocaleString('default', { month: 'long' })}
+          </option>
+        ))}
+      </select>
 
-        {/* Start Date */}
-        <label htmlFor="startDate">Start Date:</label>
-        <input
-          id="startDate"
-          type="date"
-          value={startDate}
-          onChange={(e) => setStartDate(e.target.value)}
-          style={{ padding: '5px', fontSize: '16px' }}
-        />
-
-        {/* End Date */}
-        <label htmlFor="endDate">End Date:</label>
-        <input
-          id="endDate"
-          type="date"
-          value={endDate}
-          onChange={(e) => setEndDate(e.target.value)}
-          style={{ padding: '5px', fontSize: '16px' }}
-        />
-      </div>
+      <label htmlFor="year" style={{ marginLeft: '10px' }}>
+      Select Year:
+      </label>
+      <select
+        id="year"
+        value={year}
+        onChange={(e) => setYear(Number(e.target.value))}
+        style={{ padding: '5px', fontSize: '16px', marginLeft: '10px' }}
+      >
+        {[2022, 2023, 2024, 2025].map((y) => (
+          <option key={y} value={y}>
+            {y}
+          </option>
+        ))}
+      </select>
 
       {loading ? (
         <p>Loading...</p>
@@ -137,7 +124,7 @@ const AreaLineChart = ({ month, setMonth, year, setYear, startDate, setStartDate
               legend: { display: true, position: 'top' },
               title: {
                 display: true,
-                text: 'Predicted Peak Hour Per Day',
+                text: 'Predicted Peak Hour',
               },
               tooltip: {
                 callbacks: {
@@ -147,9 +134,8 @@ const AreaLineChart = ({ month, setMonth, year, setYear, startDate, setStartDate
             },
             scales: {
               y: {
-                beginAtZero: false, // Disable starting at zero
-                min: 7, // Start the y-axis at 7
-                title: { display: true, text: 'Peak Hours (7-23)' },
+                beginAtZero: true,
+                title: { display: true, text: 'Peak Hours (0-23)' },
               },
               x: {
                 title: { display: true, text: 'Days' },

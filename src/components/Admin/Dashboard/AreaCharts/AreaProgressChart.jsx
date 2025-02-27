@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const AreaProgressChart = () => {
+const AreaProgressChart = ({ month, year }) => {
   const [topMenu, setTopMenu] = useState([]);
   const [error, setError] = useState(null); // State to store errors
-  const [year, setYear] = useState(new Date().getFullYear()); // Default to current year
-  const [month, setMonth] = useState(new Date().getMonth() + 1); // Default to current month
 
   const fetchTopMenu = async () => {
     try {
-      const response = await axios.get(
-        `https://johannas-grille.onrender.com/api/top-items?month=${month}&year=${year}`
-      );
+      const response = await axios.get(`https://johannas-grille.onrender.com/api/top-items?month=${month}&year=${year}`);
       if (response.status === 200) {
         setTopMenu(response.data);
         setError(null); // Clear any previous errors
@@ -39,7 +35,7 @@ const AreaProgressChart = () => {
       <div className="progress-bar-info">
         <h4 className="progress-bar-title">Most Sold Menu</h4>
         {/* Year and Month Filters in one row */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '10px' }}>
+        {/* <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '10px' }}>
           <label htmlFor="year">Year:</label>
           <select id="year" value={year} onChange={handleYearChange}>
             {Array.from({ length: 4 }, (_, i) => new Date().getFullYear() - i).map((y) => (
@@ -57,11 +53,11 @@ const AreaProgressChart = () => {
               </option>
             ))}
           </select>
-        </div>
+        </div> */}
       </div>
       <div className="progress-bar-list">
         {topMenu?.map((progressbar) => {
-          const percent = Math.min(progressbar.percentvalues, 100);
+          const percent = Math.min(progressbar.percentvalues, 100)
           return (
             <div className="progress-bar-item" key={progressbar.menuitemid}>
               <div className="bar-item-info">

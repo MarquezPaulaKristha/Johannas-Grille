@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import './Header.css';
 import ProfileHeader from './HeaderProfile';
-import { IoIosSearch } from "react-icons/io";
 import { HiOutlineBell } from "react-icons/hi2";
+import { useProvider } from "../../../global_variable/Provider";
 
 const Header = () => {
-  const [branch, setBranch] = useState('');
+  const { branch, setBranch } = useProvider();
 
   useEffect(() => {
-    const userBranch = sessionStorage.getItem('branch'); // Get branch from sessionStorage
-    setBranch(userBranch || 'N/A'); // Set branch, default to 'N/A' if not found
+    const userBranch = sessionStorage.getItem("branch") || "N/A";
+    setBranch(userBranch);
   }, []);
 
   return (
@@ -26,6 +26,6 @@ const Header = () => {
       </div>
     </header>
   );
-}
+};
 
 export default Header;

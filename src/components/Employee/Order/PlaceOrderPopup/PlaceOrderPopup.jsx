@@ -1,43 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import axios from "axios";
-import './PlaceOrderPopup.css';
-import { useProvider } from '../../../../global_variable/Provider';
+import "./PlaceOrderPopup.css";
+import { useProvider } from "../../../../global_variable/Provider";
 
 const PlaceOrderPopup = ({ onCancel }) => {
     const { orderItems, setOrderItems, customername, setcustomername, orderType, setOrderType, selectedEmployeeBranch } = useProvider();
-    const [receivedAmount, setReceivedAmount] = useState('');
+    const [receivedAmount, setReceivedAmount] = useState("");
+
     const totalPrice = orderItems.reduce(
         (total, item) => total + (Number(item.price) || 0) * (item.quantity || 0),
         0
     );
+
     const change = receivedAmount ? Math.max(0, receivedAmount - totalPrice) : 0;
 
     const handleReceivedAmountChange = (e) => {
         const value = parseFloat(e.target.value);
-        setReceivedAmount(isNaN(value) ? '' : value);
+        setReceivedAmount(isNaN(value) ? "" : value);
     };
 
     const getCurrentDateTime = () => {
         const now = new Date();
-
-        // Format the date as YYYY-MM-DD
-        const currentDate = now.toISOString().split("T")[0]; // YYYY-MM-DD
-        const currentTime = now.toTimeString().split(" ")[0]; // HH:mm:ss
-
-        return { currentDate, currentTime };
+        return {
+            currentDate: now.toISOString().split("T")[0], // YYYY-MM-DD
+            currentTime: now.toTimeString().split(" ")[0], // HH:mm:ss
+        };
     };
 
     const { currentDate, currentTime } = getCurrentDateTime();
 
     const handleConfirmPayment = async () => {
         if (!customername) {
-            alert("Please enter a table number.");
+            alert("Please enter a name.");
+            return;
+        }
+
+        if (orderItems.length === 0) {
+            alert("No items in the order.");
             return;
         }
 
         const orderData = {
             customerid: "00000",
-            orderItems: orderItems.map(item => ({
+            orderItems: orderItems.map((item) => ({
                 orderid: item.orderid,
                 menuitemid: item.menuitemid,
                 order_quantity: item.quantity,
@@ -46,13 +51,17 @@ const PlaceOrderPopup = ({ onCancel }) => {
             ordertype: orderType,
             date: currentDate,
             time: currentTime,
-            tableno: customername,
+            customername: customername,
             status: "Pending",
             selectedBranch: selectedEmployeeBranch,
         };
 
         try {
-            const response = await axios.post("https://johannas-grille.onrender.com/api/create-order", orderData);
+            const response = await axios.post(
+                "https://johannas-grille.onrender.com/api/create-order",
+                orderData
+            );
+
             if (response.status === 200) {
                 setOrderItems([]);
                 setcustomername("");
@@ -61,6 +70,7 @@ const PlaceOrderPopup = ({ onCancel }) => {
                 onCancel();
             }
         } catch (error) {
+            console.error("Failed to create order:", error.response?.data || error.message);
             alert("Failed to create order. Please try again.");
         }
     };
@@ -74,11 +84,11 @@ const PlaceOrderPopup = ({ onCancel }) => {
                         <li key={item.menuitemid}>
                             <div className="orderitems">
                                 <div className="orderitem-info">
-                                <h4>{item.quantity}x</h4> 
-                                <h4>{item.name}</h4>
+                                    <h4>{item.quantity}x</h4>
+                                    <h4>{item.name}</h4>
                                 </div>
                                 <div className="orderitem-price">
-                                    <p>Price: P{Number(item.price) ? Number(item.price).toFixed(2) : 'N/A'}</p>
+                                    <p>Price: P{Number(item.price) ? Number(item.price).toFixed(2) : "N/A"}</p>
                                 </div>
                             </div>
                         </li>
@@ -93,8 +103,9 @@ const PlaceOrderPopup = ({ onCancel }) => {
                         Name:
                         <input
                             type="text"
-                            value={customername}  // Bind input value to state
-                            onChange={(e) => setcustomername(e.target.value)}  // Update state on input change
+                            value={customername}
+                            onChange={(e) => setcustomername(e.target.value)}
+                            placeholder="Enter name"
                         />
                     </label>
                     <label>
@@ -113,7 +124,7 @@ const PlaceOrderPopup = ({ onCancel }) => {
                     <button
                         className="confirm-button"
                         onClick={handleConfirmPayment}
-                        disabled={receivedAmount < totalPrice || (receivedAmount === '' && !customername)}
+                        disabled={receivedAmount < totalPrice || orderItems.length === 0}
                     >
                         Confirm Order
                     </button>

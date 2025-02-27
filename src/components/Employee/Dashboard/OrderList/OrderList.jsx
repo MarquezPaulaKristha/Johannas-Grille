@@ -13,14 +13,22 @@ const OrderList = () => {
           "https://johannas-grille.onrender.com/api/employee-orders"
         );
         console.log("Fetched orders:", response.data);
-        setOrders(response.data);
+  
+        // Ensure response.data is an array before updating state
+        if (Array.isArray(response.data)) {
+          setOrders(response.data);
+        } else {
+          console.error("Invalid API response format:", response.data);
+          setOrders([]); // Fallback to empty array
+        }
       } catch (error) {
         console.error("Error fetching orders:", error);
       }
     };
-
+  
     fetchOrders();
   }, []);
+  
 
   const groupedOrders = {
     "Dine In": orders.filter((order) => order.ordertype === "Dine In"),
@@ -43,7 +51,6 @@ const OrderList = () => {
                     customerName={order.customer_name} // Pass customer name
                     items={order.items}
                     curdate={order.date}
-                    branch={order.branch}
                   />
                 ))
               ) : (

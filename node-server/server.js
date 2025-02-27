@@ -1403,7 +1403,7 @@ app.post('/api/customer-gcash-checkout', async (req, res) => {
 
 app.post('/api/create-order', async (req, res) => {
   const { customerid, orderItems, totalamount, ordertype, date, time, customername, status, selectedBranch } = req.body;
-
+ 
   try {
     // Extract orderid from the first item in orderItems
     const formattedDate = date.replace(/-/g, ""); // Remove dashes from date
