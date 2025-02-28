@@ -11,7 +11,7 @@ export function Provider({ children }) {
   const [customername, setcustomername] = usePersistState('table', '');
   const [orderType, setOrderType] = usePersistState('order', 'Dine In');
   const [branch, setBranch] = useState('');
-  const [selectedBranch, setSelectedBranch] = usePersistState('customer_branch', 'Bauan');
+  const [selectedBranch, setSelectedBranch] = usePersistState('');
   const [selectedEmployeeBranch, setSelectedEmployeeBranch] = useState('');
   const [pickupDate, setPickupDate] = usePersistState(
     'date',
@@ -28,7 +28,8 @@ export function Provider({ children }) {
       orderType, setOrderType, customer, setCustomer, cartItems, setCartItems, 
       branch, setBranch, selectedEmployeeBranch, setSelectedEmployeeBranch,
       pickupDate, setPickupDate, pickupHour, setPickupHour, 
-      reserveItems, setReserveItems, reservationDetails, setReservationDetails, 
+      reserveItems, setReserveItems, reservationDetails, setReservationDetails,
+      selectedBranch, setSelectedBranch,
       payloadDetails, setPayloadDetails
     }}>
       {children}

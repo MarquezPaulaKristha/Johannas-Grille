@@ -1357,16 +1357,14 @@ app.post('/api/gcash-checkout', async (req, res) => {
 });
 
 app.post('/api/customer-gcash-checkout', async (req, res) => {
-  const { lineItems } = req.body;
+  const { lineItems, branch, pickupDate, pickupHour } = req.body;
 
-  const formattedLineItems = lineItems.map((item) => {
-    return {
-      currency: 'PHP',
-      amount: Math.round(item.price * 100),
-      name: item.name,
-      quantity: item.quantity,
-    };
-  });
+  const formattedLineItems = lineItems.map((item) => ({
+    currency: 'PHP',
+    amount: Math.round(item.price * 100),
+    name: item.name,
+    quantity: item.quantity,
+  }));
 
   try {
     const response = await axios.post(
@@ -1377,6 +1375,11 @@ app.post('/api/customer-gcash-checkout', async (req, res) => {
             send_email_receipt: false,
             show_line_items: true,
             line_items: formattedLineItems,
+            metadata: {
+              branch,
+              pickupDate,
+              pickupHour,
+            },
             payment_method_types: ['gcash'],
             success_url: 'https://johannasgrille.onrender.com/success',
             cancel_url: 'https://johannasgrille.onrender.com/',
