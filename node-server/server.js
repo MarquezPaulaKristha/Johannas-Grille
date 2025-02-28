@@ -581,33 +581,36 @@ app.get("/api/employee-orders", async (req, res) => {
         o.orderid,
         o.ordertype,
         TO_CHAR(o.date, 'YYYY-MM-DD') AS date,
+        o.branch,  -- Ensure branch is included
         oi.menuitemid, 
         oi.quantity, 
         m.name AS item_name, 
         m.price,
-        c.firstname || ' ' || c.lastname AS customer_name
+        CASE
+          WHEN o.customerid = 0 THEN o.customername
+          ELSE c.firstname || ' ' || c.lastname
+        END AS customer_name
       FROM 
         orderstbl o
-      JOIN 
+      LEFT JOIN 
         orderitemtbl oi ON o.orderid = oi.orderid
-      JOIN 
+      LEFT JOIN 
         menuitemtbl m ON oi.menuitemid = m.menuitemid
-      JOIN 
+      LEFT JOIN 
         customertbl c ON o.customerid = c.customerid
       WHERE 
-        o.status = 'Pending';
+        LOWER(TRIM(o.status)) = 'pending';
     `);
 
-    // Debugging log
     console.log("Fetched orders from DB:", result.rows);
 
-    // Group orders by orderid
     const groupedOrders = result.rows.reduce((acc, item) => {
       if (!acc[item.orderid]) {
         acc[item.orderid] = {
           orderid: item.orderid,
           ordertype: item.ordertype,
           date: item.date,
+          branch: item.branch,  // Include branch in response
           customer_name: item.customer_name,
           items: [],
         };
@@ -1354,16 +1357,14 @@ app.post('/api/gcash-checkout', async (req, res) => {
 });
 
 app.post('/api/customer-gcash-checkout', async (req, res) => {
-  const { lineItems } = req.body;
+  const { lineItems, branch, pickupDate, pickupHour } = req.body;
 
-  const formattedLineItems = lineItems.map((item) => {
-    return {
-      currency: 'PHP',
-      amount: Math.round(item.price * 100),
-      name: item.name,
-      quantity: item.quantity,
-    };
-  });
+  const formattedLineItems = lineItems.map((item) => ({
+    currency: 'PHP',
+    amount: Math.round(item.price * 100),
+    name: item.name,
+    quantity: item.quantity,
+  }));
 
   try {
     const response = await axios.post(
@@ -1374,6 +1375,11 @@ app.post('/api/customer-gcash-checkout', async (req, res) => {
             send_email_receipt: false,
             show_line_items: true,
             line_items: formattedLineItems,
+            metadata: {
+              branch,
+              pickupDate,
+              pickupHour,
+            },
             payment_method_types: ['gcash'],
             success_url: 'https://johannasgrille.onrender.com/success',
             cancel_url: 'https://johannasgrille.onrender.com/',
@@ -1411,8 +1417,8 @@ app.post('/api/create-order', async (req, res) => {
 
     // Insert into Orders table with manually provided orderid
     await pool.query(
-      'INSERT INTO orderstbl (orderid, customerid, totalamount, ordertype, date, time, customername, status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
-      [orderid, customerid, totalamount, ordertype, date, time, customername, status]
+      'INSERT INTO orderstbl (orderid, customerid, totalamount, ordertype, date, time, customername, status, branch) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)',
+      [orderid, customerid, totalamount, ordertype, date, time, customername, status, selectedBranch]
     );
 
     // Insert items into the orderitemtbl table
