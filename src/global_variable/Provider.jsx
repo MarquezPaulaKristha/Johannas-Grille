@@ -10,9 +10,9 @@ export function Provider({ children }) {
   const [foodList, setFoodList] = useState([]);
   const [customername, setcustomername] = usePersistState('table', '');
   const [orderType, setOrderType] = usePersistState('order', 'Dine In');
+  const [selectedBranch, setSelectedBranch] = usePersistState('customer_branch', 'Bauan');
+  const [selectedEmployeeBranch, setSelectedEmployeeBranch] = usePersistState('employee_branch', 'Bauan');
   const [branch, setBranch] = useState('');
-  const [selectedBranch, setSelectedBranch] = usePersistState('');
-  const [selectedEmployeeBranch, setSelectedEmployeeBranch] = useState('');
   const [pickupDate, setPickupDate] = usePersistState(
     'date',
     new Date().toISOString().substring(0, 10)
@@ -22,21 +22,13 @@ export function Provider({ children }) {
   const [reservationDetails, setReservationDetails] = usePersistState('details', null);
   const [payloadDetails, setPayloadDetails] = usePersistState('payload', []); 
 
+
   return (
-    <Context.Provider value={{
-      orderItems, setOrderItems, foodList, setFoodList, customername, setcustomername, 
-      orderType, setOrderType, customer, setCustomer, cartItems, setCartItems, 
-      branch, setBranch, selectedEmployeeBranch, setSelectedEmployeeBranch,
-      pickupDate, setPickupDate, pickupHour, setPickupHour, 
-      reserveItems, setReserveItems, reservationDetails, setReservationDetails,
-      selectedBranch, setSelectedBranch,
-      payloadDetails, setPayloadDetails
-    }}>
+    <Context.Provider value={{ orderItems, setOrderItems, foodList, setFoodList, customername, setcustomername, orderType, setOrderType, customer, setCustomer, selectedBranch, setSelectedBranch, cartItems, setCartItems, branch, setBranch, pickupDate, setPickupDate, pickupHour, setPickupHour, reserveItems, setReserveItems, reservationDetails, setReservationDetails, selectedEmployeeBranch, setSelectedEmployeeBranch, payloadDetails, setPayloadDetails }}>
       {children}
     </Context.Provider>
   );
 }
-
 
 export function useProvider() {
   return useContext(Context);
