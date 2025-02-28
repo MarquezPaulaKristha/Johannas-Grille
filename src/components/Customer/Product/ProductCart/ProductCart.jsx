@@ -42,10 +42,10 @@ const ProductCart = ({ orderId }) => {
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
   // Select branch
-  const selectBranch = (branch) => {
+  const selectBranch = branch => {
     setSelectedBranch(branch);
     setIsDropdownOpen(false);
-    setCartItems([]); // Clear cart when switching branches
+    setCartItems([]);
   };
 
   if (!isVisible) return null;
@@ -69,9 +69,10 @@ const ProductCart = ({ orderId }) => {
           <i className="location-icon">
             <TbBrandGoogleMaps size={31} />
           </i>
-          <span>{selectedBranch === 'Batangas'
-            ? 'Branch 2: Batangas City'
-            : 'Main Branch, Bauan Batangas'}</span>
+          <span>{selectedBranch === 'Bauan' ? 'Main Branch, Bauan Batangas' : 'Branch 2: Batangas City'}</span>
+          <i className="down-icon" onClick={toggleDropdown}>
+            {isDropdownOpen ? <IoIosArrowUp size={28} /> : <IoIosArrowDown size={28} />}
+          </i>
         </section>
         <h3>Order ID: {orderId}</h3>
 
