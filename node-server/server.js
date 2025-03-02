@@ -10,7 +10,7 @@ const moment = require("moment");
 require('dotenv').config();
 const axios = require('axios');
 
-const PAYMONGO_SECRET_KEY = 'sk_test_sEx9zBemN6cU4uY4RudHyvtG';
+const PAYMONGO_SECRET_KEY = process.env.PAYMONGO_SECRET_KEY;
 
 // Initialize express app
 const app = express();
@@ -1311,75 +1311,65 @@ app.get("/api/predict", async (req, res) => {
 app.post('/api/gcash-checkout', async (req, res) => {
   const { lineItems } = req.body;
 
-  const formattedLineItems = lineItems.map((item) => {
-    return {
+  if (!lineItems || !Array.isArray(lineItems)) {
+      return res.status(400).json({ error: 'Invalid lineItems' });
+  }
+
+  const formattedLineItems = lineItems.map((item) => ({
       currency: 'PHP',
-      amount: Math.round(item.price * 100),
+      amount: Math.round(item.price * 100), // Convert to cents
       name: item.name,
       quantity: item.quantity,
-    };
-  });
+  }));
 
   try {
-    const response = await axios.post(
-      'https://api.paymongo.com/v1/checkout_sessions',
-      {
-        data: {
-          attributes: {
-            send_email_receipt: false,
-            show_line_items: true,
-            line_items: formattedLineItems,
-            payment_method_types: ['gcash'],
-            success_url: 'https://johannasgrille.onrender.com/employee/success',
-            cancel_url: 'https://johannasgrille.onrender.com/employee/order',
+      const response = await axios.post(
+          'https://api.paymongo.com/v1/checkout_sessions',
+          {
+              data: {
+                  attributes: {
+                      send_email_receipt: false,
+                      show_line_items: true,
+                      line_items: formattedLineItems,
+                      payment_method_types: ['gcash'],
+                      success_url: 'https://johannasgrille.onrender.com/employee/success',
+                      cancel_url: 'https://johannasgrille.onrender.com/employee/order',
+                  },
+              },
           },
-        },
-      },
-      {
-        headers: {
-          accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Basic ${Buffer.from(PAYMONGO_SECRET_KEY).toString('base64')}`,
-        },
+          {
+              headers: {
+                  accept: 'application/json',
+                  'Content-Type': 'application/json',
+                  Authorization: `Basic ${Buffer.from(PAYMONGO_SECRET_KEY).toString('base64')}`,
+              },
+          }
+      );
+
+      const checkoutUrl = response.data.data.attributes.checkout_url;
+
+      if (!checkoutUrl) {
+          return res.status(500).json({ error: 'Checkout URL not found in response' });
       }
-    );
 
-    const checkoutUrl = response.data.data.attributes.checkout_url;
-
-    if (!checkoutUrl) {
-      return res.status(500).json({ error: 'Checkout URL not found in response' });
-    }
-    res.status(200).json({ url: checkoutUrl });
+      res.status(200).json({ url: checkoutUrl });
   } catch (error) {
-    console.error('Error creating checkout session:', error.response ? error.response.data : error.message);
-    res.status(500).json({ error: 'Failed to create checkout session', details: error.response ? error.response.data : error.message });
+      console.error('Error creating checkout session:', error.response ? error.response.data : error.message);
+      res.status(500).json({ error: 'Failed to create checkout session', details: error.response ? error.response.data : error.message });
   }
 });
 
 app.post('/api/customer-gcash-checkout', async (req, res) => {
   const { lineItems, branch, pickupDate, pickupHour } = req.body;
 
-  // Validate required fields
-  if (!lineItems || !branch || !pickupDate || !pickupHour) {
-    return res.status(400).json({ error: 'Missing required fields' });
-  }
-
-  // Check if PAYMONGO_SECRET_KEY is defined
-  if (!process.env.PAYMONGO_SECRET_KEY) {
-    console.error('PAYMONGO_SECRET_KEY is not defined');
-    return res.status(500).json({ error: 'Server configuration error' });
-  }
-
-  // Format line items for Paymongo
   const formattedLineItems = lineItems.map((item) => ({
     currency: 'PHP',
-    amount: Math.round(item.price * 100), // Convert to cents
+    amount: Math.round(item.price * 100),
     name: item.name,
     quantity: item.quantity,
   }));
 
   try {
-    // Make request to Paymongo API
     const response = await axios.post(
       'https://api.paymongo.com/v1/checkout_sessions',
       {
@@ -1408,47 +1398,15 @@ app.post('/api/customer-gcash-checkout', async (req, res) => {
       }
     );
 
-    // Extract checkout URL from Paymongo response
     const checkoutUrl = response.data.data.attributes.checkout_url;
 
     if (!checkoutUrl) {
       return res.status(500).json({ error: 'Checkout URL not found in response' });
     }
-
-    // Return checkout URL to frontend
     res.status(200).json({ url: checkoutUrl });
   } catch (error) {
     console.error('Error creating checkout session:', error.response ? error.response.data : error.message);
-    res.status(500).json({
-      error: 'Failed to create checkout session',
-      details: error.response ? error.response.data : error.message,
-    });
-  }
-});
-
-app.post('/api/insert-order', async (req, res) => {
-  const { orderid, customerid, ordertype, date, totalamount, time, status, customername, branch } = req.body;
-
-  // Validate required fields
-  if (!orderid || !customerid || !ordertype || !date || !totalamount || !time || !status || !customername || !branch) {
-    return res.status(400).json({ error: 'Missing required fields' });
-  }
-
-  // SQL query to insert order
-  const query = `
-    INSERT INTO orderstbl (orderid, customerid, ordertype, date, totalamount, time, status, customername, branch)
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-  `;
-
-  const values = [orderid, customerid, ordertype, date, totalamount, time, status, customername, branch];
-
-  try {
-    // Execute the query
-    await pool.query(query, values);
-    res.status(200).json({ message: 'Order inserted successfully' });
-  } catch (error) {
-    console.error('Error inserting order:', error);
-    res.status(500).json({ error: 'Failed to insert order', details: error.message });
+    res.status(500).json({ error: 'Failed to create checkout session', details: error.response ? error.response.data : error.message });
   }
 });
 
