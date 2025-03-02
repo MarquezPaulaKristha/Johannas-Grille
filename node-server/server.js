@@ -1359,6 +1359,10 @@ app.post('/api/gcash-checkout', async (req, res) => {
 app.post('/api/customer-gcash-checkout', async (req, res) => {
   const { lineItems, branch, pickupDate, pickupHour } = req.body;
 
+  if (!lineItems || !branch || !pickupDate || !pickupHour) {
+    return res.status(400).json({ error: 'Missing required fields' });
+  }
+
   const formattedLineItems = lineItems.map((item) => ({
     currency: 'PHP',
     amount: Math.round(item.price * 100),
@@ -1390,7 +1394,7 @@ app.post('/api/customer-gcash-checkout', async (req, res) => {
         headers: {
           accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Basic ${Buffer.from(PAYMONGO_SECRET_KEY).toString('base64')}`,
+          Authorization: `Basic ${Buffer.from(process.env.PAYMONGO_SECRET_KEY).toString('base64')}`,
         },
       }
     );
