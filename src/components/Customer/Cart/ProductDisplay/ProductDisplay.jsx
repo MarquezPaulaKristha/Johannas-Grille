@@ -16,7 +16,7 @@ const ProductDisplay = ({ category, orderId }) => {
         
         // Check if the response status is 200 (OK)
         if (response.status === 200) {
-          const data = response.data;
+          const data = response.data; 
           
           // Filter out items where the quantity is zero or less and match the selected branch
           const filteredData = data.filter(item => item.quantity > 0 && item.branch === selectedBranch);

@@ -1411,6 +1411,32 @@ app.post('/api/customer-gcash-checkout', async (req, res) => {
   }
 });
 
+app.post('/api/insert-order', async (req, res) => {
+  const { orderid, customerid, ordertype, date, totalamount, time, status, customername, branch } = req.body;
+
+  // Validate required fields
+  if (!orderid || !customerid || !ordertype || !date || !totalamount || !time || !status || !customername || !branch) {
+    return res.status(400).json({ error: 'Missing required fields' });
+  }
+
+  // SQL query to insert order
+  const query = `
+    INSERT INTO orderstbl (orderid, customerid, ordertype, date, totalamount, time, status, customername, branch)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+  `;
+
+  const values = [orderid, customerid, ordertype, date, totalamount, time, status, customername, branch];
+
+  try {
+    // Execute the query
+    await pool.query(query, values);
+    res.status(200).json({ message: 'Order inserted successfully' });
+  } catch (error) {
+    console.error('Error inserting order:', error);
+    res.status(500).json({ error: 'Failed to insert order', details: error.message });
+  }
+});
+
 app.post('/api/create-order', async (req, res) => {
   const { customerid, orderItems, totalamount, ordertype, date, time, customername, status, selectedBranch } = req.body;
 

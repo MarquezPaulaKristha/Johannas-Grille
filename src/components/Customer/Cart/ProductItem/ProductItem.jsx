@@ -15,7 +15,6 @@ const ProductItem = ({ item, image, increaseQuantity, decreaseQuantity }) => {
           <button
             onClick={decreaseQuantity}
             className="quantity-btn decrease-btn"
-            disabled={item.quantity <= 0}
           >
             -
           </button>

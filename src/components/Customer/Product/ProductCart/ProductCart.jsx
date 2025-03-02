@@ -31,10 +31,17 @@ const ProductCart = ({ orderId }) => {
     setCartItems(prevItems => {
       const updatedItems = prevItems.map(item =>
         item.menuitemid === id
-          ? { ...item, quantity: Math.max(1, item.quantity + change) }
+          ? { ...item, quantity: item.quantity + change } // Update quantity
           : item
       );
-      return updatedItems.filter(item => item.quantity > 0);
+
+      // Remove the item if quantity is less than or equal to 0
+      return updatedItems.filter(item => {
+        if (item.menuitemid === id && item.quantity <= 1 && change === -1) {
+          return false; // Remove the item
+        }
+        return true; // Keep the item
+      });
     });
   };
 
@@ -45,7 +52,7 @@ const ProductCart = ({ orderId }) => {
   const selectBranch = branch => {
     setSelectedBranch(branch);
     setIsDropdownOpen(false);
-    setCartItems([]);
+    setCartItems([]); // Clear cart when branch is changed
   };
 
   if (!isVisible) return null;

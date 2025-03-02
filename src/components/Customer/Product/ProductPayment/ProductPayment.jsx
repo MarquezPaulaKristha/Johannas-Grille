@@ -31,23 +31,49 @@ const ProductPayment = ({ onClose }) => {
           alert(`Please sign in first!`);
           return;
         }
-
+      
         const body = {
-            lineItems: cartItems.map(item => ({
-                quantity: item.quantity,
-                name: item.name,
-                price: item.price
-            })),
+          lineItems: cartItems.map(item => ({
+            quantity: item.quantity,
+            name: item.name,
+            price: item.price
+          })),
+          branch: selectedBranch,
+          pickupDate: new Date().toISOString().split('T')[0], // Example date
+          pickupHour: '12:00' // Example time
         };
-
+      
         try {
-            const response = await axios.post('https://johannas-grille.onrender.com/api/customer-gcash-checkout', body);
-
-            const { url } = response.data;
-
-            window.location.href = url;
+          // Step 1: Initiate GCash payment
+          const paymentResponse = await axios.post('https://johannas-grille.onrender.com/api/customer-gcash-checkout', body);
+          const { url } = paymentResponse.data;
+      
+          // Step 2: Insert order into the database
+          const orderData = {
+            orderid: generateOrderId(), // Generate a unique order ID
+            customerid: customer.id, // Assuming customer object has an `id` field
+            ordertype: 'Online', // Example order type
+            date: new Date().toISOString().split('T')[0], // Current date
+            totalamount: cartItems.reduce((acc, item) => acc + (parseFloat(item.price) || 0) * item.quantity, 0).toFixed(2),
+            time: new Date().toTimeString().split(' ')[0], // Current time
+            status: 'Pending', // Initial status
+            customername: customer.name, // Assuming customer object has a `name` field
+            branch: selectedBranch
+          };
+      
+          // Insert order into the database
+          await axios.post('https://johannas-grille.onrender.com/api/insert-order', orderData);
+      
+          // Step 3: Redirect to payment URL
+          window.location.href = url;
         } catch (error) {
-            console.error('Error initiating payment:', error);
+          console.error('Error initiating payment:', error);
+          if (error.response) {
+            console.error('Server responded with:', error.response.data);
+            alert(`Payment failed: ${error.response.data.error || 'Unknown error'}`);
+          } else {
+            alert('Failed to initiate payment. Please try again later.');
+          }
         }
       };
     
