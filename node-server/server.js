@@ -1359,18 +1359,27 @@ app.post('/api/gcash-checkout', async (req, res) => {
 app.post('/api/customer-gcash-checkout', async (req, res) => {
   const { lineItems, branch, pickupDate, pickupHour } = req.body;
 
+  // Validate required fields
   if (!lineItems || !branch || !pickupDate || !pickupHour) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
 
+  // Check if PAYMONGO_SECRET_KEY is defined
+  if (!process.env.PAYMONGO_SECRET_KEY) {
+    console.error('PAYMONGO_SECRET_KEY is not defined');
+    return res.status(500).json({ error: 'Server configuration error' });
+  }
+
+  // Format line items for Paymongo
   const formattedLineItems = lineItems.map((item) => ({
     currency: 'PHP',
-    amount: Math.round(item.price * 100),
+    amount: Math.round(item.price * 100), // Convert to cents
     name: item.name,
     quantity: item.quantity,
   }));
 
   try {
+    // Make request to Paymongo API
     const response = await axios.post(
       'https://api.paymongo.com/v1/checkout_sessions',
       {
@@ -1399,15 +1408,21 @@ app.post('/api/customer-gcash-checkout', async (req, res) => {
       }
     );
 
+    // Extract checkout URL from Paymongo response
     const checkoutUrl = response.data.data.attributes.checkout_url;
 
     if (!checkoutUrl) {
       return res.status(500).json({ error: 'Checkout URL not found in response' });
     }
+
+    // Return checkout URL to frontend
     res.status(200).json({ url: checkoutUrl });
   } catch (error) {
     console.error('Error creating checkout session:', error.response ? error.response.data : error.message);
-    res.status(500).json({ error: 'Failed to create checkout session', details: error.response ? error.response.data : error.message });
+    res.status(500).json({
+      error: 'Failed to create checkout session',
+      details: error.response ? error.response.data : error.message,
+    });
   }
 });
 
