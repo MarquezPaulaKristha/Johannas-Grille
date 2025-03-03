@@ -4,10 +4,10 @@ import axios from "axios";
 import "./success.css";
 import { useProvider } from "../../../global_variable/Provider";
 
-function SuccessPage({ branch }) {
-  const { orderItems, setOrderItems, customername, setcustomername, orderType, setOrderType, selectedEmployeeBranch } = useProvider();
+function SuccessPage() {
+  const { orderItems, setOrderItems, customername, setcustomername, orderType, setOrderType, branch } = useProvider();
+
   const navigate = useNavigate();
-  const activeBranch = branch || selectedEmployeeBranch;
   const hasCalledPayment = useRef(false);
 
   const totalPrice = orderItems.reduce(
@@ -17,8 +17,8 @@ function SuccessPage({ branch }) {
 
   const getCurrentDateTime = () => {
     const now = new Date();
-    const currentDate = now.toISOString().split("T")[0];
-    const currentTime = now.toTimeString().split(" ")[0];
+    const currentDate = now.toISOString().split("T")[0]; // YYYY-MM-DD
+    const currentTime = now.toTimeString().split(" ")[0]; // HH:mm:ss
     return { currentDate, currentTime };
   };
 
@@ -30,7 +30,7 @@ function SuccessPage({ branch }) {
 
     const orderData = {
       customerid: "0000",
-      orderItems: orderItems.map(item => ({
+      orderItems: orderItems.map((item) => ({
         orderid: item.orderid,
         menuitemid: item.menuitemid,
         order_quantity: item.quantity,
@@ -41,14 +41,17 @@ function SuccessPage({ branch }) {
       time: currentTime,
       customername: customername,
       status: "Pending",
-      selectedBranch: activeBranch,
+      selectedBranch: branch, // Use branch from useProvider
     };
 
-    console.log('Order data to be sent:', orderData); // Log order data
+    console.log("Order data to be sent:", orderData); // Debugging
 
     try {
-      const response = await axios.post("https://johannas-grille.onrender.com/api/create-order", orderData);
-      console.log('Create order response:', response.data); // Log create order response
+      const response = await axios.post(
+        "https://johannas-grille.onrender.com/api/create-order",
+        orderData
+      );
+      console.log("Create order response:", response.data); // Debugging
 
       if (response.status === 200) {
         setOrderItems([]);
@@ -56,7 +59,10 @@ function SuccessPage({ branch }) {
         setOrderType("Dine In");
       }
     } catch (error) {
-      console.error('Error creating order:', error.response ? error.response.data : error.message);
+      console.error(
+        "Error creating order:",
+        error.response ? error.response.data : error.message
+      );
       alert("Failed to create order. Please try again.");
     }
   };
