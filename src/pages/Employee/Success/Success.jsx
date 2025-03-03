@@ -5,7 +5,7 @@ import "./success.css";
 import { useProvider } from "../../../global_variable/Provider";
 
 function SuccessPage() {
-  const { orderItems, setOrderItems, customername, setcustomername, orderType, setOrderType, branch } = useProvider();
+  const { orderItems, setOrderItems, customername, setcustomername, orderType, setOrderType, selectedEmployeeBranch } = useProvider();
 
   const navigate = useNavigate();
   const hasCalledPayment = useRef(false);
@@ -41,7 +41,7 @@ function SuccessPage() {
       time: currentTime,
       customername: customername,
       status: "Pending",
-      selectedBranch: branch, // Use branch from useProvider
+      selectedBranch: selectedEmployeeBranch, // Use branch from useProvider
     };
 
     console.log("Order data to be sent:", orderData); // Debugging
