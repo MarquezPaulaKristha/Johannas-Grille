@@ -76,7 +76,7 @@ const PlaceOrderPopup = ({ onCancel, branch }) => {
         setBranch(activeBranch);
   
         // Navigate to the SuccessPage and pass the branch as state
-        navigate("/success", { state: { branch: activeBranch } }); // <-- Pass branch here
+        navigate("/employee/success", { state: { branch: activeBranch } }); // <-- Pass branch here
   
         // Reset the state
         setOrderItems([]);
