@@ -5,7 +5,10 @@ import "./success.css";
 import { useProvider } from "../../../global_variable/Provider";
 
 function SuccessPage() {
-  const { orderItems, setOrderItems, customername, setcustomername, orderType, setOrderType, branch, selectedEmployeeBranch} = useProvider();
+  const {orderItems, setOrderItems, customername, setcustomername, orderType, setOrderType, branch} = useProvider();
+
+  console.log("Branch in SuccessPage:", branch); // Debugging
+  console.log("Selected Employee Branch in SuccessPage:", selectedEmployeeBranch); // Debugging
 
   const navigate = useNavigate();
   const hasCalledPayment = useRef(false);
@@ -29,6 +32,8 @@ function SuccessPage() {
     hasCalledPayment.current = true;
 
     const activeBranch = branch || selectedEmployeeBranch || "DefaultBranch"; // Fallback logic
+
+    console.log("Active Branch in handleConfirmPayment:", activeBranch); // Debugging
 
     const orderData = {
       customerid: "0000",

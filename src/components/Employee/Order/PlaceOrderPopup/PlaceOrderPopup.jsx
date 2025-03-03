@@ -1,12 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./PlaceOrderPopup.css";
 import { useProvider } from "../../../../global_variable/Provider";
 
 const PlaceOrderPopup = ({ onCancel, branch }) => {
-    const { orderItems, setOrderItems, customername, setcustomername, orderType, setOrderType, selectedEmployeeBranch } = useProvider();
+    const { orderItems, setOrderItems, customername, setcustomername, orderType, setOrderType, selectedEmployeeBranch, setBranch } = useProvider();
     const [receivedAmount, setReceivedAmount] = useState("");
     const activeBranch = branch || selectedEmployeeBranch;
+
+    useEffect(() => {
+        if (branch) {
+          setBranch(branch);
+        }
+      }, [branch, setBranch]);
 
     const totalPrice = orderItems.reduce(
         (total, item) => total + (Number(item.price) || 0) * (item.quantity || 0),
