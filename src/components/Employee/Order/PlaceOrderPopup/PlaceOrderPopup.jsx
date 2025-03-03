@@ -43,12 +43,12 @@ const PlaceOrderPopup = ({ onCancel, branch }) => {
       alert("Please enter a name.");
       return;
     }
-
+  
     if (orderItems.length === 0) {
       alert("No items in the order.");
       return;
     }
-
+  
     const orderData = {
       customerid: "00000",
       orderItems: orderItems.map((item) => ({
@@ -64,18 +64,20 @@ const PlaceOrderPopup = ({ onCancel, branch }) => {
       status: "Pending",
       selectedBranch: activeBranch,
     };
-
+  
     try {
       const response = await axios.post(
         "https://johannas-grille.onrender.com/api/create-order",
         orderData
       );
-
+  
       if (response.status === 200) {
         // Set the branch in the global state before navigating
-        setBranch(activeBranch); // <-- Add this line
-        navigate("/success"); // <-- Add this line
-
+        setBranch(activeBranch);
+  
+        // Navigate to the SuccessPage and pass the branch as state
+        navigate("/success", { state: { branch: activeBranch } }); // <-- Pass branch here
+  
         // Reset the state
         setOrderItems([]);
         setcustomername("");

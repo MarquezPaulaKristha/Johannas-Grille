@@ -1,15 +1,19 @@
 import React, { useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom"; // <-- Import useLocation
 import axios from "axios";
 import "./success.css";
 import { useProvider } from "../../../global_variable/Provider";
 
 function SuccessPage() {
-  const { orderItems, setOrderItems, customername, setcustomername, orderType, setOrderType, branch } = useProvider();
+  const { orderItems, setOrderItems, customername, setcustomername, orderType, setOrderType, branch, setBranch } = useProvider();
   const navigate = useNavigate();
+  const location = useLocation(); // <-- Use useLocation to access state
   const hasCalledPayment = useRef(false);
 
-  console.log("Branch in SuccessPage:", branch); // Debugging
+  // Access the branch from the location state
+  const activeBranch = location.state?.branch || branch; // <-- Use location state
+
+  console.log("Branch in SuccessPage:", activeBranch); // Debugging
 
   const totalPrice = orderItems.reduce(
     (total, item) => total + (Number(item.price) || 0) * (item.quantity || 0),
@@ -28,8 +32,6 @@ function SuccessPage() {
   const handleConfirmPayment = async () => {
     if (hasCalledPayment.current) return;
     hasCalledPayment.current = true;
-
-    const activeBranch = branch || "DefaultBranch"; // Fallback logic
 
     console.log("Active Branch in handleConfirmPayment:", activeBranch); // Debugging
 
