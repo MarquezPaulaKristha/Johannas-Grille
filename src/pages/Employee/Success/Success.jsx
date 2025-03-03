@@ -4,9 +4,10 @@ import axios from "axios";
 import "./success.css";
 import { useProvider } from "../../../global_variable/Provider";
 
-function SuccessPage() {
-  const { orderItems, setOrderItems, tableNumber, setTableNumber, orderType, setOrderType } = useProvider();
+function SuccessPage({ branch }) {
+  const {  orderItems, setOrderItems, customername, setcustomername, orderType, setOrderType, selectedEmployeeBranch  } = useProvider();
   const navigate = useNavigate();
+  const activeBranch = branch || selectedEmployeeBranch;
   const hasCalledPayment = useRef(false);
 
   const totalPrice = orderItems.reduce(
@@ -41,8 +42,9 @@ function SuccessPage() {
       ordertype: orderType,
       date: currentDate,
       time: currentTime,
-      tableno: tableNumber,
+      customername: customername,
       status: "Pending",
+      selectedBranch: activeBranch,
     };
 
     try {

@@ -3,10 +3,7 @@ import axios from "axios";
 import { useProvider } from "../../../../global_variable/Provider";
 
 const GCashOrderPopup = ({ onCancel, branch }) => {
-    const { orderItems, setOrderItems, customername, setcustomername, orderType, setOrderType, selectedEmployeeBranch } = useProvider();
-    const [receivedAmount, setReceivedAmount] = useState("");
-    const activeBranch = branch || selectedEmployeeBranch;
-
+    const { customername, setcustomername } = useProvider()
     const totalPrice = orderItems.reduce(
         (total, item) => total + (Number(item.price) || 0) * (item.quantity || 0),
         0
@@ -20,40 +17,22 @@ const GCashOrderPopup = ({ onCancel, branch }) => {
     };
 
     const handleConfirmPayment = async () => {
-        if (!customername) {
-            alert("Please enter a name.");
-            return;
-        }
-    
-        if (orderItems.length === 0) {
-            alert("No items in the order.");
-            return;
-        }
-    
-        if (receivedAmount < totalPrice) {
-            alert("Received amount is less than the total price.");
-            return;
-        }
-    
-        const lineItems = orderItems.map((item) => ({
-            quantity: item.quantity,
-            name: item.name,
-            price: item.price,
-        }));
-    
+        const body = {
+            lineItems: orderItems.map(item => ({
+                quantity: item.quantity,
+                name: item.name,
+                price: item.price
+            })),
+        };
+
         try {
-            const response = await axios.post(
-                "https://johannas-grille.onrender.com/api/gcash-checkout",
-                { lineItems } // Send the correct payload
-            );
-    
-            if (response.status === 200) {
-                const { url } = response.data;
-                window.location.href = url; // Redirect to GCash payment page
-            }
+            const response = await axios.post('https://johannas-grille.onrender.com/api/gcash-checkout', body);
+
+            const { url } = response.data;
+
+            window.location.href = url;
         } catch (error) {
-            console.error("Failed to initiate GCash payment:", error.response?.data || error.message);
-            alert("Failed to initiate GCash payment. Please try again.");
+            console.error('Error initiating payment:', error);
         }
     };
 
