@@ -3,7 +3,9 @@ import axios from "axios";
 import { useProvider } from "../../../../global_variable/Provider";
 
 const GCashOrderPopup = ({ onCancel, branch }) => {
-    const { customername, setcustomername } = useProvider()
+    const { orderItems, setOrderItems, customername, setcustomername, orderType, setOrderType, selectedEmployeeBranch  } = useProvider();
+    const [receivedAmount, setReceivedAmount] = useState("");
+
     const totalPrice = orderItems.reduce(
         (total, item) => total + (Number(item.price) || 0) * (item.quantity || 0),
         0
