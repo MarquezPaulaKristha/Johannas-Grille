@@ -1312,17 +1312,17 @@ app.get('/api/sales-data', async (req, res) => {
 
   try {
     const todaySalesQuery = `
-      SELECT SUM(totalamount) AS today_sales
+      SELECT COALESCE(SUM(totalamount), 0) AS today_sales
       FROM orderstbl
       WHERE EXTRACT(MONTH FROM date) = $1 AND EXTRACT(YEAR FROM date) = $2
     `;
     const totalOrdersQuery = `
-      SELECT COUNT(*) AS total_orders
+      SELECT COALESCE(COUNT(*), 0) AS total_orders
       FROM orderstbl
       WHERE EXTRACT(MONTH FROM date) = $1 AND EXTRACT(YEAR FROM date) = $2
     `;
     const productsSoldQuery = `
-      SELECT SUM(quantity) AS products_sold
+      SELECT COALESCE(SUM(quantity), 0) AS products_sold
       FROM orderitemtbl
       JOIN orderstbl ON orderitemtbl.orderid = orderstbl.orderid
       WHERE EXTRACT(MONTH FROM orderstbl.date) = $1 AND EXTRACT(YEAR FROM orderstbl.date) = $2
@@ -1333,15 +1333,16 @@ app.get('/api/sales-data', async (req, res) => {
     const productsSoldResult = await pool.query(productsSoldQuery, [month, year]);
 
     res.json({
-      todaySales: todaySalesResult.rows[0].today_sales || 0,
-      totalOrders: totalOrdersResult.rows[0].total_orders || 0,
-      productsSold: productsSoldResult.rows[0].products_sold || 0,
+      todaySales: todaySalesResult.rows[0]?.today_sales || 0,
+      totalOrders: totalOrdersResult.rows[0]?.total_orders || 0,
+      productsSold: productsSoldResult.rows[0]?.products_sold || 0
     });
   } catch (error) {
     console.error('Error fetching sales data:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ todaySales: 0, totalOrders: 0, productsSold: 0 });
   }
 });
+
 
 
 app.post('/api/gcash-checkout', async (req, res) => {
