@@ -31,23 +31,26 @@ const ProductPayment = ({ onClose }) => {
           alert(`Please sign in first!`);
           return;
         }
-
+      
         const body = {
-            lineItems: cartItems.map(item => ({
-                quantity: item.quantity,
-                name: item.name,
-                price: item.price
-            })),
+          lineItems: cartItems.map(item => ({
+            quantity: item.quantity,
+            name: item.name,
+            price: item.price
+          })),
+          branch: selectedBranch,
+          pickupDate: new Date().toISOString().substring(0, 10), // Example: Use current date
+          pickupHour: '12:00', // Example: Use a fixed time or get it from state
         };
-
+      
         try {
-            const response = await axios.post('https://johannas-grille.onrender.com/api/customer-gcash-checkout', body);
-
-            const { url } = response.data;
-
-            window.location.href = url;
+          const response = await axios.post('https://johannas-grille.onrender.com/api/customer-gcash-checkout', body);
+      
+          const { url } = response.data;
+      
+          window.location.href = url;
         } catch (error) {
-            console.error('Error initiating payment:', error);
+          console.error('Error initiating payment:', error);
         }
       };
     
