@@ -5,7 +5,7 @@ import "./success.css";
 import { useProvider } from "../../../global_variable/Provider";
 
 function SuccessPage({ branch }) {
-  const {  orderItems, setOrderItems, customername, setcustomername, orderType, setOrderType, selectedEmployeeBranch  } = useProvider();
+  const { orderItems, setOrderItems, customername, setcustomername, orderType, setOrderType, selectedEmployeeBranch } = useProvider();
   const navigate = useNavigate();
   const activeBranch = branch || selectedEmployeeBranch;
   const hasCalledPayment = useRef(false);
@@ -17,11 +17,8 @@ function SuccessPage({ branch }) {
 
   const getCurrentDateTime = () => {
     const now = new Date();
-
-    // Format the date as YYYY-MM-DD
-    const currentDate = now.toISOString().split("T")[0]; // YYYY-MM-DD
-    const currentTime = now.toTimeString().split(" ")[0]; // HH:mm:ss
-
+    const currentDate = now.toISOString().split("T")[0];
+    const currentTime = now.toTimeString().split(" ")[0];
     return { currentDate, currentTime };
   };
 
@@ -47,14 +44,19 @@ function SuccessPage({ branch }) {
       selectedBranch: activeBranch,
     };
 
+    console.log('Order data to be sent:', orderData); // Log order data
+
     try {
       const response = await axios.post("https://johannas-grille.onrender.com/api/create-order", orderData);
+      console.log('Create order response:', response.data); // Log create order response
+
       if (response.status === 200) {
         setOrderItems([]);
-        setTableNumber("");
+        setcustomername("");
         setOrderType("Dine In");
       }
     } catch (error) {
+      console.error('Error creating order:', error.response ? error.response.data : error.message);
       alert("Failed to create order. Please try again.");
     }
   };
