@@ -5,10 +5,11 @@ import "./success.css";
 import { useProvider } from "../../../global_variable/Provider";
 
 function SuccessPage() {
-  const {orderItems, setOrderItems, customername, setcustomername, orderType, setOrderType, branch} = useProvider();
-
+  const { orderItems, setOrderItems, customername, setcustomername, orderType, setOrderType, branch } = useProvider();
   const navigate = useNavigate();
   const hasCalledPayment = useRef(false);
+
+  console.log("Branch in SuccessPage:", branch); // Debugging
 
   const totalPrice = orderItems.reduce(
     (total, item) => total + (Number(item.price) || 0) * (item.quantity || 0),
@@ -28,6 +29,10 @@ function SuccessPage() {
     if (hasCalledPayment.current) return;
     hasCalledPayment.current = true;
 
+    const activeBranch = branch || "DefaultBranch"; // Fallback logic
+
+    console.log("Active Branch in handleConfirmPayment:", activeBranch); // Debugging
+
     const orderData = {
       customerid: "0000",
       orderItems: orderItems.map((item) => ({
@@ -41,7 +46,7 @@ function SuccessPage() {
       time: currentTime,
       customername: customername,
       status: "Pending",
-      selectedBranch: branch, // Use activeBranch
+      selectedBranch: activeBranch, // Use activeBranch
     };
 
     console.log("Order data to be sent:", orderData); // Debugging
