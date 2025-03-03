@@ -1307,6 +1307,42 @@ app.get("/api/predict", async (req, res) => {
   }
 });
 
+app.get('/api/sales-data', async (req, res) => {
+  const { month, year } = req.query;
+
+  try {
+    const todaySalesQuery = `
+      SELECT SUM(totalamount) AS today_sales
+      FROM orderstbl
+      WHERE EXTRACT(MONTH FROM date) = $1 AND EXTRACT(YEAR FROM date) = $2
+    `;
+    const totalOrdersQuery = `
+      SELECT COUNT(*) AS total_orders
+      FROM orderstbl
+      WHERE EXTRACT(MONTH FROM date) = $1 AND EXTRACT(YEAR FROM date) = $2
+    `;
+    const productsSoldQuery = `
+      SELECT SUM(quantity) AS products_sold
+      FROM orderitemtbl
+      JOIN orderstbl ON orderitemtbl.orderid = orderstbl.orderid
+      WHERE EXTRACT(MONTH FROM orderstbl.date) = $1 AND EXTRACT(YEAR FROM orderstbl.date) = $2
+    `;
+
+    const todaySalesResult = await pool.query(todaySalesQuery, [month, year]);
+    const totalOrdersResult = await pool.query(totalOrdersQuery, [month, year]);
+    const productsSoldResult = await pool.query(productsSoldQuery, [month, year]);
+
+    res.json({
+      todaySales: todaySalesResult.rows[0].today_sales || 0,
+      totalOrders: totalOrdersResult.rows[0].total_orders || 0,
+      productsSold: productsSoldResult.rows[0].products_sold || 0,
+    });
+  } catch (error) {
+    console.error('Error fetching sales data:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 
 app.post('/api/gcash-checkout', async (req, res) => {
   console.log('Received lineItems:', req.body.lineItems); // Log received line items

@@ -19,7 +19,6 @@ const Dashboard = () => {
     { name: "Overview", component: <> <AreaTop /> <AreaCards /> <AreaCharts /> </> },
     { name: "Cards", component: 
       <>
-        {/* Filters for Progress Chart in a Single Row */}
         <div style={{ 
           marginTop: '20px', 
           padding: '10px', 
@@ -44,7 +43,7 @@ const Dashboard = () => {
               ))}
             </select>
           </div>
-
+    
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <label htmlFor="progressChartYear">Select Year:</label>
             <select
@@ -61,11 +60,12 @@ const Dashboard = () => {
             </select>
           </div>
         </div>
-
-        <AreaCards />
+    
+        <AreaCards month={progressChartMonth} year={progressChartYear} />
         <AreaProgressChart month={progressChartMonth} year={progressChartYear} />
       </> 
     },
+    
     
     { name: "Charts",  component: 
       <div style={{width: '700px'}}>
