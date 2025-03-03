@@ -1309,6 +1309,8 @@ app.get("/api/predict", async (req, res) => {
 
 
 app.post('/api/gcash-checkout', async (req, res) => {
+  console.log('Received lineItems:', req.body.lineItems); // Log received line items
+
   const { lineItems } = req.body;
 
   const formattedLineItems = lineItems.map((item) => {
@@ -1319,6 +1321,8 @@ app.post('/api/gcash-checkout', async (req, res) => {
       quantity: item.quantity,
     };
   });
+
+  console.log('Formatted line items:', formattedLineItems); // Log formatted line items
 
   try {
     const response = await axios.post(
@@ -1343,6 +1347,8 @@ app.post('/api/gcash-checkout', async (req, res) => {
         },
       }
     );
+
+    console.log('PayMongo response:', response.data); // Log PayMongo response
 
     const checkoutUrl = response.data.data.attributes.checkout_url;
 
