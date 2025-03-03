@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./PlaceOrderPopup.css";
 import { useProvider } from "../../../../global_variable/Provider";
-import { useNavigate } from "react-router-dom"; // <-- Import useNavigate
+import { useNavigate } from "react-router-dom";
 
 const PlaceOrderPopup = ({ onCancel, branch }) => {
   const { orderItems, setOrderItems, customername, setcustomername, orderType, setOrderType, selectedEmployeeBranch, setBranch } = useProvider();
   const [receivedAmount, setReceivedAmount] = useState("");
   const activeBranch = branch || selectedEmployeeBranch;
-  const navigate = useNavigate(); // <-- Initialize useNavigate
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (branch) {
@@ -43,12 +43,12 @@ const PlaceOrderPopup = ({ onCancel, branch }) => {
       alert("Please enter a name.");
       return;
     }
-  
+
     if (orderItems.length === 0) {
       alert("No items in the order.");
       return;
     }
-  
+
     const orderData = {
       customerid: "00000",
       orderItems: orderItems.map((item) => ({
@@ -64,21 +64,17 @@ const PlaceOrderPopup = ({ onCancel, branch }) => {
       status: "Pending",
       selectedBranch: activeBranch,
     };
-  
+
     try {
       const response = await axios.post(
         "https://johannas-grille.onrender.com/api/create-order",
         orderData
       );
-  
+
       if (response.status === 200) {
-        // Set the branch in the global state before navigating
-        setBranch(activeBranch);
-  
-        // Navigate to the SuccessPage and pass the branch as state
-        navigate("/employee/success", { state: { branch: activeBranch } }); // <-- Pass branch here
-  
-        // Reset the state
+        console.log("Navigating to SuccessPage with branch:", activeBranch);
+        navigate("/employee/success", { state: { branch: activeBranch } });
+
         setOrderItems([]);
         setcustomername("");
         setOrderType("Dine In");

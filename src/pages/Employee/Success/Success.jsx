@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { useNavigate, useLocation } from "react-router-dom"; // <-- Import useLocation
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import "./success.css";
 import { useProvider } from "../../../global_variable/Provider";
@@ -7,13 +7,18 @@ import { useProvider } from "../../../global_variable/Provider";
 function SuccessPage() {
   const { orderItems, setOrderItems, customername, setcustomername, orderType, setOrderType, branch, setBranch } = useProvider();
   const navigate = useNavigate();
-  const location = useLocation(); // <-- Use useLocation to access state
+  const location = useLocation();
   const hasCalledPayment = useRef(false);
 
-  // Access the branch from the location state
-  const activeBranch = location.state?.branch || branch; // <-- Use location state
+  useEffect(() => {
+    if (location.state?.branch) {
+      console.log("Setting branch from location.state:", location.state.branch);
+      setBranch(location.state.branch);
+    }
+  }, [location.state?.branch, setBranch]);
 
-  console.log("Branch in SuccessPage:", activeBranch); // Debugging
+  const activeBranch = location.state?.branch || branch;
+  console.log("Branch in SuccessPage:", activeBranch);
 
   const totalPrice = orderItems.reduce(
     (total, item) => total + (Number(item.price) || 0) * (item.quantity || 0),
@@ -22,9 +27,10 @@ function SuccessPage() {
 
   const getCurrentDateTime = () => {
     const now = new Date();
-    const currentDate = now.toISOString().split("T")[0]; // YYYY-MM-DD
-    const currentTime = now.toTimeString().split(" ")[0]; // HH:mm:ss
-    return { currentDate, currentTime };
+    return {
+      currentDate: now.toISOString().split("T")[0],
+      currentTime: now.toTimeString().split(" ")[0],
+    };
   };
 
   const { currentDate, currentTime } = getCurrentDateTime();
@@ -32,8 +38,6 @@ function SuccessPage() {
   const handleConfirmPayment = async () => {
     if (hasCalledPayment.current) return;
     hasCalledPayment.current = true;
-
-    console.log("Active Branch in handleConfirmPayment:", activeBranch); // Debugging
 
     const orderData = {
       customerid: "0000",
@@ -48,28 +52,16 @@ function SuccessPage() {
       time: currentTime,
       customername: customername,
       status: "Pending",
-      selectedBranch: activeBranch, // Use activeBranch
+      selectedBranch: activeBranch,
     };
 
-    console.log("Order data to be sent:", orderData); // Debugging
-
     try {
-      const response = await axios.post(
-        "https://johannas-grille.onrender.com/api/create-order",
-        orderData
-      );
-      console.log("Create order response:", response.data); // Debugging
-
-      if (response.status === 200) {
-        setOrderItems([]);
-        setcustomername("");
-        setOrderType("Dine In");
-      }
+      await axios.post("https://johannas-grille.onrender.com/api/create-order", orderData);
+      setOrderItems([]);
+      setcustomername("");
+      setOrderType("Dine In");
     } catch (error) {
-      console.error(
-        "Error creating order:",
-        error.response ? error.response.data : error.message
-      );
+      console.error("Error creating order:", error.response?.data || error.message);
       alert("Failed to create order. Please try again.");
     }
   };
