@@ -5,10 +5,7 @@ import "./success.css";
 import { useProvider } from "../../../global_variable/Provider";
 
 function SuccessPage() {
-  const {orderItems, setOrderItems, customername, setcustomername, orderType, setOrderType, branch, selectedEmployeeBranch} = useProvider();
-
-  console.log("Branch in SuccessPage:", branch); // Debugging
-  console.log("Selected Employee Branch in SuccessPage:", selectedEmployeeBranch); // Debugging
+  const {orderItems, setOrderItems, customername, setcustomername, orderType, setOrderType, branch} = useProvider();
 
   const navigate = useNavigate();
   const hasCalledPayment = useRef(false);
@@ -31,10 +28,6 @@ function SuccessPage() {
     if (hasCalledPayment.current) return;
     hasCalledPayment.current = true;
 
-    const activeBranch = branch || selectedEmployeeBranch || "DefaultBranch"; // Fallback logic
-
-    console.log("Active Branch in handleConfirmPayment:", activeBranch); // Debugging
-
     const orderData = {
       customerid: "0000",
       orderItems: orderItems.map((item) => ({
@@ -48,7 +41,7 @@ function SuccessPage() {
       time: currentTime,
       customername: customername,
       status: "Pending",
-      selectedBranch: activeBranch, // Use activeBranch
+      selectedBranch: branch, // Use activeBranch
     };
 
     console.log("Order data to be sent:", orderData); // Debugging
