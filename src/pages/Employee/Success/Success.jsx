@@ -10,6 +10,7 @@ function SuccessPage() {
   const location = useLocation();
   const hasCalledPayment = useRef(false);
 
+  // Set branch from location.state if available
   useEffect(() => {
     if (location.state?.branch) {
       console.log("Setting branch from location.state:", location.state.branch);
@@ -17,14 +18,17 @@ function SuccessPage() {
     }
   }, [location.state?.branch, setBranch]);
 
+  // Use branch from location.state or from the context
   const activeBranch = location.state?.branch || branch;
   console.log("Branch in SuccessPage:", activeBranch);
 
+  // Calculate total price
   const totalPrice = orderItems.reduce(
     (total, item) => total + (Number(item.price) || 0) * (item.quantity || 0),
     0
   );
 
+  // Get current date and time
   const getCurrentDateTime = () => {
     const now = new Date();
     return {
@@ -35,10 +39,12 @@ function SuccessPage() {
 
   const { currentDate, currentTime } = getCurrentDateTime();
 
+  // Handle payment confirmation
   const handleConfirmPayment = async () => {
     if (hasCalledPayment.current) return;
     hasCalledPayment.current = true;
 
+    // Prepare order data
     const orderData = {
       customerid: "0000",
       orderItems: orderItems.map((item) => ({
@@ -52,24 +58,27 @@ function SuccessPage() {
       time: currentTime,
       customername: customername,
       status: "Pending",
-      selectedBranch: activeBranch,
+      branch: activeBranch, // Include the branch in the order data
     };
 
     try {
+      // Send order data to the backend
       await axios.post("https://johannas-grille.onrender.com/api/create-order", orderData);
-      setOrderItems([]);
-      setcustomername("");
-      setOrderType("Dine In");
+      setOrderItems([]); // Clear order items
+      setcustomername(""); // Reset customer name
+      setOrderType("Dine In"); // Reset order type
     } catch (error) {
       console.error("Error creating order:", error.response?.data || error.message);
       alert("Failed to create order. Please try again.");
     }
   };
 
+  // Call handleConfirmPayment on component mount
   useEffect(() => {
     handleConfirmPayment();
   }, []);
 
+  // Navigate back to the order page
   const handleShopping = () => {
     navigate("/employee/order");
   };
