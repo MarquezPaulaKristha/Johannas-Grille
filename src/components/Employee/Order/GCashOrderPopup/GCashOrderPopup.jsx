@@ -1,103 +1,92 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useProvider } from "../../../../global_variable/Provider";
+import "./success.css";
+import { useProvider } from "../../../global_variable/Provider";
 
-const GCashOrderPopup = ({ onCancel, branch }) => {
-    const { orderItems, setOrderItems, customername, setcustomername, orderType, setOrderType, selectedEmployeeBranch  } = useProvider();
-    const [receivedAmount, setReceivedAmount] = useState("");
+function SuccessPage() {
+  const { orderItems, setOrderItems, customername, setcustomername, orderType, setOrderType, branch} = useProvider();
 
-    const totalPrice = orderItems.reduce(
-        (total, item) => total + (Number(item.price) || 0) * (item.quantity || 0),
-        0
-    );
+  const navigate = useNavigate();
+  const hasCalledPayment = useRef(false);
 
-    const change = receivedAmount ? Math.max(0, receivedAmount - totalPrice) : 0;
+  const totalPrice = orderItems.reduce(
+    (total, item) => total + (Number(item.price) || 0) * (item.quantity || 0),
+    0
+  );
 
-    const handleReceivedAmountChange = (e) => {
-        const value = parseFloat(e.target.value);
-        setReceivedAmount(isNaN(value) ? "" : value);
+  const getCurrentDateTime = () => {
+    const now = new Date();
+    const currentDate = now.toISOString().split("T")[0]; // YYYY-MM-DD
+    const currentTime = now.toTimeString().split(" ")[0]; // HH:mm:ss
+    return { currentDate, currentTime };
+  };
+
+  const { currentDate, currentTime } = getCurrentDateTime();
+
+  const handleConfirmPayment = async () => {
+    if (hasCalledPayment.current) return;
+    hasCalledPayment.current = true;
+
+    const orderData = {
+      customerid: "0000",
+      orderItems: orderItems.map((item) => ({
+        orderid: item.orderid,
+        menuitemid: item.menuitemid,
+        order_quantity: item.quantity,
+      })),
+      totalamount: totalPrice,
+      ordertype: orderType,
+      date: currentDate,
+      time: currentTime,
+      customername: customername,
+      status: "Pending",
+      selectedBranch: branch, // Use branch from useProvider
     };
 
-    const handleConfirmPayment = async () => {
-        const body = {
-            lineItems: orderItems.map(item => ({
-                quantity: item.quantity,
-                name: item.name,
-                price: item.price
-            })),
-        };
+    console.log("Order data to be sent:", orderData); // Debugging
 
-        try {
-            const response = await axios.post('https://johannas-grille.onrender.com/api/gcash-checkout', body);
+    try {
+      const response = await axios.post(
+        "https://johannas-grille.onrender.com/api/create-order",
+        orderData
+      );
+      console.log("Create order response:", response.data); // Debugging
 
-            const { url } = response.data;
+      if (response.status === 200) {
+        setOrderItems([]);
+        setcustomername("");
+        setOrderType("Dine In");
+      }
+    } catch (error) {
+      console.error(
+        "Error creating order:",
+        error.response ? error.response.data : error.message
+      );
+      alert("Failed to create order. Please try again.");
+    }
+  };
 
-            window.location.href = url;
-        } catch (error) {
-            console.error('Error initiating payment:', error);
-        }
-    };
+  useEffect(() => {
+    handleConfirmPayment();
+  }, []);
 
-    return (
-        <div className="place-order-popup">
-            <div className="place-order-popup-inner">
-                <h2>Confirm Your Order</h2>
-                <ul className="order-items-list">
-                    {orderItems.map((item) => (
-                        <li key={item.menuitemid}>
-                            <div className="orderitems">
-                                <div className="orderitem-info">
-                                    <h4>{item.quantity}x</h4>
-                                    <h4>{item.name}</h4>
-                                </div>
-                                <div className="orderitem-price">
-                                    <p>Price: P{Number(item.price) ? Number(item.price).toFixed(2) : "N/A"}</p>
-                                </div>
-                            </div>
-                        </li>
-                    ))}
-                </ul>
-                <p>Order Type: <strong>{orderType}</strong></p>
-                <p>Total Items: <strong>{orderItems.length}</strong></p>
-                <p>Total Price: <strong>P{totalPrice.toFixed(2)}</strong></p>
-                <p>Change: <strong>P{change.toFixed(2)}</strong></p>
-                <div className="emp-table-number">
-                    <label>
-                        Name:
-                        <input
-                            type="text"
-                            value={customername}
-                            onChange={(e) => setcustomername(e.target.value)}
-                            placeholder="Enter name"
-                        />
-                    </label>
-                    <label>
-                        Amount Received:
-                        <input
-                            type="number"
-                            min="0"
-                            step="0.01"
-                            value={receivedAmount}
-                            onChange={handleReceivedAmountChange}
-                            placeholder="Enter amount"
-                        />
-                    </label>
-                </div>
-                <div className="place-order-buttons">
-                    <button
-                        className="confirm-button"
-                        onClick={handleConfirmPayment}
-                        disabled={receivedAmount < totalPrice || orderItems.length === 0}
-                    >
-                        Confirm Order
-                    </button>
-                    <button className="cancel-button" onClick={onCancel}>
-                        Cancel
-                    </button>
-                </div>
-            </div>
-        </div>
-    );
-};
+  const handleShopping = () => {
+    navigate("/employee/order");
+  };
 
-export default GCashOrderPopup;
+  return (
+    <div className="success-container">
+      <div className="success-message">
+        <div className="success-icon">₱</div>
+        <h1 className="mt-3">Payment Successful</h1>
+        <p className="payment-message">Thank you for your payment!</p>
+        <button className="success-button" onClick={handleShopping}>
+          Go Back
+        </button>
+      </div>
+    </div>
+  );
+}
+
+export default SuccessPage;
