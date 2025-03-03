@@ -5,7 +5,7 @@ import "./success.css";
 import { useProvider } from "../../../global_variable/Provider";
 
 function SuccessPage() {
-  const {orderItems, setOrderItems, customername, setcustomername, orderType, setOrderType, branch} = useProvider();
+  const {orderItems, setOrderItems, customername, setcustomername, orderType, setOrderType, branch, selectedEmployeeBranch} = useProvider();
 
   console.log("Branch in SuccessPage:", branch); // Debugging
   console.log("Selected Employee Branch in SuccessPage:", selectedEmployeeBranch); // Debugging
