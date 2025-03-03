@@ -1186,7 +1186,6 @@ app.get('/api/top-items', async (req, res) => {
   }
 });
 
-
 async function getOrderData() {
   try {
     const query = `
@@ -1342,8 +1341,6 @@ app.get('/api/sales-data', async (req, res) => {
     res.status(500).json({ todaySales: 0, totalOrders: 0, productsSold: 0 });
   }
 });
-
-
 
 app.post('/api/gcash-checkout', async (req, res) => {
   console.log('Received lineItems:', req.body.lineItems); // Log received line items

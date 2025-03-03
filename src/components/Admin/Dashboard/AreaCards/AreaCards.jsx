@@ -7,17 +7,19 @@ const AreaCards = ({ month, year }) => {
   const [salesData, setSalesData] = useState({ todaySales: 0, totalOrders: 0, productsSold: 0 });
 
   useEffect(() => {
+    console.log(`Fetching data for month: ${month}, year: ${year}`); // Debug log
     const fetchData = async () => {
       try {
         const response = await axios.get('/api/sales-data', {
           params: { month, year }
         });
+        console.log('Fetched data:', response.data); // Debug log
         setSalesData(response.data);
       } catch (error) {
         console.error('Error fetching sales data:', error);
       }
     };
-
+  
     fetchData();
   }, [month, year]);
 
