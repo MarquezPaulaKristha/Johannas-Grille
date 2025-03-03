@@ -20,7 +20,7 @@ function SuccessPage() {
 
   // Use branch from location.state or from the context
   const activeBranch = location.state?.branch || branch;
-  console.log("Branch in SuccessPage:", activeBranch);
+  console.log("Branch in SuccessPage:", activeBranch); // Debugging
 
   // Calculate total price
   const totalPrice = orderItems.reduce(
@@ -58,12 +58,16 @@ function SuccessPage() {
       time: currentTime,
       customername: customername,
       status: "Pending",
-      branch: activeBranch, // Include the branch in the order data
+      selectedBranch: activeBranch, // Ensure this matches the backend's expected field name
     };
+
+    console.log("Order Data:", orderData); // Debugging
 
     try {
       // Send order data to the backend
-      await axios.post("https://johannas-grille.onrender.com/api/create-order", orderData);
+      const response = await axios.post("https://johannas-grille.onrender.com/api/create-order", orderData);
+      console.log("Backend Response:", response.data); // Debugging
+
       setOrderItems([]); // Clear order items
       setcustomername(""); // Reset customer name
       setOrderType("Dine In"); // Reset order type
