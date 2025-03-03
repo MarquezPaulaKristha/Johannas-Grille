@@ -5,7 +5,7 @@ import "./success.css";
 import { useProvider } from "../../../global_variable/Provider";
 
 function SuccessPage() {
-  const { orderItems, setOrderItems, customername, setcustomername, orderType, setOrderType, selectedEmployeeBranch } = useProvider();
+  const { orderItems, setOrderItems, customername, setcustomername, orderType, setOrderType, branch, selectedEmployeeBranch} = useProvider();
 
   const navigate = useNavigate();
   const hasCalledPayment = useRef(false);
@@ -28,6 +28,8 @@ function SuccessPage() {
     if (hasCalledPayment.current) return;
     hasCalledPayment.current = true;
 
+    const activeBranch = branch || selectedEmployeeBranch || "DefaultBranch"; // Fallback logic
+
     const orderData = {
       customerid: "0000",
       orderItems: orderItems.map((item) => ({
@@ -41,7 +43,7 @@ function SuccessPage() {
       time: currentTime,
       customername: customername,
       status: "Pending",
-      selectedBranch: selectedEmployeeBranch, // Use branch from useProvider
+      selectedBranch: activeBranch, // Use activeBranch
     };
 
     console.log("Order data to be sent:", orderData); // Debugging
