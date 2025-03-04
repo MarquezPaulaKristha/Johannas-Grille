@@ -12,9 +12,12 @@ function SuccessPage() {
   const hasCalledPayment = useRef(false);
 
   useEffect(() => {
-    console.log("Current Branch:", branch);
-    console.log("Selected Employee Branch:", selectedEmployeeBranch);
-  }, [branch, selectedEmployeeBranch]);
+    const storedBranch = sessionStorage.getItem("branch");
+  
+    if ((!branch || Object.keys(branch).length === 0) && storedBranch) {
+      setBranch(storedBranch);
+    }
+  }, [branch, setBranch]);
   
 
   // Calculate total price
