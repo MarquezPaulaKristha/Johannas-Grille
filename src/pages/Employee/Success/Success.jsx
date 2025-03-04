@@ -21,12 +21,6 @@ function SuccessPage() {
 
   // Retrieve branch from sessionStorage
   const storedBranch = sessionStorage.getItem("employee_branch");
-  // Update branch state when necessary
-  useEffect(() => {
-    if (!branch && parsedBranch) {
-      setBranch(parsedBranch);
-    }
-  }, [branch, parsedBranch, setBranch]);
 
   // Calculate total price
   const totalPrice = orderItems.reduce(
