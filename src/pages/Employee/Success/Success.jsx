@@ -5,22 +5,11 @@ import "./success.css";
 import { useProvider } from "../../../global_variable/Provider";
 
 function SuccessPage() {
-  const { orderItems, setOrderItems, customername, setcustomername, orderType, setOrderType, branch, setBranch } = useProvider();
+  const {orderItems, setOrderItems, customername, setcustomername, orderType, setOrderType, branch } = useProvider();
+
   const navigate = useNavigate();
   const location = useLocation();
   const hasCalledPayment = useRef(false);
-
-  // Set branch from location.state if available
-  useEffect(() => {
-    if (location.state?.branch) {
-      console.log("Setting branch from location.state:", location.state.branch);
-      setBranch(location.state.branch);
-    }
-  }, [location.state?.branch, setBranch]);
-
-  // Use branch from location.state or from the context
-  const activeBranch = location.state?.branch || branch;
-  console.log("Branch in SuccessPage:", activeBranch); // Debugging
 
   // Calculate total price
   const totalPrice = orderItems.reduce(
@@ -58,7 +47,7 @@ function SuccessPage() {
       time: currentTime,
       customername: customername,
       status: "Pending",
-      selectedBranch: activeBranch, // Ensure this matches the backend's expected field name
+      selectedBranch: branch, // Include the branch from useProvider
     };
 
     console.log("Order Data:", orderData); // Debugging
