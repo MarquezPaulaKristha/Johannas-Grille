@@ -12,7 +12,7 @@ function SuccessPage() {
   const hasCalledPayment = useRef(false);
 
   useEffect(() => {
-    const storedBranch = sessionStorage.getItem("branch");
+    const storedBranch = sessionStorage.getItem("employee_branch");
   
     if ((!branch || Object.keys(branch).length === 0) && storedBranch) {
       setBranch(storedBranch);
