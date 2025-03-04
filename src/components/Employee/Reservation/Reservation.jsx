@@ -129,7 +129,7 @@ const Orders = () => {
                 <th>Guests</th>
                 <th>Date</th>
                 <th>Time</th>
-                <th>Branch</th>
+                {/* <th>Branch</th> */}
                 <th>Amount</th>
                 <th>Action</th>
               </tr>
@@ -155,7 +155,7 @@ const Orders = () => {
                     <td>{dataItem.numberofguests}</td>
                     <td>{formattedDate}</td>
                     <td>{formattedTime}</td>
-                    <td>{dataItem.branch}</td>
+                    {/* <td>{dataItem.branch}</td> */}
                     <td>{dataItem.amount}</td>
                     <td className="or-dt-cell-action">
                       <OrderAction
