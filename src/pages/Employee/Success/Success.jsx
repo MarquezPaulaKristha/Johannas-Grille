@@ -5,11 +5,17 @@ import "./success.css";
 import { useProvider } from "../../../global_variable/Provider";
 
 function SuccessPage() {
-  const {orderItems, setOrderItems, customername, setcustomername, orderType, setOrderType, branch, selectedEmployeeBranch } = useProvider();
+  const {orderItems, setOrderItems, customername, setcustomername, orderType, setOrderType, branch, selectedEmployeeBranch, setBranch } = useProvider();
   const activeBranch = branch || selectedEmployeeBranch;
   const navigate = useNavigate();
   const location = useLocation();
   const hasCalledPayment = useRef(false);
+
+  useEffect(() => {
+      if (branch) {
+        setBranch(branch);
+      }
+    }, [branch, setBranch]);
 
   // Calculate total price
   const totalPrice = orderItems.reduce(
