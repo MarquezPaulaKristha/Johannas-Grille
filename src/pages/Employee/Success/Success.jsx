@@ -20,7 +20,7 @@ function SuccessPage() {
   const hasCalledPayment = useRef(false);
 
   // Retrieve and parse branch from sessionStorage
-  const storedBranch = sessionStorage.getItem("employee_branch");
+  const storedBranch = sessionStorage.getItem("branch");
   const activeBranch = storedBranch ? JSON.parse(storedBranch) : null;
 
   useEffect(() => {
