@@ -1,27 +1,34 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import AreaCard from "./AreaCard";
 import "./AreaCards.css";
-import axios from 'axios';
+import axios from "axios";
 
 const AreaCards = ({ month, year }) => {
-  const [salesData, setSalesData] = useState({ todaySales: 0, totalOrders: 0, productsSold: 0 });
+  const [salesData, setSalesData] = useState({
+    todaySales: 0,
+    totalOrders: 0,
+    productsSold: 0,
+  });
 
   useEffect(() => {
     console.log(`Fetching data for month: ${month}, year: ${year}`); // Debug log
     const fetchData = async () => {
       try {
-        const response = await axios.get('/api/sales-data', {
-          params: { month, year }
-        });
-        console.log('Fetched data:', response.data); // Debug log
+        const response = await axios.get(
+          "https://johannas-grille.onrender.com/api/sales-data",
+          {
+            params: { month, year },
+          }
+        );
+        console.log("Fetched data:", response.data); // Debug log
         setSalesData(response.data);
       } catch (error) {
-        console.error('Error fetching sales data:', error);
+        console.error("Error fetching sales data:", error);
       }
     };
-  
+
     fetchData();
-  }, [month, year]);
+  }, [month, year]); // Ensure month and year are in the dependency array
 
   return (
     <section className="content-area-cards">

@@ -73,7 +73,6 @@ const PlaceOrderPopup = ({ onCancel, branch }) => {
 
       if (response.status === 200) {
         console.log("Navigating to SuccessPage with branch:", activeBranch);
-        navigate("/employee/success", { state: { branch: activeBranch } });
 
         setOrderItems([]);
         setcustomername("");
