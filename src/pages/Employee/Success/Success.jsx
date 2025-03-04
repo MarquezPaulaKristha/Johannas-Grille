@@ -14,10 +14,18 @@ function SuccessPage() {
   useEffect(() => {
     const storedBranch = sessionStorage.getItem("employee_branch");
   
-    if ((!branch || Object.keys(branch).length === 0) && storedBranch) {
-      setBranch(storedBranch);
+    if (storedBranch) {
+      try {
+        const parsedBranch = JSON.parse(storedBranch); // Parse the stored JSON
+        if (parsedBranch && Object.keys(parsedBranch).length > 0) {
+          setBranch(parsedBranch); // Set only if it's a valid object
+        }
+      } catch (error) {
+        console.error("Error parsing employee_branch from sessionStorage:", error);
+      }
     }
-  }, [branch, setBranch]);
+  }, [setBranch]);
+  
   
 
   // Calculate total price
