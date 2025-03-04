@@ -15,6 +15,8 @@ const Dashboard = () => {
   const [progressChartMonth, setProgressChartMonth] = useState(new Date().getMonth() + 1); // Default to current month
   const [progressChartYear, setProgressChartYear] = useState(new Date().getFullYear()); // Default to current year
 
+  console.log("Dashboard - chartMonth:", chartMonth, "chartYear:", chartYear); // Debug log
+
   const tabs = [
     {
       name: "Overview",
@@ -22,7 +24,7 @@ const Dashboard = () => {
         <>
           <AreaTop />
           <AreaCards
-            key={`${chartMonth}-${chartYear}`} // Force re-render when chartMonth or chartYear changes
+            key={`${chartMonth}-${chartYear}`} // Force re-render
             month={chartMonth}
             year={chartYear}
           />

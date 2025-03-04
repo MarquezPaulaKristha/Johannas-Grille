@@ -18,11 +18,12 @@ const AreaLineChart = ({ month, year, setMonth, setYear, showInterpretation }) =
   const [chartData, setChartData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [interpretations, setInterpretations] = useState([]); // Store interpretations per day
+  const [interpretations, setInterpretations] = useState([]);
 
   // Fetch prediction data from the backend
   const fetchPredictionData = async () => {
     try {
+      console.log(`AreaLineChart - Fetching data for month: ${month}, year: ${year}`);
       const response = await axios.get(
         `https://johannas-grille.onrender.com/api/predict?month=${month}&year=${year}`
       );
@@ -88,6 +89,19 @@ const AreaLineChart = ({ month, year, setMonth, setYear, showInterpretation }) =
     fetchPredictionData();
   }, [month, year]); // Re-fetch data when month or year changes
 
+  // Handler for filter changes that ensures parent state is updated
+  const handleMonthChange = (e) => {
+    const newMonth = Number(e.target.value);
+    console.log(`AreaLineChart - Month changed to: ${newMonth}`);
+    setMonth(newMonth);
+  };
+
+  const handleYearChange = (e) => {
+    const newYear = Number(e.target.value);
+    console.log(`AreaLineChart - Year changed to: ${newYear}`);
+    setYear(newYear);
+  };
+
   return (
     <div style={{ margin: '0 auto' }}>
       <h2>Average Peak Hours per Week</h2>
@@ -106,7 +120,7 @@ const AreaLineChart = ({ month, year, setMonth, setYear, showInterpretation }) =
           <select
             id="lineChartMonth"
             value={month}
-            onChange={(e) => setMonth(Number(e.target.value))}
+            onChange={handleMonthChange}
             style={{ padding: '5px', fontSize: '16px' }}
           >
             {Array.from({ length: 12 }, (_, i) => (
@@ -122,7 +136,7 @@ const AreaLineChart = ({ month, year, setMonth, setYear, showInterpretation }) =
           <select
             id="lineChartYear"
             value={year}
-            onChange={(e) => setYear(Number(e.target.value))}
+            onChange={handleYearChange}
             style={{ padding: '5px', fontSize: '16px' }}
           >
             {[2022, 2023, 2024, 2025].map((y) => (
