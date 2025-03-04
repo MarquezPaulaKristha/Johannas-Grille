@@ -12,7 +12,7 @@ export function Provider({ children }) {
   const [orderType, setOrderType] = usePersistState('order', 'Dine In');
   const [selectedBranch, setSelectedBranch] = usePersistState('customer_branch');
   const [selectedEmployeeBranch, setSelectedEmployeeBranch] = useState([]);
-  const [branch, setBranch] = useState('');
+  const [branch, setBranch] = useState([]);
   const [pickupDate, setPickupDate] = usePersistState(
     'date',
     new Date().toISOString().substring(0, 10)

@@ -32,6 +32,7 @@ const Admin_LoginPopUp = () => {
       if (contentType && contentType.includes('application/json')) {
         const data = await response.json();
         if (data.success) {
+          // Save user details to sessionStorage
           sessionStorage.setItem('username', username);
           sessionStorage.setItem('firstname', data.firstname);
           sessionStorage.setItem('lastname', data.lastname);
@@ -39,8 +40,11 @@ const Admin_LoginPopUp = () => {
           sessionStorage.setItem('usertype', data.usertype);
           sessionStorage.setItem('token', data.token);
           sessionStorage.setItem('image', data.image);
-          sessionStorage.setItem('branch', data.branch);
 
+          // Save branch to sessionStorage
+          sessionStorage.setItem('branch', data.branch); // Add this line
+
+          // Redirect based on user type
           if (data.usertype === 'Admin') {
             navigate('/admin/dashboard');
           } else {
