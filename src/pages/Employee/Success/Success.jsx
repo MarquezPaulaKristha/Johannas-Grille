@@ -1,32 +1,37 @@
 import React, { useEffect, useRef } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./success.css";
 import { useProvider } from "../../../global_variable/Provider";
 
 function SuccessPage() {
-  const {orderItems, setOrderItems, customername, setcustomername, orderType, setOrderType, branch, selectedEmployeeBranch, setBranch } = useProvider();
-  const activeBranch = branch || selectedEmployeeBranch;
+  const {
+    orderItems,
+    setOrderItems,
+    customername,
+    setcustomername,
+    orderType,
+    setOrderType,
+    branch,
+    selectedEmployeeBranch,
+    setBranch,
+  } = useProvider();
   const navigate = useNavigate();
-  const location = useLocation();
   const hasCalledPayment = useRef(false);
 
+  // Retrieve branch from sessionStorage
+  const storedBranch = sessionStorage.getItem("employee_branch");
+  const parsedBranch = storedBranch ? JSON.parse(storedBranch) : null;
+
+  // Set active branch based on available values
+  const activeBranch = branch || parsedBranch || selectedEmployeeBranch;
+
+  // Update branch state when necessary
   useEffect(() => {
-    const storedBranch = sessionStorage.getItem("employee_branch");
-  
-    if (storedBranch) {
-      try {
-        const parsedBranch = JSON.parse(storedBranch); // Parse the stored JSON
-        if (parsedBranch && Object.keys(parsedBranch).length > 0) {
-          setBranch(parsedBranch); // Set only if it's a valid object
-        }
-      } catch (error) {
-        console.error("Error parsing employee_branch from sessionStorage:", error);
-      }
+    if (!branch && parsedBranch) {
+      setBranch(parsedBranch);
     }
-  }, [setBranch]);
-  
-  
+  }, [branch, parsedBranch, setBranch]);
 
   // Calculate total price
   const totalPrice = orderItems.reduce(
@@ -64,21 +69,27 @@ function SuccessPage() {
       time: currentTime,
       customername: customername,
       status: "Pending",
-      selectedBranch: activeBranch, // Include the branch from useProvider
+      selectedBranch: activeBranch, // Using the corrected activeBranch
     };
 
     console.log("Order Data:", orderData); // Debugging
 
     try {
       // Send order data to the backend
-      const response = await axios.post("https://johannas-grille.onrender.com/api/create-order", orderData);
+      const response = await axios.post(
+        "https://johannas-grille.onrender.com/api/create-order",
+        orderData
+      );
       console.log("Backend Response:", response.data); // Debugging
 
       setOrderItems([]); // Clear order items
       setcustomername(""); // Reset customer name
       setOrderType("Dine In"); // Reset order type
     } catch (error) {
-      console.error("Error creating order:", error.response?.data || error.message);
+      console.error(
+        "Error creating order:",
+        error.response?.data || error.message
+      );
       alert("Failed to create order. Please try again.");
     }
   };
