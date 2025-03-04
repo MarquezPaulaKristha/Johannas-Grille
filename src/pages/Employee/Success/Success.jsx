@@ -12,21 +12,17 @@ function SuccessPage() {
     setcustomername,
     orderType,
     setOrderType,
-    branch,
-    selectedEmployeeBranch,
-    setBranch,
   } = useProvider();
   const navigate = useNavigate();
   const hasCalledPayment = useRef(false);
 
-  // Retrieve and parse branch from sessionStorage
+  // Retrieve branch from sessionStorage (No JSON.parse needed)
   const storedBranch = sessionStorage.getItem("branch");
-  const activeBranch = storedBranch ? JSON.parse(storedBranch) : null;
+  const activeBranch = storedBranch ? storedBranch : "Default Branch"; // Fallback if null
 
   useEffect(() => {
-    console.log("Branch from Context:", branch);
     console.log("Branch from Session Storage:", activeBranch);
-  }, [branch, activeBranch]);
+  }, [activeBranch]);
 
   // Calculate total price
   const totalPrice = orderItems.reduce(
@@ -64,7 +60,7 @@ function SuccessPage() {
       time: currentTime,
       customername: customername,
       status: "Pending",
-      selectedBranch: activeBranch, // Use the corrected activeBranch
+      selectedBranch: activeBranch, // Corrected activeBranch
     };
 
     console.log("Order Data:", orderData); // Debugging
