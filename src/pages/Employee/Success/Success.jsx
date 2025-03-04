@@ -21,8 +21,6 @@ function SuccessPage() {
 
   // Retrieve branch from sessionStorage
   const storedBranch = sessionStorage.getItem("employee_branch");
-  const parsedBranch = storedBranch ? JSON.parse(storedBranch) : null;
-
   // Update branch state when necessary
   useEffect(() => {
     if (!branch && parsedBranch) {
@@ -66,7 +64,7 @@ function SuccessPage() {
       time: currentTime,
       customername: customername,
       status: "Pending",
-      selectedBranch: parsedBranch, // Using the corrected activeBranch
+      selectedBranch: storedBranch, // Using the corrected activeBranch
     };
 
     console.log("Order Data:", orderData); // Debugging
