@@ -14,7 +14,7 @@ import {
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-const AreaLineChart = ({ month, year, setMonth, setYear, showInterpretation, branches }) => {
+const AreaLineChart = ({ month, year, setMonth, setYear, showInterpretation, branches = [] }) => {
   const [chartData, setChartData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');

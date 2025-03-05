@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const AreaProgressChart = ({ month, year, branches }) => {
+const AreaProgressChart = ({ month, year, branches = [] }) => {
   const [topMenu, setTopMenu] = useState([]);
   const [error, setError] = useState(null);
   const [branch, setBranch] = useState(''); // State for branch filter
@@ -39,24 +39,6 @@ const AreaProgressChart = ({ month, year, branches }) => {
       {/* Progress Chart Content */}
       <div className="progress-bar-info">
         <h4 className="progress-bar-title">Most Sold Menu</h4>
-
-        {/* Branch Filter Dropdown */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
-          <label htmlFor="progressChartBranch">Branch:</label>
-          <select
-            id="progressChartBranch"
-            value={branch}
-            onChange={handleBranchChange}
-            style={{ padding: '5px', fontSize: '16px' }}
-          >
-            <option value="">All Branches</option>
-            {branches.map((branch) => (
-              <option key={branch} value={branch}>
-                {branch}
-              </option>
-            ))}
-          </select>
-        </div>
       </div>
 
       {/* Display Error Message */}

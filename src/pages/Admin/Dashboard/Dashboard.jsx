@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import AreaTop from "../../../components/Admin/Dashboard/AreaTop/AreaTop";
 import AreaCards from "../../../components/Admin/Dashboard/AreaCards/AreaCards";
 import AreaCharts from "../../../components/Admin/Dashboard/AreaCharts/AreaCharts";
@@ -14,6 +15,24 @@ const Dashboard = () => {
   const [chartYear, setChartYear] = useState(new Date().getFullYear()); // Default to current year
   const [progressChartMonth, setProgressChartMonth] = useState(new Date().getMonth() + 1); // Default to current month
   const [progressChartYear, setProgressChartYear] = useState(new Date().getFullYear()); // Default to current year
+  const [branches, setBranches] = useState([]); // Initialize as an empty array
+  const [selectedBranch, setSelectedBranch] = useState(""); // State for selected branch
+
+  // Fetch branches from the backend
+  useEffect(() => {
+    const fetchBranches = async () => {
+      try {
+        const response = await axios.get("https://johannas-grille.onrender.com/api/branches");
+        if (response.data && Array.isArray(response.data)) {
+          setBranches(response.data); // Set branches to the fetched data
+        }
+      } catch (error) {
+        console.error("Error fetching branches:", error);
+      }
+    };
+
+    fetchBranches();
+  }, []);
 
   console.log("Dashboard - chartMonth:", chartMonth, "chartYear:", chartYear); // Debug log
 
@@ -78,16 +97,35 @@ const Dashboard = () => {
                 ))}
               </select>
             </div>
+
+            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <label htmlFor="progressChartBranch">Select Branch:</label>
+              <select
+                id="progressChartBranch"
+                value={selectedBranch}
+                onChange={(e) => setSelectedBranch(e.target.value)}
+                style={{ padding: "5px", fontSize: "16px" }}
+              >
+                <option value="">All Branches</option>
+                {branches.map((branch) => (
+                  <option key={branch} value={branch}>
+                    {branch}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
 
           <AreaCards
-            key={`${progressChartMonth}-${progressChartYear}`} // Force re-render
+            key={`${progressChartMonth}-${progressChartYear}-${selectedBranch}`} // Force re-render
             month={progressChartMonth}
             year={progressChartYear}
+            branch={selectedBranch} // Pass selected branch to AreaCards
           />
           <AreaProgressChart
             month={progressChartMonth}
             year={progressChartYear}
+            branch={selectedBranch} // Pass selected branch to AreaProgressChart
           />
         </>
       ),
@@ -102,6 +140,7 @@ const Dashboard = () => {
             setMonth={setChartMonth} // Pass setMonth
             setYear={setChartYear} // Pass setYear
             showInterpretation={true}
+            branches={branches} // Pass branches to AreaLineChart
           />
         </div>
       ),

@@ -1328,29 +1328,38 @@ app.get("/api/predict", async (req, res) => {
 });
 
 app.get('/api/sales-data', async (req, res) => {
-  const { month, year } = req.query;
+  const { month, year, branch } = req.query;
 
   try {
-    const todaySalesQuery = `
+    let todaySalesQuery = `
       SELECT COALESCE(SUM(totalamount), 0) AS today_sales
       FROM orderstbl
       WHERE EXTRACT(MONTH FROM date) = $1 AND EXTRACT(YEAR FROM date) = $2
     `;
-    const totalOrdersQuery = `
+    let totalOrdersQuery = `
       SELECT COALESCE(COUNT(*), 0) AS total_orders
       FROM orderstbl
       WHERE EXTRACT(MONTH FROM date) = $1 AND EXTRACT(YEAR FROM date) = $2
     `;
-    const productsSoldQuery = `
+    let productsSoldQuery = `
       SELECT COALESCE(SUM(quantity), 0) AS products_sold
       FROM orderitemtbl
       JOIN orderstbl ON orderitemtbl.orderid = orderstbl.orderid
       WHERE EXTRACT(MONTH FROM orderstbl.date) = $1 AND EXTRACT(YEAR FROM orderstbl.date) = $2
     `;
 
-    const todaySalesResult = await pool.query(todaySalesQuery, [month, year]);
-    const totalOrdersResult = await pool.query(totalOrdersQuery, [month, year]);
-    const productsSoldResult = await pool.query(productsSoldQuery, [month, year]);
+    const queryParams = [month, year];
+
+    if (branch) {
+      todaySalesQuery += ` AND branch = $3`;
+      totalOrdersQuery += ` AND branch = $3`;
+      productsSoldQuery += ` AND orderstbl.branch = $3`;
+      queryParams.push(branch);
+    }
+
+    const todaySalesResult = await pool.query(todaySalesQuery, queryParams);
+    const totalOrdersResult = await pool.query(totalOrdersQuery, queryParams);
+    const productsSoldResult = await pool.query(productsSoldQuery, queryParams);
 
     res.json({
       todaySales: todaySalesResult.rows[0]?.today_sales || 0,
@@ -1360,6 +1369,22 @@ app.get('/api/sales-data', async (req, res) => {
   } catch (error) {
     console.error('Error fetching sales data:', error);
     res.status(500).json({ todaySales: 0, totalOrders: 0, productsSold: 0 });
+  }
+});
+
+app.get('/api/branches', async (req, res) => {
+  try {
+    const query = `
+      SELECT DISTINCT branch
+      FROM orderstbl
+      WHERE branch IS NOT NULL
+    `;
+    const result = await pool.query(query);
+    const branches = result.rows.map(row => row.branch);
+    res.status(200).json(branches);
+  } catch (error) {
+    console.error('Error fetching branches:', error);
+    res.status(500).json({ message: 'Error fetching branches' });
   }
 });
 
