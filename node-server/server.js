@@ -1154,30 +1154,46 @@ app.get('/api/top-items', async (req, res) => {
   try {
     const month = parseInt(req.query.month, 10);
     const year = req.query.year ? parseInt(req.query.year) : null;
+    const branch = req.query.branch || null; // Add branch filter
     const limit = 5;
 
     if (!month || !year) {
       return res.status(400).json({ message: 'Month and year are required' });
     }
 
-    const result = await pool.query(
-      `
-          SELECT 
-              i.menuitemid, 
-              i.name,
-              SUM(t.quantity) AS percentValues 
-          FROM orderitemtbl t
-          JOIN menuitemtbl i ON t.menuitemid = i.menuitemid
-          JOIN orderstbl o ON o.orderid = t.orderid
-          WHERE 
-              EXTRACT(MONTH FROM o.date) = $1 
-              AND EXTRACT(YEAR FROM o.date) = $2
-          GROUP BY i.menuitemid
-          ORDER BY percentValues DESC
-          LIMIT $3;
-          `,
-      [month, year, limit || 5]
-    );
+    // Build the SQL query dynamically based on the branch filter
+    let query = `
+      SELECT 
+          i.menuitemid, 
+          i.name,
+          SUM(t.quantity) AS percentValues 
+      FROM orderitemtbl t
+      JOIN menuitemtbl i ON t.menuitemid = i.menuitemid
+      JOIN orderstbl o ON o.orderid = t.orderid
+      WHERE 
+          EXTRACT(MONTH FROM o.date) = $1 
+          AND EXTRACT(YEAR FROM o.date) = $2
+    `;
+
+    // Add branch filter if provided
+    if (branch) {
+      query += ` AND o.branch = $4`;
+    }
+
+    query += `
+      GROUP BY i.menuitemid
+      ORDER BY percentValues DESC
+      LIMIT $3;
+    `;
+
+    // Prepare query parameters
+    const queryParams = [month, year, limit || 5];
+    if (branch) {
+      queryParams.push(branch);
+    }
+
+    // Execute the query
+    const result = await pool.query(query, queryParams);
 
     res.status(200).json(result.rows);
   } catch (error) {
@@ -1203,7 +1219,8 @@ async function getOrderData() {
 app.get("/api/predict", async (req, res) => {
   try {
     const month = req.query.month ? parseInt(req.query.month) : null;
-    const year = req.query.year ? parseInt(req.query.year) : null; // Get the year from query
+    const year = req.query.year ? parseInt(req.query.year) : null;
+    const branch = req.query.branch || null; // Add branch filter
 
     // Step 1: Query and Prepare Data
     let orderData = await getOrderData();
@@ -1228,13 +1245,17 @@ app.get("/api/predict", async (req, res) => {
       hour: row.datetime.hour(),
     }));
 
-    // Filter by year and month if provided
-    // if (year) {
-    //   orderData = orderData.filter((row) => row.year === year);
-    // }
+    // Filter by year, month, and branch if provided
+    if (year) {
+      orderData = orderData.filter((row) => row.year === year);
+    }
 
     if (month) {
       orderData = orderData.filter((row) => row.month === month);
+    }
+
+    if (branch) {
+      orderData = orderData.filter((row) => row.branch === branch);
     }
 
     // Filter business hours (9 AM to 9 PM)

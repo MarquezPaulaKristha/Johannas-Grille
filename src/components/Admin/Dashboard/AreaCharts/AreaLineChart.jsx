@@ -14,18 +14,19 @@ import {
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-const AreaLineChart = ({ month, year, setMonth, setYear, showInterpretation }) => {
+const AreaLineChart = ({ month, year, setMonth, setYear, showInterpretation, branches }) => {
   const [chartData, setChartData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [interpretations, setInterpretations] = useState([]);
+  const [branch, setBranch] = useState(''); // State for branch filter
 
   // Fetch prediction data from the backend
   const fetchPredictionData = async () => {
     try {
-      console.log(`AreaLineChart - Fetching data for month: ${month}, year: ${year}`);
+      console.log(`AreaLineChart - Fetching data for month: ${month}, year: ${year}, branch: ${branch}`);
       const response = await axios.get(
-        `https://johannas-grille.onrender.com/api/predict?month=${month}&year=${year}`
+        `https://johannas-grille.onrender.com/api/predict?month=${month}&year=${year}&branch=${branch}`
       );
       const predictions = response.data.predictions;
 
@@ -87,7 +88,7 @@ const AreaLineChart = ({ month, year, setMonth, setYear, showInterpretation }) =
 
   useEffect(() => {
     fetchPredictionData();
-  }, [month, year]); // Re-fetch data when month or year changes
+  }, [month, year, branch]); // Re-fetch data when month, year, or branch changes
 
   // Handler for filter changes that ensures parent state is updated
   const handleMonthChange = (e) => {
@@ -100,6 +101,12 @@ const AreaLineChart = ({ month, year, setMonth, setYear, showInterpretation }) =
     const newYear = Number(e.target.value);
     console.log(`AreaLineChart - Year changed to: ${newYear}`);
     setYear(newYear);
+  };
+
+  const handleBranchChange = (e) => {
+    const newBranch = e.target.value;
+    console.log(`AreaLineChart - Branch changed to: ${newBranch}`);
+    setBranch(newBranch);
   };
 
   return (
@@ -142,6 +149,23 @@ const AreaLineChart = ({ month, year, setMonth, setYear, showInterpretation }) =
             {[2022, 2023, 2024, 2025].map((y) => (
               <option key={y} value={y}>
                 {y}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <label htmlFor="lineChartBranch">Branch:</label>
+          <select
+            id="lineChartBranch"
+            value={branch}
+            onChange={handleBranchChange}
+            style={{ padding: '5px', fontSize: '16px' }}
+          >
+            <option value="">All Branches</option>
+            {branches.map((branch) => (
+              <option key={branch} value={branch}>
+                {branch}
               </option>
             ))}
           </select>
