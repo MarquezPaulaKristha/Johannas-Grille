@@ -25,16 +25,17 @@ const Dashboard = () => {
         const response = await axios.get("https://johannas-grille.onrender.com/api/branches");
         if (response.data && Array.isArray(response.data)) {
           setBranches(response.data); // Set branches to the fetched data
+          console.log("Branches fetched:", response.data); // Debug log
         }
       } catch (error) {
         console.error("Error fetching branches:", error);
       }
     };
-
+  
     fetchBranches();
   }, []);
 
-  console.log("Dashboard - chartMonth:", chartMonth, "chartYear:", chartYear); // Debug log
+  console.log("Dashboard - chartMonth:", chartMonth, "chartYear:", chartYear, "branch:", branches, ); // Debug log
 
   const tabs = [
     {

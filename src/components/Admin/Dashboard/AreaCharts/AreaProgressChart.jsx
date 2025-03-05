@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const AreaProgressChart = ({ month, year, branches = [] }) => {
+const AreaProgressChart = ({ month, year, branch = [] }) => {
   const [topMenu, setTopMenu] = useState([]);
   const [error, setError] = useState(null);
-  const [branch, setBranch] = useState(''); // State for branch filter
 
   // Fetch top menu items from the backend
   const fetchTopMenu = async () => {
@@ -26,13 +25,6 @@ const AreaProgressChart = ({ month, year, branches = [] }) => {
   useEffect(() => {
     fetchTopMenu();
   }, [month, year, branch]);
-
-  // Handler for branch filter change
-  const handleBranchChange = (e) => {
-    const newBranch = e.target.value;
-    console.log(`AreaProgressChart - Branch changed to: ${newBranch}`);
-    setBranch(newBranch);
-  };
 
   return (
     <div className="progress-bar">

@@ -105,7 +105,7 @@ const AreaLineChart = ({ month, year, setMonth, setYear, showInterpretation, bra
 
   const handleBranchChange = (e) => {
     const newBranch = e.target.value;
-    console.log(`AreaLineChart - Branch changed to: ${newBranch}`);
+    console.log(`AreaLineChart - Selected Branch changed to: ${newBranch}`);
     setBranch(newBranch);
   };
 
@@ -114,13 +114,13 @@ const AreaLineChart = ({ month, year, setMonth, setYear, showInterpretation, bra
       <h2>Average Peak Hours per Week</h2>
 
       {/* Filters for Line Chart in a Single Row */}
-      <div style={{ 
-        marginBottom: '20px', 
-        padding: '10px', 
+      <div style={{
+        marginBottom: '20px',
+        padding: '10px',
         borderBottom: '1px solid #ccc',
-        display: 'flex', 
-        alignItems: 'center', 
-        gap: '16px' 
+        display: 'flex',
+        alignItems: 'center',
+        gap: '16px'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <label htmlFor="lineChartMonth">Month:</label>
@@ -160,14 +160,18 @@ const AreaLineChart = ({ month, year, setMonth, setYear, showInterpretation, bra
             id="lineChartBranch"
             value={branch}
             onChange={handleBranchChange}
-            style={{ padding: '5px', fontSize: '16px' }}
+            style={{ padding: "5px", fontSize: "16px" }}
           >
             <option value="">All Branches</option>
-            {branches.map((branch) => (
-              <option key={branch} value={branch}>
-                {branch}
-              </option>
-            ))}
+            {branches.length > 0 ? (
+              branches.map((b) => (
+                <option key={b} value={b}>
+                  {b}
+                </option>
+              ))
+            ) : (
+              <option disabled>Loading branches...</option>
+            )}
           </select>
         </div>
       </div>
