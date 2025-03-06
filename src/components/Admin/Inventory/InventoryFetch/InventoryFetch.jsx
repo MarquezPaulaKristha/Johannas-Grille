@@ -5,6 +5,7 @@ import InventoryCard from '../InventoryCard/InventoryCard';
 const InventoryFetch = ({ category }) => {
   const [foodList, setFoodList] = useState([]);
   const [selectedBranch, setSelectedBranch] = useState('Bauan'); // Default to Bauan
+  const [showLowStock, setShowLowStock] = useState(false); // Toggle for low stock filter
 
   useEffect(() => {
     const fetchInventory = async () => {
@@ -40,13 +41,20 @@ const InventoryFetch = ({ category }) => {
         >
           Batangas
         </button>
+        <button
+          className={`inv-filter-button ${showLowStock ? 'active' : ''}`}
+          onClick={() => setShowLowStock(!showLowStock)}
+        >
+          {showLowStock ? 'Show All Stocks' : 'Show Low Stock'}
+        </button>
       </div>
 
       <div className="inv-item-food-display-list">
         {foodList
           .filter((item) => 
             (category === 'All' || category === item.category) &&
-            (selectedBranch === 'All' || item.branch.toLowerCase() === selectedBranch.toLowerCase())
+            (selectedBranch === 'All' || item.branch.toLowerCase() === selectedBranch.toLowerCase()) &&
+            (!showLowStock || (item.quantity >= 0 && item.quantity <= 5)) // Apply low stock filter if enabled
           )
           .map((item) => (
             <InventoryCard

@@ -148,7 +148,7 @@ const Dashboard = () => {
     },
   ];
 
-  return (
+    return (
     <main>
       <Sidebar />
       <div className="content-wrapper">
