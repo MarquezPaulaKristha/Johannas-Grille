@@ -18,7 +18,7 @@ const Orders = () => {
   const [dateRange, setDateRange] = useState([
     {
       startDate: new Date(),
-      endDate: addDays(new Date(), 7),
+      endDate: new Date(), // Set endDate to the same as startDate initially
       key: "selection",
     },
   ]);

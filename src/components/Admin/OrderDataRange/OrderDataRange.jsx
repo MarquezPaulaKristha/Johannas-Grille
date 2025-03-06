@@ -4,7 +4,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { SidebarContext } from "../Dashboard/context/SidebarContext";
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
-import { addDays } from "date-fns";
+import { addDays, endOfDay } from "date-fns"; // Import endOfDay to make the end date inclusive
 import { DateRange } from "react-date-range";
 
 const OrderDataRange = ({ dateRange, setDateRange, setIsDateAvailable }) => {
@@ -32,8 +32,17 @@ const OrderDataRange = ({ dateRange, setDateRange, setIsDateAvailable }) => {
   };
 
   const handleDateChange = (item) => {
-    setState([item.selection]);
-    onDateRangeChange(item.selection);
+    const { startDate, endDate } = item.selection;
+    // Ensure the end date is inclusive by setting the time to the end of the day
+    const inclusiveEndDate = endOfDay(endDate);
+    const updatedRange = { ...item.selection, endDate: inclusiveEndDate };
+    setState([updatedRange]);
+    onDateRangeChange(updatedRange);
+  };
+
+  const onDateRangeChange = (range) => {
+    setDateRange([range]);
+    setIsDateAvailable(true);
   };
 
   useEffect(() => {
@@ -45,9 +54,6 @@ const OrderDataRange = ({ dateRange, setDateRange, setIsDateAvailable }) => {
 
   return (
     <section className="content-area-top">
-      {/* <div className="content-area">
-        <Header />
-      </div> */}
       <div className="area-top-l">
         <button
           className="sidebar-open-btn"
@@ -68,9 +74,9 @@ const OrderDataRange = ({ dateRange, setDateRange, setIsDateAvailable }) => {
         >
           <DateRange
             editableDateInputs={true}
-            onChange={(item) => (setDateRange([item.selection]), setIsDateAvailable(true))}
+            onChange={handleDateChange}
             moveRangeOnFirstSelection={false}
-            ranges={dateRange}
+            ranges={state}
             showMonthAndYearPickers={false}
           />
         </div>

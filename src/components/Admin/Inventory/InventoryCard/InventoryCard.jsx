@@ -58,9 +58,9 @@ const InventoryCard = ({ id, name, price, category, quantity, image, invid, bran
   const cardStyle = {
     backgroundColor:
       currentQuantity === 0
-        ? 'red'
+        ? '#ff9999'
         : currentQuantity >= 1 && currentQuantity < 6
-          ? 'yellow'
+          ? '#ffff99'
           : 'white',
   };
 

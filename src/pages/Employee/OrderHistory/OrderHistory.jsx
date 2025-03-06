@@ -11,35 +11,31 @@ const EmployeeOrderHistory = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [orders, setOrders] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const rowsPerPage = 50;
   const [filteredOrders, setFilteredOrders] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const rowsPerPage = 10;
   const [dateRange, setDateRange] = useState([
     {
       startDate: new Date(),
-      endDate: addDays(new Date(), 7),
+      endDate: new Date(), // Set endDate to the same as startDate initially
       key: "selection",
     },
   ]);
   const [isDateAvailable, setIsDateAvailable] = useState(false);
 
   // Fetch orders data
-  const fetchOrders = () => {
+  useEffect(() => {
     fetch("https://johannas-grille.onrender.com/api/orders")
       .then((response) => response.json())
       .then((data) => {
-        // Sort orders by descending order (assumes orders have a date or ID for sorting)
         const sortedData = data.sort((a, b) => (a.date > b.date ? -1 : 1));
         setOrders(sortedData);
         setFilteredOrders(sortedData);
       })
       .catch((error) => console.error("Error fetching order data:", error));
-  };
-
-  useEffect(() => {
-    fetchOrders();
   }, []);
 
+  // Filter orders based on date range
   useEffect(() => {
     const { startDate, endDate } = dateRange[0];
     const filtered = orders.filter((order) => {
@@ -47,30 +43,16 @@ const EmployeeOrderHistory = () => {
       return orderDate >= startDate && orderDate <= endDate;
     });
     setFilteredOrders(filtered);
-    setCurrentPage(1); // Reset to first page
+    setCurrentPage(1); // Reset pagination
   }, [dateRange, orders]);
 
-  let paginatedOrders;
+  const displayedOrders = isDateAvailable
+    ? filteredOrders.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage)
+    : orders.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
 
-  if (isDateAvailable) {
-    paginatedOrders = filteredOrders.slice(
-      (currentPage - 1) * rowsPerPage,
-      currentPage * rowsPerPage
-    );
-  } else {
-    paginatedOrders = orders.slice(
-      (currentPage - 1) * rowsPerPage,
-      currentPage * rowsPerPage
-    );
-  }
-
-  // Handle page change
-  let totalPages;
-  if (isDateAvailable) {
-    totalPages = Math.ceil(filteredOrders.length / rowsPerPage);
-  } else{
-    totalPages = Math.ceil(orders.length / rowsPerPage);
-  }
+  const totalPages = Math.ceil(
+    (isDateAvailable ? filteredOrders.length : orders.length) / rowsPerPage
+  );
 
   const handlePageChange = (newPage) => {
     if (newPage > 0 && newPage <= totalPages) {
@@ -78,69 +60,46 @@ const EmployeeOrderHistory = () => {
     }
   };
 
-  const handleEdit = (order) => {
-    setSelectedOrder(order);
-    setIsEditModalOpen(true);
-  };
-
-  const handleDelete = (orderId) => {
-    setSelectedOrder(orderId);
-    setIsDeleteModalOpen(true);
-  };
-
   return (
-    <main>
+    <main className="page-wrapper">
       <Sidebar />
       <div className="content-wrapper">
-        <div>
-          <h1>Orders Page</h1>
-          <section className="or-content-area-table">
-          <OrderDataRange dateRange={dateRange} setDateRange={setDateRange} setIsDateAvailable={setIsDateAvailable} />
-            <div className="or-data-table-info">
-              <h1 className="or-data-table-title">Latest Orders</h1>
-            </div>
-            <OrderHistory
-              orders={paginatedOrders}
-              handleEdit={handleEdit}
-              handleDelete={handleDelete}
-            />
-            {/* Pagination Controls */}
-            <div className="pagination-controls">
+        <h1>Orders Page</h1>
+        <section className="or-content-area-table">
+          <OrderDataRange
+            dateRange={dateRange}
+            setDateRange={setDateRange}
+            setIsDateAvailable={setIsDateAvailable}
+          />
+
+          <OrderHistory orders={displayedOrders} handleEdit={setSelectedOrder} handleDelete={setSelectedOrder} />
+
+          {/* Pagination Controls */}
+          {totalPages > 1 && (
+            <div className="order-his-pagination-container">
               <button
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
+                className="order-his-pagination-button"
               >
                 Previous
               </button>
-              <span>
+              <span className="order-his-pagination-text">
                 Page {currentPage} of {totalPages}
               </span>
               <button
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
+                className="order-his-pagination-button"
               >
                 Next
               </button>
             </div>
-          </section>
-        </div>
+          )}
+        </section>
 
-        {isEditModalOpen && (
-          <OrderEdit
-            selectedOrder={selectedOrder}
-            setSelectedOrder={setSelectedOrder}
-            handleFormSubmit={() => console.log("Order updated")}
-            handleCloseModal={() => setIsEditModalOpen(false)}
-          />
-        )}
-
-        {isDeleteModalOpen && (
-          <OrderDelete
-            selectedOrder={selectedOrder}
-            handleCloseModal={() => setIsDeleteModalOpen(false)}
-            handleDeleteOrder={(orderId) => console.log("Order deleted:", orderId)}
-          />
-        )}
+        {isEditModalOpen && <OrderEdit selectedOrder={selectedOrder} handleCloseModal={() => setIsEditModalOpen(false)} />}
+        {isDeleteModalOpen && <OrderDelete selectedOrder={selectedOrder} handleCloseModal={() => setIsDeleteModalOpen(false)} />}
       </div>
     </main>
   );

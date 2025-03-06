@@ -760,10 +760,26 @@ app.delete("/api/customer/:id", async (req, res) => {
 
 app.get('/api/orders', async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM orderstbl');
+    // Query to join orderstbl with customertbl when ordertype is 'pickup'
+    const query = `
+      SELECT 
+        o.*, 
+        CASE 
+          WHEN o.ordertype = 'Pickup' THEN c.firstname 
+          ELSE o.customername 
+        END AS customername
+      FROM 
+        orderstbl o
+      LEFT JOIN 
+        customertbl c 
+      ON 
+        o.customerid = c.customerid
+    `;
+
+    const result = await pool.query(query);
     res.json(result.rows);
   } catch (err) {
-    console.error('Error fetching menu items:', err.message);
+    console.error('Error fetching orders:', err.message);
     res.status(500).send('Server error');
   }
 });

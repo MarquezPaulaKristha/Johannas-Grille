@@ -1,25 +1,36 @@
 import React from "react";
-import { MdDeleteOutline } from "react-icons/md";
-import { RiEditLine } from "react-icons/ri";
-import "./OrderHistory.css"
 
 const TABLE_HEADS = [
   "OrderID",
-  "CustomerID",
+  "Customer Name",
   "OrderType",
   "Date",
   "Status",
   "Total Amount",
   "Time",
-  "Branch"
 ];
 
-const OrderHistory = ({ orders, handleEdit, handleDelete, userBranch }) => {
-  // Filter orders based on the user's branch
-  const filteredOrders = orders.filter(order => order.branch === userBranch);
+const OrderTable = ({ orders }) => {
+  // Sorting orders by date and time in descending order (most recent first)
+  const sortedOrders = [...orders].sort((a, b) => {
+    const dateA = new Date(a.date);
+    const dateB = new Date(b.date);
+
+    if (dateA.getTime() !== dateB.getTime()) {
+      return dateB - dateA; // Sort by date first (descending)
+    }
+
+    // Convert time to minutes for correct sorting
+    const timeToMinutes = (time) => {
+      const [hours, minutes] = time.split(":").map(Number);
+      return hours * 60 + minutes; // Convert to total minutes
+    };
+
+    return timeToMinutes(b.time) - timeToMinutes(a.time); // Sort by time (descending)
+  });
 
   return (
-    <div className="em-data-table-diagram">
+    <div className="or-data-table-diagram">
       <table>
         <thead>
           <tr>
@@ -29,7 +40,7 @@ const OrderHistory = ({ orders, handleEdit, handleDelete, userBranch }) => {
           </tr>
         </thead>
         <tbody>
-          {filteredOrders.map((dataItem) => {
+          {sortedOrders.map((dataItem) => {
             const formattedDate = new Date(dataItem.date).toLocaleDateString("en-US", {
               year: "numeric",
               month: "long",
@@ -44,18 +55,17 @@ const OrderHistory = ({ orders, handleEdit, handleDelete, userBranch }) => {
             return (
               <tr key={dataItem.orderid}>
                 <td>{dataItem.orderid.slice(-5)}</td>
-                <td>{dataItem.customerid}</td>
+                <td>{dataItem.customername}</td>
                 <td>{dataItem.ordertype}</td>
                 <td>{formattedDate}</td>
                 <td>
-                  <div className="em-dt-status">
-                    <span className={`em-dt-status-dot dot-${dataItem.status}`}></span>
-                    <span className="em-dt-status-text">{dataItem.status}</span>
+                  <div className="or-dt-status">
+                    <span className={`or-dt-status-dot dot-${dataItem.status}`}></span>
+                    <span className="or-dt-status-text">{dataItem.status}</span>
                   </div>
                 </td>
                 <td>P{dataItem.totalamount}</td>
                 <td>{formattedTime}</td>
-                <td>{dataItem.branch}</td>
               </tr>
             );
           })}
@@ -65,5 +75,4 @@ const OrderHistory = ({ orders, handleEdit, handleDelete, userBranch }) => {
   );
 };
 
-
-export default OrderHistory;
+export default OrderTable;

@@ -2,7 +2,7 @@ import React from "react";
 
 const TABLE_HEADS = [
   "OrderID",
-  "CustomerID",
+  "Customer Name",
   "OrderType",
   "Date",
   "Status",
@@ -55,7 +55,7 @@ const OrderTable = ({ orders }) => {
             return (
               <tr key={dataItem.orderid}>
                 <td>{dataItem.orderid.slice(-5)}</td>
-                <td>{dataItem.customerid}</td>
+                <td>{dataItem.customername}</td>
                 <td>{dataItem.ordertype}</td>
                 <td>{formattedDate}</td>
                 <td>
