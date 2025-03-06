@@ -767,7 +767,7 @@ app.get('/api/orders', async (req, res) => {
         CASE 
           WHEN o.ordertype = 'Pickup' THEN c.firstname 
           ELSE o.customername 
-        END AS customername
+        END AS ordername
       FROM 
         orderstbl o
       LEFT JOIN 
