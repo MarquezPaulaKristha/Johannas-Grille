@@ -44,12 +44,18 @@
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
-.tabs {
+.header-tabs-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding-bottom: 7px;
+  }
+  
+  .tabs {
     display: flex;
     gap: 10px;
-    padding: 10px;
-    border-bottom: 2px solid #ddd;
-  }
+  }  
   
   .tabs button {
     background: none;
@@ -65,7 +71,7 @@
   }
   
   .tab-content {
-    padding: 20px;
+    padding: 0 20px;
   }
   
 

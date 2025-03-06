@@ -21,15 +21,29 @@ const AreaLineChart = ({ month, year, setMonth, setYear, showInterpretation, bra
   const [interpretations, setInterpretations] = useState([]);
   const [branch, setBranch] = useState(''); // State for branch filter
 
+  const formatHourToAMPM = (hour) => {
+    if (hour === 0) return '12 AM'; // Midnight
+    if (hour === 12) return '12 PM'; // Noon
+    if (hour < 12) return `${hour} AM`; // Morning
+    return `${hour - 12} PM`; // Afternoon/Evening
+  };
+
   // Fetch prediction data from the backend
   const fetchPredictionData = async () => {
+    if (!month || !year) {
+      console.error('Month and year are required');
+      setError('Month and year are required');
+      setLoading(false);
+      return;
+    }
+  
     try {
       console.log(`AreaLineChart - Fetching data for month: ${month}, year: ${year}, branch: ${branch}`);
       const response = await axios.get(
         `https://johannas-grille.onrender.com/api/predict?month=${month}&year=${year}&branch=${branch}`
       );
       const predictions = response.data.predictions;
-
+  
       // Group data by day of the week and calculate average peak hours
       const groupedData = predictions.reduce((acc, entry) => {
         const date = new Date(entry.ds);
@@ -41,27 +55,21 @@ const AreaLineChart = ({ month, year, setMonth, setYear, showInterpretation, bra
         acc[dayOfWeek].count += 1;
         return acc;
       }, {});
-
+  
       // Calculate average peak hours for each day of the week
       const labels = Object.keys(groupedData);
       const data = labels.map((day) => (groupedData[day].total / groupedData[day].count).toFixed(2));
-
+  
       // Generate interpretations for each day
       const interpretations = labels.map((day, index) => {
         const averagePeakHour = data[index];
-        let interpretation = '';
-
-        if (averagePeakHour >= 18) {
-          interpretation = `On ${day}, the peak hours are in the evening (${averagePeakHour} hrs). This indicates high customer traffic after work hours.`;
-        } else if (averagePeakHour >= 12) {
-          interpretation = `On ${day}, the peak hours are in the afternoon (${averagePeakHour} hrs). This suggests a busy lunchtime or midday rush.`;
-        } else {
-          interpretation = `On ${day}, the peak hours are in the morning (${averagePeakHour} hrs). This indicates early customer activity.`;
-        }
-
-        return interpretation;
+        const formattedTime = formatHourToAMPM(Math.round(averagePeakHour)); // Convert to AM/PM format
+        return {
+          day,
+          averagePeakHour: formattedTime,
+        };
       });
-
+  
       // Set chart data
       setChartData({
         labels,
@@ -75,12 +83,17 @@ const AreaLineChart = ({ month, year, setMonth, setYear, showInterpretation, bra
           },
         ],
       });
-
+  
       // Set interpretations
       setInterpretations(interpretations);
       setLoading(false);
     } catch (err) {
       console.error('Error fetching prediction data:', err);
+      console.error('Error details:', {
+        message: err.message,
+        response: err.response?.data,
+        status: err.response?.status,
+      });
       setError('Failed to fetch prediction data');
       setLoading(false);
     }
@@ -89,6 +102,24 @@ const AreaLineChart = ({ month, year, setMonth, setYear, showInterpretation, bra
   useEffect(() => {
     fetchPredictionData();
   }, [month, year, branch]); // Re-fetch data when month, year, or branch changes
+
+  // Set default month to previous month on component mount
+  useEffect(() => {
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth() + 1; // Months are 0-indexed in JavaScript
+    const currentYear = currentDate.getFullYear();
+
+    let defaultMonth = currentMonth - 1;
+    let defaultYear = currentYear;
+
+    if (defaultMonth === 0) {
+      defaultMonth = 12;
+      defaultYear -= 1;
+    }
+
+    setMonth(defaultMonth);
+    setYear(defaultYear);
+  }, [setMonth, setYear]);
 
   // Handler for filter changes that ensures parent state is updated
   const handleMonthChange = (e) => {
@@ -109,13 +140,16 @@ const AreaLineChart = ({ month, year, setMonth, setYear, showInterpretation, bra
     setBranch(newBranch);
   };
 
+  const currentDate = new Date();
+  const currentMonth = currentDate.getMonth() + 1; // Months are 0-indexed in JavaScript
+  const currentYear = currentDate.getFullYear();
+
   return (
     <div style={{ margin: '0 auto' }}>
       <h2>Average Peak Hours per Week</h2>
 
       {/* Filters for Line Chart in a Single Row */}
       <div style={{
-        marginBottom: '20px',
         padding: '10px',
         borderBottom: '1px solid #ccc',
         display: 'flex',
@@ -130,9 +164,12 @@ const AreaLineChart = ({ month, year, setMonth, setYear, showInterpretation, bra
             onChange={handleMonthChange}
             style={{ padding: '5px', fontSize: '16px' }}
           >
-            {Array.from({ length: 12 }, (_, i) => (
-              <option key={i + 1} value={i + 1}>
-                {new Date(0, i).toLocaleString('default', { month: 'long' })}
+            {Array.from(
+              { length: 12 },
+              (_, i) => i + 1
+            ).filter(m => !(year === currentYear && m >= currentMonth)).map((m) => (
+              <option key={m} value={m}>
+                {new Date(0, m - 1).toLocaleString("default", { month: "long" })}
               </option>
             ))}
           </select>
@@ -213,15 +250,24 @@ const AreaLineChart = ({ month, year, setMonth, setYear, showInterpretation, bra
 
             {/* Conditionally render interpretations */}
             {showInterpretation && (
-              <div style={{ width: '480px', marginTop: '-120px' }}>
+              <div style={{ width: '480px', marginTop: '-65px' }}>
                 <h3>Interpretations:</h3>
-                <ul>
-                  {interpretations.map((interpretation, index) => (
-                    <li key={index} style={{ marginBottom: '10px' }}>
-                      {interpretation}
-                    </li>
-                  ))}
-                </ul>
+                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                  <thead>
+                    <tr>
+                      <th style={{ border: '1px solid #ccc', padding: '8px', textAlign: 'left' }}>Day of the Week</th>
+                      <th style={{ border: '1px solid #ccc', padding: '8px', textAlign: 'left' }}>Average Peak Hour</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {interpretations.map((interpretation, index) => (
+                      <tr key={index}>
+                        <td style={{ border: '1px solid #ccc', padding: '8px' }}>{interpretation.day}</td>
+                        <td style={{ border: '1px solid #ccc', padding: '8px' }}>{interpretation.averagePeakHour}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             )}
           </>

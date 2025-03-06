@@ -152,19 +152,20 @@ const Dashboard = () => {
     <main>
       <Sidebar />
       <div className="content-wrapper">
-        <Header />
-
-        {/* Tabs Navigation */}
-        <div className="tabs">
-          {tabs.map((tab) => (
-            <button
-              key={tab.name}
-              className={activeTab === tab.name ? "active-tab" : ""}
-              onClick={() => setActiveTab(tab.name)}
-            >
-              {tab.name}
-            </button>
-          ))}
+        {/* Tabs and Header in one container */}
+        <div className="header-tabs-container">
+          <div className="tabs">
+            {tabs.map((tab) => (
+              <button
+                key={tab.name}
+                className={activeTab === tab.name ? "active-tab" : ""}
+                onClick={() => setActiveTab(tab.name)}
+              >
+                {tab.name}
+              </button>
+            ))}
+          </div>
+          <Header /> {/* Moves Header to the right */}
         </div>
 
         {/* Tab Content */}
@@ -174,6 +175,7 @@ const Dashboard = () => {
       </div>
     </main>
   );
+
 };
 
 export default Dashboard;
