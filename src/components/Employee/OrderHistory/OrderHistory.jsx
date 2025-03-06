@@ -55,7 +55,7 @@ const OrderTable = ({ orders }) => {
             return (
               <tr key={dataItem.orderid}>
                 <td>{dataItem.orderid.slice(-5)}</td>
-                <td>{dataItem.customername}</td>
+                <td>{dataItem.ordername}</td>
                 <td>{dataItem.ordertype}</td>
                 <td>{formattedDate}</td>
                 <td>

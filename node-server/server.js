@@ -1236,12 +1236,17 @@ app.get("/api/predict", async (req, res) => {
   try {
     const month = req.query.month ? parseInt(req.query.month) : null;
     const year = req.query.year ? parseInt(req.query.year) : null;
-    const branch = req.query.branch || null; // Add branch filter
+    const branch = req.query.branch || null;
 
-    // Step 1: Query and Prepare Data
+    // Validate required parameters
+    if (!month || !year) {
+      return res.status(400).json({ message: 'Month and year are required' });
+    }
+
+    // Fetch and process data
     let orderData = await getOrderData();
 
-    // Data transformation using plain JavaScript
+    // Filter and process data
     orderData = orderData
       .map((row) => {
         const dateStr = row.date instanceof Date ? row.date.toISOString().split('T')[0] : row.date;
@@ -1252,24 +1257,13 @@ app.get("/api/predict", async (req, res) => {
       })
       .filter((row) => row.datetime.isValid());
 
-    // Extract day, month, and hour
-    orderData = orderData.map((row) => ({
-      ...row,
-      day: row.datetime.format("YYYY-MM-DD"),
-      month: row.datetime.month() + 1, // Moment.js months are zero-based
-      year: row.datetime.year(), // Add year to the data
-      hour: row.datetime.hour(),
-    }));
-
-    // Filter by year, month, and branch if provided
+    // Filter by year, month, and branch
     if (year) {
       orderData = orderData.filter((row) => row.year === year);
     }
-
     if (month) {
       orderData = orderData.filter((row) => row.month === month);
     }
-
     if (branch) {
       orderData = orderData.filter((row) => row.branch === branch);
     }
@@ -1289,8 +1283,8 @@ app.get("/api/predict", async (req, res) => {
 
     const peakHours = Object.entries(groupedData)
       .map(([key, count]) => {
-        const day = key.slice(0, 10);  // YYYY-MM-DD
-        const hour = parseInt(key.slice(11));  // HH
+        const day = key.slice(0, 10); // YYYY-MM-DD
+        const hour = parseInt(key.slice(11)); // HH
         if (isNaN(hour)) return null;
         return { day, hour, count };
       })
@@ -1310,7 +1304,7 @@ app.get("/api/predict", async (req, res) => {
         return acc;
       }, []);
 
-    // Step 3: Call Python Script for Forecasting
+    // Call Python script for forecasting
     const python = spawn("python", ["prophet_forecast.py", month, year]);
 
     // Send data to Python script
