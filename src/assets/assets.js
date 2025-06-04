@@ -1,4 +1,3 @@
-import logo from './logo.png'
 import profile_icon from './profile_icon.png'
 import basket from './basket.png'
 import search from './search.png'
@@ -49,7 +48,6 @@ import cat_6 from './drink.png'
 import cat_7 from './add.png'
 
 export const assets = {
-    logo,
     profile_icon,
     basket,
     search,

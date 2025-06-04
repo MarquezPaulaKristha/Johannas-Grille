@@ -68,7 +68,7 @@ const Admin_LoginPopUp = () => {
     <div className='admin-login-popup'>
       <div className="admin-login-popup-content">
         <div className="admin-login-popup-left">
-          <img src="/src/assets/logo.png" alt="Logo" className="admin-login-logo" />
+          <img src="/logo.png" alt="Logo" className="admin-login-logo" />
         </div>
         <div className="admin-login-popup-right">
           <h2>Login</h2>
