@@ -5,62 +5,49 @@ import './Login.css';
 const Admin_LoginPopUp = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
-  const handleLogin = async () => {
+  const handleLogin = async (e) => {
+    e.preventDefault(); // Prevent page refresh
+    setErrorMessage('');
     try {
       const response = await fetch('https://johannas-grille.onrender.com/user/login', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
       });
 
-      console.log('Response:', response);
+      const contentType = response.headers.get('content-type');
+      const isJson = contentType && contentType.includes('application/json');
+      const data = isJson ? await response.json() : null;
 
-      // Handle non-JSON responses or errors
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error(`HTTP Error ${response.status}: ${errorText}`);
-        alert(`Login failed: ${errorText}`);
+        setErrorMessage(data?.message || 'Login failed. Please try again.');
         return;
       }
 
-      // Ensure response is JSON
-      const contentType = response.headers.get('content-type');
-      if (contentType && contentType.includes('application/json')) {
-        const data = await response.json();
-        if (data.success) {
-          // Save user details to sessionStorage
-          sessionStorage.setItem('username', username);
-          sessionStorage.setItem('firstname', data.firstname);
-          sessionStorage.setItem('lastname', data.lastname);
-          sessionStorage.setItem('email', data.email);
-          sessionStorage.setItem('usertype', data.usertype);
-          sessionStorage.setItem('token', data.token);
-          sessionStorage.setItem('image', data.image);
+      if (data && data.success) {
+        sessionStorage.setItem('username', username);
+        sessionStorage.setItem('firstname', data.firstname);
+        sessionStorage.setItem('lastname', data.lastname);
+        sessionStorage.setItem('email', data.email);
+        sessionStorage.setItem('usertype', data.usertype);
+        sessionStorage.setItem('token', data.token);
+        sessionStorage.setItem('image', data.image);
+        sessionStorage.setItem('branch', data.branch);
 
-          // Save branch to sessionStorage
-          sessionStorage.setItem('branch', data.branch); // Add this line
-
-          // Redirect based on user type
-          if (data.usertype === 'Admin') {
-            navigate('/admin/dashboard');
-          } else {
-            navigate('/employee/dashboard');
-          }
+        if (data.usertype === 'Admin') {
+          navigate('/admin/dashboard');
         } else {
-          alert(data.message);
+          navigate('/employee/dashboard');
         }
       } else {
-        const errorMessage = await response.text();
-        console.error('Non-JSON response:', errorMessage);
-        alert('Login failed. Please try again.');
+        setErrorMessage(data?.message || 'Login failed. Please try again.');
       }
     } catch (error) {
       console.error('Error logging in:', error);
-      alert('An error occurred during login. Please try again.');
+      setErrorMessage('An unexpected error occurred. Please try again.');
     }
   };
 
@@ -72,23 +59,26 @@ const Admin_LoginPopUp = () => {
         </div>
         <div className="admin-login-popup-right">
           <h2>Login</h2>
-          <input
-            type="text"
-            placeholder='Username'
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-          <input
-            type="password"
-            placeholder='Password'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          <button className="admin-login-popup-button" onClick={handleLogin}>
-            Login
-          </button>
+          <form onSubmit={handleLogin}>
+            <input
+              type="text"
+              placeholder='Username'
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+            <input
+              type="password"
+              placeholder='Password'
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <button type="submit" className="admin-login-popup-button">
+              Login
+            </button>
+          </form>
+          {errorMessage && <p className="login-error-message">{errorMessage}</p>}
         </div>
       </div>
     </div>

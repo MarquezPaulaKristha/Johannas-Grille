@@ -19,7 +19,7 @@ const Sidebar = () => {
   return (
     <aside className="em-sidebar">
       <div className="em-logo">
-        <img src={assets.logo} />
+        <img src="/logo.png" />
       </div>
       <nav className='em-contents'>
         <div className="em-sidebar-menu">

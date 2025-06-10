@@ -9,36 +9,39 @@ const Menu = ({ category, setCategory }) => {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [image, setImage] = useState(null);
 
-  const availability = "Available";
+  const [selectedBranch, setSelectedBranch] = useState('');
+  const [branchQuantity, setBranchQuantity] = useState('');
+  const [inventory, setInventory] = useState([]);
 
-  const categories = ["Appetizer", "Main Course", "Dessert", "Drink"]; // Adjust according to your items
+  const availability = "Available";
+  const branches = ['Batangas', 'Bauan'];
+  const categories = ["Appetizer", "Must", "House", "Party", "Dessert", "Drink", "Add"];
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
-    // Create form data
+    const finalInventory = selectedBranch && branchQuantity
+      ? [{ branch: selectedBranch, quantity: branchQuantity }]
+      : [];
+
     const formData = new FormData();
     formData.append('name', productName);
     formData.append('price', price);
     formData.append('category', selectedCategory);
     formData.append('availability', availability);
-    formData.append('image', image); // Attach image file
+    formData.append('image', image);
+    formData.append('inventory', JSON.stringify(finalInventory));
 
     try {
-      // Send form data to backend API
       const response = await fetch('https://johannas-grille.onrender.com/api/menuitems', {
         method: 'POST',
-        body: formData, // Send form data as body
+        body: formData,
       });
 
       if (response.ok) {
-        const result = await response.json(); // Parse the result
+        const result = await response.json();
         console.log('New menu item added:', result);
-
-        // Close the popup after successful submission
         setShowPopup(false);
-
-        // Refresh the menu
         window.location.reload();
       } else {
         console.error('Error adding menu item:', await response.text());
@@ -52,7 +55,6 @@ const Menu = ({ category, setCategory }) => {
     setImage(e.target.files[0]);
   };
 
-  // Filter menu items based on selected category
   const filteredItems = selectedCategory
     ? menu_list.filter(item => item.category === selectedCategory)
     : menu_list;
@@ -95,10 +97,8 @@ const Menu = ({ category, setCategory }) => {
                 required
               >
                 <option value="">Select a category</option>
-                {categories.map((category, index) => (
-                  <option key={index} value={category}>
-                    {category}
-                  </option>
+                {categories.map((cat, index) => (
+                  <option key={index} value={cat}>{cat}</option>
                 ))}
               </select>
 
@@ -109,9 +109,41 @@ const Menu = ({ category, setCategory }) => {
                 required
               />
 
+              <h3>Inventory (Single Branch Only)</h3>
+              <select
+                value={selectedBranch}
+                onChange={(e) => {
+                  setSelectedBranch(e.target.value);
+                  setBranchQuantity('');
+                }}
+                className="admin-popup-input"
+              >
+                <option value="">Select Branch</option>
+                {branches.map((branch, index) => (
+                  <option key={index} value={branch}>{branch}</option>
+                ))}
+              </select>
+
+              {selectedBranch && (
+                <input
+                  type="number"
+                  placeholder="Enter quantity for selected branch"
+                  className="admin-popup-input"
+                  value={branchQuantity}
+                  onChange={(e) => setBranchQuantity(e.target.value)}
+                  required
+                />
+              )}
+
               <div className="admin-popup-actions">
                 <button type="submit" className="admin-popup-button submit">Submit</button>
-                <button type="button" className="admin-popup-button cancel" onClick={() => setShowPopup(false)}>Cancel</button>
+                <button
+                  type="button"
+                  className="admin-popup-button cancel"
+                  onClick={() => setShowPopup(false)}
+                >
+                  Cancel
+                </button>
               </div>
             </form>
           </div>

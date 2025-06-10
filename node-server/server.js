@@ -264,17 +264,54 @@ app.put('/api/menuitems/:id', upload.single('image'), async (req, res) => {
 
 // Insert Menu Items
 app.post('/api/menuitems', upload.single('image'), async (req, res) => {
-  const { name, price, category, availability } = req.body;
+  const { name, price, category, availability, inventory } = req.body;
   const image_url = req.file ? `/uploads/${req.file.filename}` : null;
 
   try {
-    const result = await pool.query(
-      'INSERT INTO menuitemtbl (name, price, category, availability, image_url) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-      [name, price, category, availability, image_url]
-    );
-    res.status(201).json(result.rows[0]); // Return the newly added menu item
+    // Start transaction
+    await pool.query('BEGIN');
+
+    // Insert into menuitemtbl
+    const insertMenuItemQuery = `
+      INSERT INTO menuitemtbl (name, price, category, availability, image_url)
+      VALUES ($1, $2, $3, $4, $5)
+      RETURNING menuitemid
+    `;
+    const menuItemResult = await pool.query(insertMenuItemQuery, [
+      name,
+      price,
+      category,
+      availability,
+      image_url
+    ]);
+
+    const menuitemid = menuItemResult.rows[0].menuitemid;
+
+    // Parse and validate inventory data
+    const inventoryData = JSON.parse(inventory);
+
+    for (const item of inventoryData) {
+      const { branch, quantity } = item;
+
+      if (!branch || quantity == null) {
+        throw new Error('Invalid inventory item data.');
+      }
+
+      const insertInventoryQuery = `
+        INSERT INTO inventorytbl (menuitemid, quantity, branch)
+        VALUES ($1, $2, $3)
+      `;
+      await pool.query(insertInventoryQuery, [menuitemid, quantity, branch]);
+    }
+
+    // Commit transaction
+    await pool.query('COMMIT');
+    res.status(201).json({ message: 'Menu item and inventory added successfully.' });
+
   } catch (err) {
-    console.error('Error adding menu item:', err.message);
+    // Rollback transaction on error
+    await pool.query('ROLLBACK');
+    console.error('Error adding menu item and inventory:', err.message);
     res.status(500).send('Server error');
   }
 });

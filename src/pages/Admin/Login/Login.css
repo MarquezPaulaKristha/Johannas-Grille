@@ -162,3 +162,9 @@
   text-align: center;
   color: white;
 }
+
+.error-message {
+  color: rgb(255, 255, 255);
+  font-size: 0.9rem;
+  margin-top: 8px;
+}
